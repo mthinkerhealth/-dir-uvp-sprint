@@ -580,18 +580,27 @@
       padding: 14px 16px;
       text-align: left;
       cursor: pointer;
-      transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease, color .16s ease;
       width: 100%;
       box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
       font-weight: 500;
+      opacity: 1;
     }
 
     .choice:hover,
     .choice.selected {
       transform: translateY(-1px);
-      border-color: rgba(98,119,83,.35);
-      background: linear-gradient(180deg, #fbfcf8, #eef2e8);
-      box-shadow: 0 8px 20px rgba(98,119,83,.08);
+      border-color: rgba(75, 93, 64, 0.72);
+      background: linear-gradient(180deg, #e2ead8, #d4dfc7);
+      box-shadow:
+        0 10px 22px rgba(75, 93, 64, 0.14),
+        inset 0 1px 0 rgba(255,255,255,.72);
+      color: #111111;
+    }
+
+    .choice.selected {
+      border-width: 2px;
+      font-weight: 700;
     }
 
     .input-wrap {
