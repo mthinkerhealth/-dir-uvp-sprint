@@ -23,13 +23,15 @@
   <meta name="twitter:title" content="DIR UVP Sprint | Positioning Decision Sprint for B2B Teams" />
   <meta name="twitter:description" content="A 7–10 day positioning decision sprint for B2B teams with muddy differentiation, weak proof, and inconsistent sales language." />
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6RTPWVPGP"></script>
+  <!-- Google Tag Manager -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-L6RTPWVPGP');
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MLJZVTKV');
   </script>
+  <!-- End Google Tag Manager -->
 
   <style>
     :root {
@@ -835,6 +837,11 @@
   </script>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MLJZVTKV"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <header class="site-header">
     <div class="wrap nav">
       <a href="#top" class="brand" aria-label="DIR UVP Sprint home">
@@ -1288,9 +1295,6 @@
     function trackEvent(name, props = {}) {
       if (Array.isArray(window.dataLayer)) {
         window.dataLayer.push({ event: name, ...props });
-      }
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', name, props);
       }
     }
 
