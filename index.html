@@ -25,6 +25,14 @@
   <meta name="twitter:description" content="A 7–10 day positioning decision sprint for B2B teams with muddy differentiation, weak proof, and inconsistent sales language." />
   <meta name="twitter:image" content="https://example.com/og-image.jpg" />
 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6RTPWVPGP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L6RTPWVPGP');
+  </script>
+
   <style>
     :root {
       --bg: #f2f2ec;
@@ -1153,7 +1161,7 @@
 
   <script>
     const CONFIG = window.DIR_UVP_CONFIG || {};
-    const APPS_SCRIPT_WEBHOOK_URL = CONFIG.webhookUrl || 'https://script.google.com/macros/s/AKfycbw45ZORuVu_RBPGhgoCyC_QGiOmT7e5ln6O9-kJ-e_T9_h86yTrUsFpbixAeLb0DUQ/exec';
+    const APPS_SCRIPT_WEBHOOK_URL = CONFIG.webhookUrl || '/api/fit-check';
     const BOOKING_PAGE_URL = CONFIG.bookingUrl || 'https://calendar.app.google/36NF25hvaFQM2hpv9';
     const CONTACT_EMAIL = CONFIG.contactEmail || 'tom@mediathink.com';
 
