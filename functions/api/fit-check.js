@@ -1,13 +1,6 @@
 export async function onRequestPost(context) {
   try {
-    const webhookUrl = context.env.APPS_SCRIPT_WEBHOOK_URL;
-
-    if (!webhookUrl) {
-      return Response.json(
-        { ok: false, error: 'Missing APPS_SCRIPT_WEBHOOK_URL' },
-        { status: 500 }
-      );
-    }
+    const webhookUrl = 'https://script.google.com/macros/s/AKfycbw2uKM3ZVN54JNkCZJXrDt6IJMDoUX-_iGh3RJIt5wS8QXaReWrYaPqN6s4tMMXMqNByA/exec';
 
     const payload = await context.request.json();
 
@@ -16,7 +9,8 @@ export async function onRequestPost(context) {
       headers: {
         'Content-Type': 'text/plain;charset=utf-8'
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      redirect: 'follow'
     });
 
     const text = await response.text();
@@ -42,6 +36,10 @@ export async function onRequestPost(context) {
         ok: false,
         error: err && err.message ? err.message : 'Unknown proxy error'
       },
+      { status: 500 }
+    );
+  }
+}
       { status: 500 }
     );
   }
