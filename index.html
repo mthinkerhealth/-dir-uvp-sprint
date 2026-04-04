@@ -1662,10 +1662,7 @@
       };
     }
 
-    function submitCallCapture() {
-      if (state.callCaptureStarted) return;
-      state.callCaptureStarted = true;
-
+    async function submitCallCapture() {
       const payload = buildSubmissionPayload('call');
 
       trackEvent('fit_check_call_capture_started', {
@@ -1673,40 +1670,33 @@
         fit_score: state.fitScore
       });
 
-      fetch(APPS_SCRIPT_WEBHOOK_URL, {
+      const response = await fetch(APPS_SCRIPT_WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain;charset=utf-8'
         },
-        body: JSON.stringify(payload),
-        keepalive: true
-      }).then(async (response) => {
-        const text = await response.text();
-        let data = null;
-
-        try {
-          data = JSON.parse(text);
-        } catch {
-          throw new Error('Webhook did not return valid JSON.');
-        }
-
-        if (!response.ok || !data || !data.ok) {
-          throw new Error(data && data.error ? data.error : 'Call capture failed.');
-        }
-
-        trackEvent('fit_check_call_capture_succeeded', {
-          fit_tier: state.fitTier,
-          fit_score: state.fitScore
-        });
-      }).catch((err) => {
-        state.callCaptureStarted = false;
-
-        trackEvent('fit_check_call_capture_failed', {
-          fit_tier: state.fitTier,
-          fit_score: state.fitScore,
-          error_message: err && err.message ? err.message : 'Unknown error'
-        });
+        body: JSON.stringify(payload)
       });
+
+      const text = await response.text();
+      let data = null;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error('Webhook did not return valid JSON.');
+      }
+
+      if (!response.ok || !data || !data.ok) {
+        throw new Error(data && data.error ? data.error : 'Call capture failed.');
+      }
+
+      trackEvent('fit_check_call_capture_succeeded', {
+        fit_tier: state.fitTier,
+        fit_score: state.fitScore
+      });
+
+      return true;
     }
 
     async function submitRecommendation() {
@@ -1804,13 +1794,32 @@
 
     els.sendRecommendationBtn.addEventListener('click', submitRecommendation);
 
-    els.scheduleCallBtn.addEventListener('click', () => {
+    els.scheduleCallBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      if (state.callCaptureStarted) return;
+      state.callCaptureStarted = true;
+
+      els.scheduleCallBtn.setAttribute('aria-disabled', 'true');
+      els.scheduleCallBtn.style.pointerEvents = 'none';
+      els.scheduleCallBtn.textContent = 'Opening…';
+
       trackEvent('fit_check_call_booking_clicked', {
         fit_tier: state.fitTier,
         fit_score: state.fitScore
       });
 
-      submitCallCapture();
+      try {
+        await submitCallCapture();
+      } catch (err) {
+        trackEvent('fit_check_call_capture_failed', {
+          fit_tier: state.fitTier,
+          fit_score: state.fitScore,
+          error_message: err && err.message ? err.message : 'Unknown error'
+        });
+      } finally {
+        window.location.href = BOOKING_PAGE_URL;
+      }
     });
 
     els.emailResetBtn.addEventListener('click', () => {
