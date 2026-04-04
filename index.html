@@ -11,19 +11,17 @@
   />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#f2f2ec" />
-  <link rel="canonical" href="https://example.com/" />
+  <link rel="canonical" href="https://uvpsprint.com/" />
 
   <meta property="og:title" content="DIR UVP Sprint | Positioning Decision Sprint for B2B Teams" />
   <meta property="og:site_name" content="DIR UVP Sprint" />
   <meta property="og:description" content="A 7–10 day positioning decision sprint for B2B teams with muddy differentiation, weak proof, and inconsistent sales language." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://example.com/" />
-  <meta property="og:image" content="https://example.com/og-image.jpg" />
+  <meta property="og:url" content="https://uvpsprint.com/" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="DIR UVP Sprint | Positioning Decision Sprint for B2B Teams" />
   <meta name="twitter:description" content="A 7–10 day positioning decision sprint for B2B teams with muddy differentiation, weak proof, and inconsistent sales language." />
-  <meta name="twitter:image" content="https://example.com/og-image.jpg" />
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6RTPWVPGP"></script>
   <script>
@@ -820,21 +818,12 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": "https://example.com/#webpage",
+    "@id": "https://uvpsprint.com/#webpage",
     "name": "DIR UVP Sprint",
     "description": "A 7–10 day positioning decision sprint for B2B teams with muddy differentiation, weak proof, and inconsistent sales language.",
-    "url": "https://example.com/"
+    "url": "https://uvpsprint.com/"
   }
   </script>
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6RTPWVPGP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-L6RTPWVPGP');
-  </script>
-
 </head>
 <body>
   <header class="site-header">
@@ -1231,7 +1220,8 @@
       fitScore: 0,
       fitTier: '',
       nextChoice: null,
-      hasInteracted: false
+      hasInteracted: false,
+      callCaptureStarted: false
     };
 
     const els = {
@@ -1652,10 +1642,8 @@
       return true;
     }
 
-    async function submitRecommendation() {
-      if (!validateFollowup()) return;
-
-      const payload = {
+    function buildSubmissionPayload(nextStepChoice, overrides = {}) {
+      return {
         fitTier: state.fitTier,
         fitScore: state.fitScore,
         companyType: state.answers.companyType || '',
@@ -1666,12 +1654,68 @@
         urgency: state.answers.urgency || '',
         decisionWindow: state.answers.decisionWindow || '',
         desiredOutcome: state.answers.desiredOutcome || '',
-        nextStepChoice: 'email',
-        workEmail: els.followupEmail.value.trim(),
-        companyWebsite: normalizeUrl(els.followupWebsite.value.trim()),
+        nextStepChoice,
+        workEmail: overrides.workEmail || '',
+        companyWebsite: overrides.companyWebsite || '',
         pageUrl: window.location.href,
         userAgent: navigator.userAgent
       };
+    }
+
+    function submitCallCapture() {
+      if (state.callCaptureStarted) return;
+      state.callCaptureStarted = true;
+
+      const payload = buildSubmissionPayload('call');
+
+      trackEvent('fit_check_call_capture_started', {
+        fit_tier: state.fitTier,
+        fit_score: state.fitScore
+      });
+
+      fetch(APPS_SCRIPT_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload),
+        keepalive: true
+      }).then(async (response) => {
+        const text = await response.text();
+        let data = null;
+
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error('Webhook did not return valid JSON.');
+        }
+
+        if (!response.ok || !data || !data.ok) {
+          throw new Error(data && data.error ? data.error : 'Call capture failed.');
+        }
+
+        trackEvent('fit_check_call_capture_succeeded', {
+          fit_tier: state.fitTier,
+          fit_score: state.fitScore
+        });
+      }).catch((err) => {
+        state.callCaptureStarted = false;
+
+        trackEvent('fit_check_call_capture_failed', {
+          fit_tier: state.fitTier,
+          fit_score: state.fitScore,
+          error_message: err && err.message ? err.message : 'Unknown error'
+        });
+      });
+    }
+
+    async function submitRecommendation() {
+      if (!validateFollowup()) return;
+
+      const payload = buildSubmissionPayload('email', {
+        workEmail: els.followupEmail.value.trim(),
+        companyWebsite: normalizeUrl(els.followupWebsite.value.trim())
+      });
 
       els.followupError.hidden = true;
       els.followupError.textContent = '';
@@ -1732,6 +1776,7 @@
     function showResult(result) {
       state.fitScore = result.score;
       state.fitTier = result.label;
+      state.callCaptureStarted = false;
 
       els.resultBadge.textContent = result.label;
       els.resultBadge.className = 'result-badge';
@@ -1764,6 +1809,8 @@
         fit_tier: state.fitTier,
         fit_score: state.fitScore
       });
+
+      submitCallCapture();
     });
 
     els.emailResetBtn.addEventListener('click', () => {
@@ -1814,6 +1861,7 @@
       state.fitTier = '';
       state.nextChoice = null;
       state.hasInteracted = false;
+      state.callCaptureStarted = false;
 
       els.fitModule.style.display = 'grid';
       els.fitActions.style.display = 'flex';
