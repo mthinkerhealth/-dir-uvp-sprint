@@ -177,7 +177,8 @@
       border: 1px solid var(--line);
     }
 
-    .btn[disabled] {
+    .btn[disabled],
+    .btn[aria-disabled="true"] {
       opacity: .45;
       cursor: not-allowed;
       transform: none;
@@ -1178,6 +1179,8 @@
     const APPS_SCRIPT_WEBHOOK_URL = CONFIG.webhookUrl || '/api/fit-check';
     const BOOKING_PAGE_URL = CONFIG.bookingUrl || 'https://calendar.app.google/36NF25hvaFQM2hpv9';
     const CONTACT_EMAIL = CONFIG.contactEmail || 'tom@mediathink.com';
+    const BOOKING_REDIRECT_DELAY_MS = 800;
+    const CAPTURE_TIMEOUT_MS = 1500;
 
     const QUESTIONS = [
       {
@@ -1296,6 +1299,24 @@
       if (Array.isArray(window.dataLayer)) {
         window.dataLayer.push({ event: name, ...props });
       }
+    }
+
+    function delay(ms) {
+      return new Promise((resolve) => {
+        window.setTimeout(resolve, ms);
+      });
+    }
+
+    function fetchWithTimeout(url, options = {}, timeoutMs = CAPTURE_TIMEOUT_MS) {
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+
+      return fetch(url, {
+        ...options,
+        signal: controller.signal
+      }).finally(() => {
+        window.clearTimeout(timer);
+      });
     }
 
     function escapeHtml(str = '') {
@@ -1692,7 +1713,7 @@
         fit_score: state.fitScore
       });
 
-      const response = await fetch(APPS_SCRIPT_WEBHOOK_URL, {
+      const response = await fetchWithTimeout(APPS_SCRIPT_WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain;charset=utf-8'
@@ -1741,7 +1762,7 @@
       });
 
       try {
-        const response = await fetch(APPS_SCRIPT_WEBHOOK_URL, {
+        const response = await fetchWithTimeout(APPS_SCRIPT_WEBHOOK_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'text/plain;charset=utf-8'
@@ -1831,17 +1852,21 @@
         fit_score: state.fitScore
       });
 
-      try {
-        await submitCallCapture();
-      } catch (err) {
+      const capturePromise = submitCallCapture().catch((err) => {
         trackEvent('fit_check_call_capture_failed', {
           fit_tier: state.fitTier,
           fit_score: state.fitScore,
           error_message: err && err.message ? err.message : 'Unknown error'
         });
-      } finally {
-        window.location.href = BOOKING_PAGE_URL;
-      }
+        return false;
+      });
+
+      await Promise.allSettled([
+        capturePromise,
+        delay(BOOKING_REDIRECT_DELAY_MS)
+      ]);
+
+      window.location.assign(BOOKING_PAGE_URL);
     });
 
     els.emailResetBtn.addEventListener('click', () => {
