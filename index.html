@@ -1178,6 +1178,7 @@
     const CONFIG = window.DIR_UVP_CONFIG || {};
     const APPS_SCRIPT_WEBHOOK_URL = CONFIG.webhookUrl || '/api/fit-check';
     const BOOKING_PAGE_URL = CONFIG.bookingUrl || 'https://calendar.app.google/36NF25hvaFQM2hpv9';
+    const THANK_YOU_PAGE_URL = CONFIG.thankYouPageUrl || '/thanks-recommendation/';
     const CONTACT_EMAIL = CONFIG.contactEmail || 'tom@mediathink.com';
     const BOOKING_REDIRECT_DELAY_MS = 800;
     const CAPTURE_TIMEOUT_MS = 5000;
@@ -1783,13 +1784,12 @@
           throw new Error(data && data.error ? data.error : 'Submission failed.');
         }
 
-        els.followupSuccess.textContent = 'Recommendation request captured.';
-        els.followupSuccess.classList.add('visible');
-
         trackEvent('fit_check_recommendation_submit_succeeded', {
           fit_tier: state.fitTier,
           fit_score: state.fitScore
         });
+
+        window.location.assign(THANK_YOU_PAGE_URL);
       } catch (err) {
         const msg = err && err.message ? err.message : 'Something went wrong.';
         els.followupError.hidden = false;
