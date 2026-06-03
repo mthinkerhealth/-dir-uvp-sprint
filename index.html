@@ -1085,7 +1085,7 @@
       </div>
     </section>
 
-    <!-- PENDING (M-15, Phase-3): fit-check rebuilds against Priority 1B funnel work; left as-is. Known bug: returning from the Google Calendar tab can break the result panel — fix during the 1B rebuild. -->
+    <!-- Fit Check + economic screen (M-15 / funnel_architecture_spec_v2.md §5). Economic floors are internal field-test placeholders and are never shown to the prospect. -->
     <section id="fit-check" class="fit-check">
       <div class="wrap">
         <div class="section-head">
@@ -1101,7 +1101,7 @@
             </div>
             <div class="progress" aria-live="polite">
               <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
-              <div class="progress-label" id="progressLabel">Step 1 of 8</div>
+              <div class="progress-label" id="progressLabel">Step 1 of 10</div>
             </div>
           </div>
 
@@ -1142,7 +1142,7 @@
 
                 <div class="followup-panel" id="emailPanel">
                   <strong>Where should we send it?</strong>
-                  <p class="section-copy" style="margin-top:8px;">Enter your work email and company website. You will get a recommendation within 1 business day if the sprint looks like a fit.</p>
+                  <p class="section-copy" style="margin-top:8px;">Enter your work email and company website. We will review and reply within 1 business day.</p>
 
                   <div class="input-wrap" style="margin-top:12px;">
                     <label for="followupEmail">Work email</label>
@@ -1241,6 +1241,20 @@
         note: 'One or two sentences is enough.',
         type: 'text',
         placeholder: 'Examples: stalled sales calls, weak homepage claims, pricing pressure, unclear Ideal Customer Profile...'
+      },
+      {
+        key: 'revenueBand',
+        prompt: 'Roughly what is your annual revenue?',
+        note: 'A band is fine. We ask near the end so the result can tell you whether an exercise at this price is proportionate for a company your size.',
+        type: 'choice',
+        options: ['Under $10M', '$10M–$15M', '$15M–$20M', '$20M–$35M', '$35M–$75M', 'Over $75M']
+      },
+      {
+        key: 'spendBand',
+        prompt: 'Roughly what do you spend on marketing and sales together each year?',
+        note: 'A band is fine. This tells us how much of your spend rides on the story your positioning sets.',
+        type: 'choice',
+        options: ['Under $250K', '$250K–$750K', '$750K–$2M', '$2M–$5M', 'Over $5M']
       }
     ];
 
@@ -1250,6 +1264,8 @@
       isSubmitting: false,
       fitScore: 0,
       fitTier: '',
+      economicScreen: '',
+      economicFloor: '',
       nextChoice: null,
       hasInteracted: false,
       callCaptureStarted: false
@@ -1581,6 +1597,70 @@
       };
     }
 
+    // --- Economic screen (funnel_architecture_spec_v2.md §5) -----------------
+    // Tests one thing: can the engagement plausibly return 4x its cost in profit
+    // within one year. Because profit is the basis and margin varies by company
+    // type, the revenue floor that clears differs per type.
+    //
+    // The floor dollars below are FIELD-TEST PLACEHOLDERS (spec §5.3). They are
+    // strong enough to set the screen and stand behind a decline, but they are
+    // NEVER shown to a prospect. No number from this block reaches the page.
+    const ECONOMIC_FLOORS = {
+      'B2B SaaS': 10,                 // clears at the published band bottom (spec prose)
+      'Consultancy / advisory': 14,
+      'Professional services': 16,
+      'Agency / services firm': 17,
+      'Other B2B': 18                 // conservative default; no margin follow-up in this build
+    };
+
+    // Revenue bands as [lowerMillions, upperMillions]; upper Infinity = open top.
+    const REVENUE_BANDS = {
+      'Under $10M': [0, 10],
+      '$10M–$15M': [10, 15],
+      '$15M–$20M': [15, 20],
+      '$20M–$35M': [20, 35],
+      '$35M–$75M': [35, 75],
+      'Over $75M': [75, Infinity]
+    };
+
+    // Combined marketing + sales spend that counts as "adequate" when breaking a
+    // straddle. Spend sharpens a marginal read; it never disqualifies on its own.
+    const ADEQUATE_SPEND_BANDS = ['$750K–$2M', '$2M–$5M', 'Over $5M'];
+
+    function economicScreen(answers) {
+      const floor = ECONOMIC_FLOORS[answers.companyType] ?? 18;
+      const band = REVENUE_BANDS[answers.revenueBand];
+
+      // Missing data does not auto-decline; fall through to the normal result.
+      if (!band) return { result: 'clears', floor };
+
+      const [low, high] = band;
+      if (low >= floor) return { result: 'clears', floor };   // whole band clears
+      if (high <= floor) return { result: 'below', floor };    // whole band below
+
+      // Straddle: the floor sits inside the stated band. Spend breaks the tie.
+      const adequateSpend = ADEQUATE_SPEND_BANDS.includes(answers.spendBand);
+      return { result: adequateSpend ? 'clears' : 'below', floor };
+    }
+
+    // The result shown when a prospect clears the published band but falls below
+    // their type's economic floor (spec §6.5). Routes to the email path that
+    // delivers the decline + free-content message — never to the call/close, and
+    // never to a discounted version of the room. Subject is the engagement's
+    // proportionality to their scale, not the company's smallness; no number.
+    function belowFloorResult() {
+      return {
+        score: 0,
+        label: 'Likely not proportionate yet',
+        tone: 'low',
+        title: 'The positioning problem looks real; an exercise at this price is likely out of proportion to it at your scale.',
+        copy: 'The Sprint is built for companies where sharpening the positioning moves enough margin to pay back its cost within a year. At your current scale and margins that is hard to clear, so an engagement now would likely cost more than it returns.',
+        action: 'Leave your work email and we will send a short read on where to start, and what the room adds when the numbers make it worth doing properly.',
+        choices: ['email'],
+        belowFloor: true
+      };
+    }
+
     function setSubmitting(isSubmitting) {
       state.isSubmitting = isSubmitting;
       els.nextBtn.textContent = isSubmitting ? 'Working…' : 'Next';
@@ -1692,6 +1772,8 @@
       return {
         fitTier: state.fitTier,
         fitScore: state.fitScore,
+        economicScreen: state.economicScreen || '',
+        economicFloor: state.economicFloor || '',
         companyType: state.answers.companyType || '',
         primarySymptom: state.answers.primarySymptom || '',
         painLocation: state.answers.painLocation || '',
@@ -1700,6 +1782,8 @@
         urgency: state.answers.urgency || '',
         decisionWindow: state.answers.decisionWindow || '',
         desiredOutcome: state.answers.desiredOutcome || '',
+        revenueBand: state.answers.revenueBand || '',
+        spendBand: state.answers.spendBand || '',
         nextStepChoice,
         workEmail: overrides.workEmail || '',
         companyWebsite: overrides.companyWebsite || '',
@@ -1846,30 +1930,49 @@
       if (state.callCaptureStarted) return;
       state.callCaptureStarted = true;
 
-      els.scheduleCallBtn.setAttribute('aria-disabled', 'true');
-      els.scheduleCallBtn.style.pointerEvents = 'none';
       els.scheduleCallBtn.textContent = 'Opening…';
+
+      // Open the calendar in a separate tab. The result panel stays on this page,
+      // so returning from the calendar tab no longer lands on a broken result.
+      const bookingTab = window.open(BOOKING_PAGE_URL, '_blank', 'noopener');
 
       trackEvent('fit_check_call_booking_clicked', {
         fit_tier: state.fitTier,
         fit_score: state.fitScore
       });
 
-      const capturePromise = submitCallCapture().catch((err) => {
+      // Record the booking in the background; do not make the new tab wait on it.
+      submitCallCapture().catch((err) => {
         trackEvent('fit_check_call_capture_failed', {
           fit_tier: state.fitTier,
           fit_score: state.fitScore,
           error_message: err && err.message ? err.message : 'Unknown error'
         });
-        return false;
       });
 
-      await Promise.allSettled([
-        capturePromise,
-        delay(BOOKING_REDIRECT_DELAY_MS)
-      ]);
+      // Restore the button so it works again on this page.
+      state.callCaptureStarted = false;
+      els.scheduleCallBtn.textContent = 'Book a call';
 
-      window.location.assign(BOOKING_PAGE_URL);
+      // If a popup blocker stopped the new tab, fall back to opening in this tab
+      // after a moment so the booking record still has a chance to send first.
+      if (!bookingTab) {
+        window.setTimeout(() => window.location.assign(BOOKING_PAGE_URL), BOOKING_REDIRECT_DELAY_MS);
+      }
+    });
+
+    // If the page is restored from the browser's back/forward cache (e.g. the
+    // prospect hits Back from the calendar), make sure the booking button is not
+    // left stuck in its "Opening…" state.
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        state.callCaptureStarted = false;
+        if (els.scheduleCallBtn) {
+          els.scheduleCallBtn.textContent = 'Book a call';
+          els.scheduleCallBtn.removeAttribute('aria-disabled');
+          els.scheduleCallBtn.style.pointerEvents = '';
+        }
+      }
     });
 
     els.emailResetBtn.addEventListener('click', () => {
@@ -1898,7 +2001,15 @@
       setSubmitting(true);
 
       window.setTimeout(() => {
-        const result = scoreFit(state.answers);
+        const qualitative = scoreFit(state.answers);
+        const screen = economicScreen(state.answers);
+        state.economicScreen = screen.result;
+        state.economicFloor = screen.floor;
+
+        // Below the economic floor overrides the qualitative result: the prospect
+        // is routed to the decline + free-content path, never the close (spec §6.5).
+        const result = (screen.result === 'below') ? belowFloorResult() : qualitative;
+
         showResult(result);
         setSubmitting(false);
       }, 150);
@@ -1918,6 +2029,8 @@
       state.answers = { coreInputs: [] };
       state.fitScore = 0;
       state.fitTier = '';
+      state.economicScreen = '';
+      state.economicFloor = '';
       state.nextChoice = null;
       state.hasInteracted = false;
       state.callCaptureStarted = false;
