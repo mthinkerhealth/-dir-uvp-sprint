@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Structure of a Finished UVP | DIR UVP Sprint</title>
+  <meta name="description" content="A working document from completed UVP Sprint engagements, client identity removed. Published so the method can be judged by its weight." />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="theme-color" content="#f2f2ec" />
+  <link rel="canonical" href="https://uvpsprint.com/evidence-structure-template" />
+  <style>
+    :root {
+      --bg: #f2f2ec; --bg-2: #ecebe4; --panel: #ffffff; --panel-muted: #f7f6f0;
+      --text: #171717; --muted: #5d5d56; --line: #d8d6cc; --line-strong: #c8c4b7;
+      --accent: #627753; --accent-deep: #4b5d40; --accent-soft: #e7eee0;
+      --shadow: 0 14px 34px rgba(0,0,0,.05); --radius: 20px; --max: 860px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-deep); }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 22px; }
+    .site-header {
+      position: sticky; top: 0; z-index: 30; background: rgba(242,242,236,.92);
+      backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: .01em; }
+    .brand-mark { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 800; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-link { color: var(--muted); text-decoration: none; font-size: 14.5px; padding: 8px 10px; border-radius: 10px; }
+    .nav-link:hover { color: var(--text); background: var(--bg-2); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px;
+      border: 1px solid transparent; padding: 11px 18px; font-size: 14.5px; font-weight: 650;
+      text-decoration: none; cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-deep); }
+    .btn-secondary { background: var(--panel); border-color: var(--line-strong); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--accent); }
+    main { padding: 42px 0 70px; }
+    .doc-head { margin-bottom: 8px; }
+    .eyebrow { display: inline-block; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); font-weight: 750; margin-bottom: 12px; }
+    h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.12; letter-spacing: -.015em; margin: 0 0 14px; }
+    .doc {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: clamp(24px, 4.5vw, 48px); margin-top: 22px;
+    }
+    .doc h2 { font-size: 22px; letter-spacing: -.01em; margin: 34px 0 10px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .doc h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .doc h3 { font-size: 17px; margin: 26px 0 8px; }
+    .doc p { margin: 0 0 14px; }
+    .doc ul { margin: 0 0 16px; padding-left: 22px; }
+    .doc li { margin: 5px 0; }
+    .doc blockquote {
+      margin: 18px 0; padding: 14px 18px; background: var(--accent-soft);
+      border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+    }
+    .doc blockquote p { margin: 0; }
+    .doc table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 15px; }
+    .doc th, .doc td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; vertical-align: top; }
+    .doc th { background: var(--panel-muted); font-weight: 700; }
+    .doc td:empty::after, .doc td:has(> :empty)::after { content: ""; display: block; min-height: 1.2em; }
+    .provenance { color: var(--muted); font-size: 15px; }
+    .blank { display: inline-block; min-width: 220px; border-bottom: 1px solid var(--line-strong); height: 1em; vertical-align: baseline; }
+    .doc-next {
+      margin-top: 26px; background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 30px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .doc-next p { margin: 0; color: var(--muted); max-width: 56ch; }
+    .doc-next .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .back-row { margin-top: 18px; font-size: 14.5px; }
+    .back-row a { color: var(--muted); text-decoration: none; }
+    .back-row a:hover { color: var(--text); }
+    @media (max-width: 640px) { .doc table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="/" class="brand" aria-label="DIR UVP Sprint home">
+        <span class="brand-mark" aria-hidden="true">DIR</span>
+        <span>DIR UVP Sprint</span>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link" href="/#evidence">All documents</a>
+        <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="doc-head">
+        <span class="eyebrow">Working document &middot; 5 of 5</span>
+        <h1>The Structure of a Finished UVP</h1>
+        <p class="provenance">This is the architecture of the deliverable a UVP Sprint produces, with the content removed. The sections and columns are exactly what two completed engagements produced — for two businesses with nothing else in common. The structure held while the content changed completely. That is the point of showing it.</p>
+      </div>
+
+      <article class="doc">
+<p><em>The cells are empty on purpose. What fills them is a leadership team in one room with their evidence, forced to decide. The structure is yours; the deciding is the work.</em></p>
+<hr />
+<h2>A note on what this is not</h2>
+<p>A UVP is not a tagline, and this is not a tagline worksheet. The Sprint produces no names, no slogans, no final copy. The UVP is a control system: every future headline, web page, proposal, and talk track gets measured against it. Wordsmithing comes later, done by whoever does your copy — and it goes better when this structure exists first, because wordsmithing cannot choose which offer leads, create proof where none exists, or make a risky claim safe.</p>
+<hr />
+<h2>1. The value proposition</h2>
+<p><strong>One-sentence version</strong></p>
+<blockquote>
+<p><span class="blank"></span></p>
+</blockquote>
+<p><strong>Short paragraph version</strong></p>
+<blockquote>
+<p><span class="blank"></span></p>
+</blockquote>
+<p><strong>The components every version must carry:</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Component</strong></th>
+<th><strong>What it holds</strong></th>
+<th><strong>Yours</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Target audience</td>
+<td>Who this is for — defined by behavior and situation, not demographics</td>
+<td></td>
+</tr>
+<tr>
+<td>The problem</td>
+<td>What they are actually trying to solve beneath the first request</td>
+<td></td>
+</tr>
+<tr>
+<td>The mechanism</td>
+<td>The specific, operational reason the promise is true — the thing a competitor could not claim without changing how they operate</td>
+<td></td>
+</tr>
+<tr>
+<td>The outcome</td>
+<td>What is different for the customer afterward</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>The competitor test: if a rival could adopt your language without changing their operations, the language is too generic. Run every draft against it.</em></p>
+<h2>2. Message architecture — three pillars</h2>
+<p>Every pillar carries all four columns. A pillar without mechanism and proof is an adjective. A pillar without a boundary will drift into overclaiming.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Promise</strong></th>
+<th><strong>Mechanism</strong></th>
+<th><strong>Proof</strong></th>
+<th><strong>Boundary</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pillar 1</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Pillar 2</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Pillar 3</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>3. Customer-fit boundaries</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Best-fit</strong> (the referral engine)</th>
+<th><strong>Non-fit</strong> (operational risk)</th>
+<th><strong>Refer-out posture</strong> (what you say when it's not a fit)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>Best-fit is defined by behavior: who understands it, pays for it, returns, and talks about it. Non-fit is named, in writing, before marketing spends another dollar attracting them.</em></p>
+<h2>4. The alternatives map</h2>
+<p>Customers rarely compare you to a direct competitor first. Map what they actually weigh — including doing nothing.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Alternative</strong></th>
+<th><strong>Its initial attraction</strong></th>
+<th><strong>Its breaking point</strong></th>
+<th><strong>Where you win</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Doing nothing</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>5. The claims register</h2>
+<p>Every public claim, in its exact wording, with its evidence on the record. This is the reputation shield: an emotionally true statement can still be wrong for public messaging if it lacks proof or carries risk.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Claim (exact wording)</strong></th>
+<th><strong>Evidence source</strong></th>
+<th><strong>Confidence level</strong></th>
+<th><strong>Risk type</strong></th>
+<th><strong>Boundary</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>6. Talk track and objections</h2>
+<p><strong>30-second talk track</strong> — starts with the customer's trigger, not your list of services:</p>
+<blockquote>
+<p><span class="blank"></span></p>
+</blockquote>
+<p><strong>Top five objections and approved responses:</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Objection</strong></th>
+<th><strong>Response</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.</td>
+<td></td>
+</tr>
+<tr>
+<td>2.</td>
+<td></td>
+</tr>
+<tr>
+<td>3.</td>
+<td></td>
+</tr>
+<tr>
+<td>4.</td>
+<td></td>
+</tr>
+<tr>
+<td>5.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>7. The validation plan</h2>
+<p>Version 1 is a hypothesis. It is tested in real conversations before it becomes website copy.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Where to test</strong></th>
+<th><strong>What to track</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Which phrases customers repeat back</td>
+</tr>
+<tr>
+<td></td>
+<td>What confuses people</td>
+</tr>
+<tr>
+<td></td>
+<td>Which objections recur, and how often</td>
+</tr>
+<tr>
+<td></td>
+<td>Whether the language moves people toward a next step</td>
+</tr>
+</tbody>
+</table>
+<p>One week. Then the log produces version 2 — from evidence, not preference.</p>
+<hr />
+<p>The distance between having these headers and having every cell filled, defended, and agreed to by your own leadership team is the work. Some of it you can do yourself, and at certain stages of a company that is the right call. What a template cannot supply is the room: the three voices that disagree, the evidence on the table, and someone forcing the decision when the conversation would rather stay pleasant.</p>
+      </article>
+
+      <aside class="doc-next">
+        <p>The Fit Check is the next step when you are ready to qualify. It runs without a sales call, and it can come back &ldquo;not a fit.&rdquo;</p>
+        <div class="actions">
+          <a class="btn btn-secondary" href="/#evidence">Back to all documents</a>
+          <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+        </div>
+      </aside>
+
+      <p class="back-row"><a href="/#evidence">&larr; All engagement documents</a></p>
+    </div>
+  </main>
+</body>
+</html>

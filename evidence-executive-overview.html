@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engagement Executive Overview | DIR UVP Sprint</title>
+  <meta name="description" content="A working document from completed UVP Sprint engagements, client identity removed. Published so the method can be judged by its weight." />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="theme-color" content="#f2f2ec" />
+  <link rel="canonical" href="https://uvpsprint.com/evidence-executive-overview" />
+  <style>
+    :root {
+      --bg: #f2f2ec; --bg-2: #ecebe4; --panel: #ffffff; --panel-muted: #f7f6f0;
+      --text: #171717; --muted: #5d5d56; --line: #d8d6cc; --line-strong: #c8c4b7;
+      --accent: #627753; --accent-deep: #4b5d40; --accent-soft: #e7eee0;
+      --shadow: 0 14px 34px rgba(0,0,0,.05); --radius: 20px; --max: 860px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-deep); }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 22px; }
+    .site-header {
+      position: sticky; top: 0; z-index: 30; background: rgba(242,242,236,.92);
+      backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: .01em; }
+    .brand-mark { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 800; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-link { color: var(--muted); text-decoration: none; font-size: 14.5px; padding: 8px 10px; border-radius: 10px; }
+    .nav-link:hover { color: var(--text); background: var(--bg-2); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px;
+      border: 1px solid transparent; padding: 11px 18px; font-size: 14.5px; font-weight: 650;
+      text-decoration: none; cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-deep); }
+    .btn-secondary { background: var(--panel); border-color: var(--line-strong); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--accent); }
+    main { padding: 42px 0 70px; }
+    .doc-head { margin-bottom: 8px; }
+    .eyebrow { display: inline-block; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); font-weight: 750; margin-bottom: 12px; }
+    h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.12; letter-spacing: -.015em; margin: 0 0 14px; }
+    .doc {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: clamp(24px, 4.5vw, 48px); margin-top: 22px;
+    }
+    .doc h2 { font-size: 22px; letter-spacing: -.01em; margin: 34px 0 10px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .doc h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .doc h3 { font-size: 17px; margin: 26px 0 8px; }
+    .doc p { margin: 0 0 14px; }
+    .doc ul { margin: 0 0 16px; padding-left: 22px; }
+    .doc li { margin: 5px 0; }
+    .doc blockquote {
+      margin: 18px 0; padding: 14px 18px; background: var(--accent-soft);
+      border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+    }
+    .doc blockquote p { margin: 0; }
+    .doc table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 15px; }
+    .doc th, .doc td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; vertical-align: top; }
+    .doc th { background: var(--panel-muted); font-weight: 700; }
+    .doc td:empty::after, .doc td:has(> :empty)::after { content: ""; display: block; min-height: 1.2em; }
+    .provenance { color: var(--muted); font-size: 15px; }
+    .blank { display: inline-block; min-width: 220px; border-bottom: 1px solid var(--line-strong); height: 1em; vertical-align: baseline; }
+    .doc-next {
+      margin-top: 26px; background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 30px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .doc-next p { margin: 0; color: var(--muted); max-width: 56ch; }
+    .doc-next .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .back-row { margin-top: 18px; font-size: 14.5px; }
+    .back-row a { color: var(--muted); text-decoration: none; }
+    .back-row a:hover { color: var(--text); }
+    @media (max-width: 640px) { .doc table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="/" class="brand" aria-label="DIR UVP Sprint home">
+        <span class="brand-mark" aria-hidden="true">DIR</span>
+        <span>DIR UVP Sprint</span>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link" href="/#evidence">All documents</a>
+        <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="doc-head">
+        <span class="eyebrow">Working document &middot; 2 of 5</span>
+        <h1>Engagement Executive Overview</h1>
+        <p class="provenance">Drawn from two completed engagements in unrelated industries. Client identities, industry detail, and the strategic answers each engagement produced have been removed. What remains is what the two engagements had in common — which is the point of showing it.</p>
+      </div>
+
+      <article class="doc">
+<h2>Two businesses, one frame</h2>
+<p>Two companies with nothing else in common — different industries, different customers, different problems — went through the same engagement. The answers they left with do not resemble each other at any point. The frame that produced those answers is identical, section for section.</p>
+<p>This document describes that frame: how the problem is named before the room opens, and the disciplines both rooms were held to. The architecture of the answer itself is a separate document — the last in this set.</p>
+<h2>The problem is named structurally, before anyone proposes language</h2>
+<p>Both engagements opened the same way: the leadership team's problem was stated as a fact about the structure of the business, not as a marketing complaint, and stated before the room was allowed to propose a single phrase.</p>
+<p>In one engagement the diagnosis was <strong>diffusion</strong>. The business operated across several distinct, genuinely valuable lines, and from the outside it read as several different companies at once — a different one depending on which offer a customer met first. The work was compression: one lead story, chosen by trade-off, with "all of the above" ruled inadmissible because "all of the above" was the existing problem.</p>
+<p>In the other engagement the diagnosis was <strong>vagueness</strong>. The company's category runs on warm language — promises any competitor could adopt tomorrow without changing a thing about how they operate. The work was verifiability: tying every promise to a specific operational mechanism, with proof on the record and a boundary on the claim.</p>
+<p>Different defects. The discipline is the same: name what is structurally wrong first, so that every decision in the room is a repair to that defect rather than a preference about wording.</p>
+<h2>The UVP is built as a decision tool, not branding language</h2>
+<p>Both deliverables state it in nearly the same words: the value proposition is a control system. Every future headline, web page, proposal, talk track, and staffing decision gets measured against it. It is a filter for what the company says and does — not a tagline, and the engagement produces no tagline.</p>
+<p>This is what separates the output from a messaging exercise. A slogan gets admired and shelved. A decision tool gets used the next time someone asks "can we say this?" or "should we chase this customer?"</p>
+<h2>The disciplines both rooms were held to</h2>
+<p>The following requirements appeared in both engagements, unaltered by industry:</p>
+<p><strong>The competitor test.</strong> If a rival could adopt the language without changing their operations, the language is too generic. Every draft claim in both rooms was run against it.</p>
+<p><strong>Mechanism before adjectives.</strong> A promise is admissible only with the specific, operational reason it is true — the thing a competitor could not claim without changing how they work. Both deliverables carry three message pillars, and each pillar carries four columns: promise, mechanism, proof, boundary. The working rule, stated in both: a pillar without mechanism and proof is an adjective; a pillar without a boundary will drift into overclaiming.</p>
+<p><strong>Non-fit customers are named in writing.</strong> Both engagements defined best-fit customers by behavior, named the customers the company should stop chasing, and scripted a refer-out posture — the exact thing staff say when a prospect is not a fit. The reasoning is operational, not cosmetic: the wrong customers create margin pressure, delivery pain, and reputation risk, and the room decides where that line is before marketing spends another dollar attracting them.</p>
+<p><strong>The alternatives map starts with "doing nothing."</strong> Customers rarely compare a company to its direct competitor first. Both engagements mapped what buyers actually weigh — substitutes, workarounds, inaction — and located where each alternative breaks down. The honest contrast against real alternatives is sturdier ground than a feature comparison against a named rival.</p>
+<p><strong>The claims register, in exact wording.</strong> Every recurring public claim was recorded verbatim and sorted — safe to use, needs proof or qualification, do not say — with its evidence source, confidence level, and risk type on the record. The governing rule, identical in both: an emotionally true statement can still be wrong for public messaging if it lacks proof or carries legal or reputational risk.</p>
+<p><strong>Version one is a hypothesis.</strong> Neither engagement treated the day's output as finished copy. Both closed with the same protocol: one week of using the language in real conversations, logging what customers repeat back, what confuses them, and which objections recur. The log produces version two — from evidence, not preference.</p>
+<h2>What did not recur</h2>
+<p>The answers. The lead story, the content of the pillars, the fit boundaries, the named alternatives, the approved claims — none of it transfers between the two businesses, and none of it appears here. Each answer belongs to the client whose evidence produced it.</p>
+<p>That split is the finding. The structure recurs; the content never does. A method produces that pattern. An improviser cannot.</p>
+      </article>
+
+      <aside class="doc-next">
+        <p>The Fit Check is the next step when you are ready to qualify. It runs without a sales call, and it can come back &ldquo;not a fit.&rdquo;</p>
+        <div class="actions">
+          <a class="btn btn-secondary" href="/evidence-agenda">Next: The Day In The Room Agenda &rarr;</a>
+          <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+        </div>
+      </aside>
+
+      <p class="back-row"><a href="/#evidence">&larr; All engagement documents</a></p>
+    </div>
+  </main>
+</body>
+</html>

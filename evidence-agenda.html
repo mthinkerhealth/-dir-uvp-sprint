@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day In The Room Agenda | DIR UVP Sprint</title>
+  <meta name="description" content="A working document from completed UVP Sprint engagements, client identity removed. Published so the method can be judged by its weight." />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="theme-color" content="#f2f2ec" />
+  <link rel="canonical" href="https://uvpsprint.com/evidence-agenda" />
+  <style>
+    :root {
+      --bg: #f2f2ec; --bg-2: #ecebe4; --panel: #ffffff; --panel-muted: #f7f6f0;
+      --text: #171717; --muted: #5d5d56; --line: #d8d6cc; --line-strong: #c8c4b7;
+      --accent: #627753; --accent-deep: #4b5d40; --accent-soft: #e7eee0;
+      --shadow: 0 14px 34px rgba(0,0,0,.05); --radius: 20px; --max: 860px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-deep); }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 22px; }
+    .site-header {
+      position: sticky; top: 0; z-index: 30; background: rgba(242,242,236,.92);
+      backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: .01em; }
+    .brand-mark { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 800; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-link { color: var(--muted); text-decoration: none; font-size: 14.5px; padding: 8px 10px; border-radius: 10px; }
+    .nav-link:hover { color: var(--text); background: var(--bg-2); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px;
+      border: 1px solid transparent; padding: 11px 18px; font-size: 14.5px; font-weight: 650;
+      text-decoration: none; cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-deep); }
+    .btn-secondary { background: var(--panel); border-color: var(--line-strong); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--accent); }
+    main { padding: 42px 0 70px; }
+    .doc-head { margin-bottom: 8px; }
+    .eyebrow { display: inline-block; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); font-weight: 750; margin-bottom: 12px; }
+    h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.12; letter-spacing: -.015em; margin: 0 0 14px; }
+    .doc {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: clamp(24px, 4.5vw, 48px); margin-top: 22px;
+    }
+    .doc h2 { font-size: 22px; letter-spacing: -.01em; margin: 34px 0 10px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .doc h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .doc h3 { font-size: 17px; margin: 26px 0 8px; }
+    .doc p { margin: 0 0 14px; }
+    .doc ul { margin: 0 0 16px; padding-left: 22px; }
+    .doc li { margin: 5px 0; }
+    .doc blockquote {
+      margin: 18px 0; padding: 14px 18px; background: var(--accent-soft);
+      border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+    }
+    .doc blockquote p { margin: 0; }
+    .doc table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 15px; }
+    .doc th, .doc td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; vertical-align: top; }
+    .doc th { background: var(--panel-muted); font-weight: 700; }
+    .doc td:empty::after, .doc td:has(> :empty)::after { content: ""; display: block; min-height: 1.2em; }
+    .provenance { color: var(--muted); font-size: 15px; }
+    .blank { display: inline-block; min-width: 220px; border-bottom: 1px solid var(--line-strong); height: 1em; vertical-align: baseline; }
+    .doc-next {
+      margin-top: 26px; background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 30px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .doc-next p { margin: 0; color: var(--muted); max-width: 56ch; }
+    .doc-next .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .back-row { margin-top: 18px; font-size: 14.5px; }
+    .back-row a { color: var(--muted); text-decoration: none; }
+    .back-row a:hover { color: var(--text); }
+    @media (max-width: 640px) { .doc table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="/" class="brand" aria-label="DIR UVP Sprint home">
+        <span class="brand-mark" aria-hidden="true">DIR</span>
+        <span>DIR UVP Sprint</span>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link" href="/#evidence">All documents</a>
+        <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="doc-head">
+        <span class="eyebrow">Working document &middot; 3 of 5</span>
+        <h1>Day In The Room Agenda</h1>
+        <p class="provenance">The session structure from a completed engagement. Client identity and industry detail removed; the time blocks, segments, rules, and definition of done are unaltered.</p>
+      </div>
+
+      <article class="doc">
+<h2>What the day must produce</h2>
+<p>The session is a decision workshop. It ends with seven outputs: a core value proposition, three message pillars, ideal-customer boundaries, an alternatives map, a claims register, a talk track with objection responses, and a one-week validation plan. A pleasant conversation that produces none of these is a failed session.</p>
+<h2>Decision rules in force all day</h2>
+<ul>
+<li><strong>Evidence beats preference.</strong> If it can't be shown, proven, demonstrated, or explained plainly, it cannot become a leading claim.</li>
+<li><strong>The Decider decides.</strong> When debate runs long, the Sponsor/Decider makes the call.</li>
+<li><strong>Every promise needs a boundary.</strong></li>
+<li><strong>No unsupported elegance.</strong> Pretty language without proof is discarded.</li>
+<li><strong>The value proposition becomes the control system.</strong> Website copy, collateral, and talk tracks will eventually map back to it. It is not a tagline, and the day does not produce one.</li>
+</ul>
+<h2>Required roles in the room</h2>
+<ul>
+<li><strong>Sponsor / Decider</strong> — makes trade-offs; decides what leads and what stops leading; prevents the session from becoming an admiration exercise.</li>
+<li><strong>Revenue Voice</strong> — brings market reality: what people ask, misunderstand, compare, hesitate over, and what causes them to buy.</li>
+<li><strong>Delivery Voice</strong> — protects feasibility; flags promises that sound good but create operational risk.</li>
+</ul>
+<p>Keep the room small enough to decide. Too many voices slow the work and soften the conclusions.</p>
+<h2>The day</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Time</strong></th>
+<th><strong>Segment</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00–0:15</td>
+<td>Welcome, decision rules, definition of done</td>
+<td>Align the room around outputs and authority</td>
+</tr>
+<tr>
+<td>0:15–0:45</td>
+<td>Language wall</td>
+<td>Capture customer triggers, fears, questions, misunderstandings, and desired outcomes — in customers' words</td>
+</tr>
+<tr>
+<td>0:45–1:15</td>
+<td>Offer hierarchy</td>
+<td>Sort every offer into core, growth, supporting, or distracting</td>
+</tr>
+<tr>
+<td>1:15–1:45</td>
+<td>Alternatives ladder</td>
+<td>Identify what customers choose instead, and where those options fail</td>
+</tr>
+<tr>
+<td>1:45–2:15</td>
+<td>Ideal customer boundaries</td>
+<td>Define best-fit, non-fit, and refer-out customers</td>
+</tr>
+<tr>
+<td>2:15–2:30</td>
+<td>Break</td>
+<td>Reset</td>
+</tr>
+<tr>
+<td>2:30–3:15</td>
+<td>Message pillar build</td>
+<td>Select three differentiators; define promise, mechanism, proof, and boundary for each</td>
+</tr>
+<tr>
+<td>3:15–3:45</td>
+<td>Draft value proposition live</td>
+<td>One sentence and one paragraph, built from the day's decisions</td>
+</tr>
+<tr>
+<td>3:45–4:20</td>
+<td>Claims register</td>
+<td>Approve, qualify, or remove claims; assign proof owners</td>
+</tr>
+<tr>
+<td>4:20–4:45</td>
+<td>Talk track and objections</td>
+<td>Build staff-ready language and responses to the top objections</td>
+</tr>
+<tr>
+<td>4:45–5:00</td>
+<td>Validation plan and assignments</td>
+<td>Define the one-week test and who owns it</td>
+</tr>
+</tbody>
+</table>
+<h2>The standard at close</h2>
+<p>The session succeeds only if it produces decisions. A prettier description of the business is not enough. The output is a clearer business system: one lead story, stronger audience focus, cleaner claims, better proof, and messaging staff can actually use.</p>
+<p>The first version of the value proposition is treated as a testable hypothesis, not a finished artifact. The one-week validation loop — using the language in real conversations, logging what customers repeat back, what confuses them, and what objections recur — produces version two.</p>
+      </article>
+
+      <aside class="doc-next">
+        <p>The Fit Check is the next step when you are ready to qualify. It runs without a sales call, and it can come back &ldquo;not a fit.&rdquo;</p>
+        <div class="actions">
+          <a class="btn btn-secondary" href="/evidence-decision-checklist">Next: The Decision Checklist &rarr;</a>
+          <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+        </div>
+      </aside>
+
+      <p class="back-row"><a href="/#evidence">&larr; All engagement documents</a></p>
+    </div>
+  </main>
+</body>
+</html>

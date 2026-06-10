@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leadership Discussion Guide / Decision Checklist | DIR UVP Sprint</title>
+  <meta name="description" content="A working document from completed UVP Sprint engagements, client identity removed. Published so the method can be judged by its weight." />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="theme-color" content="#f2f2ec" />
+  <link rel="canonical" href="https://uvpsprint.com/evidence-decision-checklist" />
+  <style>
+    :root {
+      --bg: #f2f2ec; --bg-2: #ecebe4; --panel: #ffffff; --panel-muted: #f7f6f0;
+      --text: #171717; --muted: #5d5d56; --line: #d8d6cc; --line-strong: #c8c4b7;
+      --accent: #627753; --accent-deep: #4b5d40; --accent-soft: #e7eee0;
+      --shadow: 0 14px 34px rgba(0,0,0,.05); --radius: 20px; --max: 860px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-deep); }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 22px; }
+    .site-header {
+      position: sticky; top: 0; z-index: 30; background: rgba(242,242,236,.92);
+      backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: .01em; }
+    .brand-mark { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 800; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-link { color: var(--muted); text-decoration: none; font-size: 14.5px; padding: 8px 10px; border-radius: 10px; }
+    .nav-link:hover { color: var(--text); background: var(--bg-2); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px;
+      border: 1px solid transparent; padding: 11px 18px; font-size: 14.5px; font-weight: 650;
+      text-decoration: none; cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-deep); }
+    .btn-secondary { background: var(--panel); border-color: var(--line-strong); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--accent); }
+    main { padding: 42px 0 70px; }
+    .doc-head { margin-bottom: 8px; }
+    .eyebrow { display: inline-block; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); font-weight: 750; margin-bottom: 12px; }
+    h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.12; letter-spacing: -.015em; margin: 0 0 14px; }
+    .doc {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: clamp(24px, 4.5vw, 48px); margin-top: 22px;
+    }
+    .doc h2 { font-size: 22px; letter-spacing: -.01em; margin: 34px 0 10px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .doc h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .doc h3 { font-size: 17px; margin: 26px 0 8px; }
+    .doc p { margin: 0 0 14px; }
+    .doc ul { margin: 0 0 16px; padding-left: 22px; }
+    .doc li { margin: 5px 0; }
+    .doc blockquote {
+      margin: 18px 0; padding: 14px 18px; background: var(--accent-soft);
+      border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+    }
+    .doc blockquote p { margin: 0; }
+    .doc table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 15px; }
+    .doc th, .doc td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; vertical-align: top; }
+    .doc th { background: var(--panel-muted); font-weight: 700; }
+    .doc td:empty::after, .doc td:has(> :empty)::after { content: ""; display: block; min-height: 1.2em; }
+    .provenance { color: var(--muted); font-size: 15px; }
+    .blank { display: inline-block; min-width: 220px; border-bottom: 1px solid var(--line-strong); height: 1em; vertical-align: baseline; }
+    .doc-next {
+      margin-top: 26px; background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 30px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .doc-next p { margin: 0; color: var(--muted); max-width: 56ch; }
+    .doc-next .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .back-row { margin-top: 18px; font-size: 14.5px; }
+    .back-row a { color: var(--muted); text-decoration: none; }
+    .back-row a:hover { color: var(--text); }
+    @media (max-width: 640px) { .doc table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="/" class="brand" aria-label="DIR UVP Sprint home">
+        <span class="brand-mark" aria-hidden="true">DIR</span>
+        <span>DIR UVP Sprint</span>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link" href="/#evidence">All documents</a>
+        <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="doc-head">
+        <span class="eyebrow">Working document &middot; 4 of 5</span>
+        <h1>Leadership Discussion Guide / Decision Checklist</h1>
+        <p class="provenance">From a completed engagement: the one-page instrument the leadership team worked through before the Day In The Room session. Client identity and industry detail removed or generalized; the questions, structure, and required conclusions are unaltered.</p>
+      </div>
+
+      <article class="doc">
+<p><strong>Meeting goal.</strong> Keep the room focused on one thing: turn the business from a broad collection of good things into a clear, usable business story with proof, boundaries, and next steps.</p>
+<h2>1. Frame the problem</h2>
+<p><strong>Say this plainly:</strong> the business does not lack substance. It lacks compression. Today's job is to decide what leads, what supports, what needs proof, and what should stop getting top billing.</p>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Leadership agrees the main issue is <strong>clarity and hierarchy</strong>, not inventing a new identity.</p>
+<h2>2. Decide the lead story</h2>
+<p><strong>Core question:</strong> what is the company <em>first</em>?</p>
+<p>List the plausible identities — most multi-line businesses have three to five — and discuss briefly.</p>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Working lead-story hypothesis chosen.</p>
+<p><strong>Guardrail:</strong> do not let the answer become "all of the above." That is the current problem.</p>
+<h2>3. Sort the offer portfolio</h2>
+<p><strong>Question:</strong> which offers should lead the business story, and which should support it?</p>
+<table>
+<thead>
+<tr>
+<th><strong>Offer line</strong></th>
+<th><strong>Core</strong></th>
+<th><strong>Growth</strong></th>
+<th><strong>Supporting</strong></th>
+<th><strong>Distracting / De-emphasize</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>List every offer line, one per row.</em></td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Top 3 business-story priorities selected.</p>
+<h2>4. Identify best-fit customers</h2>
+<p><strong>Question:</strong> who values the company enough to understand it, pay for it, return, and talk about it?</p>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Best-fit customer defined by <strong>behavior</strong>, not demographics:</p>
+<p><em>Best-fit customers are people who:</em> <span class="blank"></span></p>
+<h2>5. Name the non-fit customer</h2>
+<p><strong>Question:</strong> who creates confusion, margin pressure, reputation risk, or delivery pain? Common categories: commodity price shoppers; buyers expecting something the model doesn't deliver; customers asking for outcomes the company cannot safely promise; customers who don't value the mechanism that makes the company different.</p>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Non-fit customer boundaries named:</p>
+<p><em>The company should stop chasing:</em> <span class="blank"></span></p>
+<h2>6. Map the alternatives</h2>
+<p><strong>Question:</strong> what do people choose instead? Include substitutes and "do nothing," not just direct competitors.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Customer need</strong></th>
+<th><strong>Alternative they weigh</strong></th>
+<th><strong>Where the company can win</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Top 3 alternatives the company must beat.</p>
+<h2>7. Choose the three message pillars</h2>
+<p>No vague adjectives without mechanism and proof.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Pillar</strong></th>
+<th><strong>Promise</strong></th>
+<th><strong>Mechanism</strong></th>
+<th><strong>Proof needed</strong></th>
+<th><strong>Boundary</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Three pillars selected.</p>
+<h2>8. Claims discipline: what can we safely say?</h2>
+<p><strong>Question:</strong> which recurring language should be approved, qualified, proven, or stopped? List every claim and phrase currently in use — especially the comfortable ones.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Claim / phrase</strong></th>
+<th><strong>Safe now</strong></th>
+<th><strong>Needs proof</strong></th>
+<th><strong>Needs softer language</strong></th>
+<th><strong>Do not say</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Each recurring claim, one per row.</em></td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Claims-risk list created:</p>
+<p><em>Safe to say now:</em> <span class="blank"></span>
+<em>Needs proof or qualification:</em> <span class="blank"></span>
+<em>Should stop saying:</em> <span class="blank"></span></p>
+<h2>9. Draft the working value proposition</h2>
+<p><strong>Use this prompt:</strong></p>
+<p>The company helps <strong>[who]</strong> who want <strong>[desired outcome]</strong> by providing <strong>[offer/system]</strong> through <strong>[mechanism]</strong>, supported by <strong>[proof]</strong>.</p>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Leadership agrees this is good enough to test in the full session. It is a hypothesis, not copy.</p>
+<h2>10. Confirm Day In The Room readiness</h2>
+<p><strong>Required roles:</strong></p>
+<p>☐ Sponsor / Decider — name: <span class="blank"></span></p>
+<p>☐ Revenue Voice — name: <span class="blank"></span></p>
+<p>☐ Delivery Voice — name: <span class="blank"></span></p>
+<p>☐ Marketing / Admin Support — name: <span class="blank"></span></p>
+<p><strong>Artifacts to gather:</strong></p>
+<p>☐ Website copy</p>
+<p>☐ Brochures / collateral</p>
+<p>☐ Offer descriptions</p>
+<p>☐ Inquiry examples by offer line</p>
+<p>☐ Reviews and testimonials</p>
+<p>☐ Top customer questions</p>
+<p>☐ Top objections</p>
+<p>☐ Sales patterns by offer type</p>
+<p>☐ Current claims that may need proof or legal caution</p>
+<p>☐ Competitor / alternative examples</p>
+<p><strong>Critical conclusion:</strong></p>
+<p>☐ Owners assigned for pre-work.</p>
+<h2>11. Close with final decisions</h2>
+<p>Before ending, confirm out loud:</p>
+<p>☐ We chose a working lead story.</p>
+<p>☐ We sorted the offer portfolio.</p>
+<p>☐ We named the best-fit customer.</p>
+<p>☐ We named the non-fit customer.</p>
+<p>☐ We identified key alternatives.</p>
+<p>☐ We selected candidate message pillars.</p>
+<p>☐ We started the claims-risk list.</p>
+<p>☐ We drafted or framed the working value proposition.</p>
+<p>☐ We confirmed session roles.</p>
+<p>☐ We assigned artifact-gathering responsibilities.</p>
+<h2>Final question</h2>
+<p><strong>What should the company stop leading with?</strong></p>
+<p>Answer: <span class="blank"></span></p>
+      </article>
+
+      <aside class="doc-next">
+        <p>The Fit Check is the next step when you are ready to qualify. It runs without a sales call, and it can come back &ldquo;not a fit.&rdquo;</p>
+        <div class="actions">
+          <a class="btn btn-secondary" href="/evidence-structure-template">Next: The Structure of a Finished UVP &rarr;</a>
+          <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+        </div>
+      </aside>
+
+      <p class="back-row"><a href="/#evidence">&larr; All engagement documents</a></p>
+    </div>
+  </main>
+</body>
+</html>

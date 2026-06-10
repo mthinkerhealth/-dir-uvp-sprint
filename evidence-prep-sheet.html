@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Participant Prep Sheet | DIR UVP Sprint</title>
+  <meta name="description" content="A working document from completed UVP Sprint engagements, client identity removed. Published so the method can be judged by its weight." />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="theme-color" content="#f2f2ec" />
+  <link rel="canonical" href="https://uvpsprint.com/evidence-prep-sheet" />
+  <style>
+    :root {
+      --bg: #f2f2ec; --bg-2: #ecebe4; --panel: #ffffff; --panel-muted: #f7f6f0;
+      --text: #171717; --muted: #5d5d56; --line: #d8d6cc; --line-strong: #c8c4b7;
+      --accent: #627753; --accent-deep: #4b5d40; --accent-soft: #e7eee0;
+      --shadow: 0 14px 34px rgba(0,0,0,.05); --radius: 20px; --max: 860px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-deep); }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 22px; }
+    .site-header {
+      position: sticky; top: 0; z-index: 30; background: rgba(242,242,236,.92);
+      backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: .01em; }
+    .brand-mark { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 800; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-link { color: var(--muted); text-decoration: none; font-size: 14.5px; padding: 8px 10px; border-radius: 10px; }
+    .nav-link:hover { color: var(--text); background: var(--bg-2); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px;
+      border: 1px solid transparent; padding: 11px 18px; font-size: 14.5px; font-weight: 650;
+      text-decoration: none; cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-deep); }
+    .btn-secondary { background: var(--panel); border-color: var(--line-strong); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--accent); }
+    main { padding: 42px 0 70px; }
+    .doc-head { margin-bottom: 8px; }
+    .eyebrow { display: inline-block; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); font-weight: 750; margin-bottom: 12px; }
+    h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.12; letter-spacing: -.015em; margin: 0 0 14px; }
+    .doc {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: clamp(24px, 4.5vw, 48px); margin-top: 22px;
+    }
+    .doc h2 { font-size: 22px; letter-spacing: -.01em; margin: 34px 0 10px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .doc h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    .doc h3 { font-size: 17px; margin: 26px 0 8px; }
+    .doc p { margin: 0 0 14px; }
+    .doc ul { margin: 0 0 16px; padding-left: 22px; }
+    .doc li { margin: 5px 0; }
+    .doc blockquote {
+      margin: 18px 0; padding: 14px 18px; background: var(--accent-soft);
+      border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+    }
+    .doc blockquote p { margin: 0; }
+    .doc table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 15px; }
+    .doc th, .doc td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; vertical-align: top; }
+    .doc th { background: var(--panel-muted); font-weight: 700; }
+    .doc td:empty::after, .doc td:has(> :empty)::after { content: ""; display: block; min-height: 1.2em; }
+    .provenance { color: var(--muted); font-size: 15px; }
+    .blank { display: inline-block; min-width: 220px; border-bottom: 1px solid var(--line-strong); height: 1em; vertical-align: baseline; }
+    .doc-next {
+      margin-top: 26px; background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 30px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .doc-next p { margin: 0; color: var(--muted); max-width: 56ch; }
+    .doc-next .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .back-row { margin-top: 18px; font-size: 14.5px; }
+    .back-row a { color: var(--muted); text-decoration: none; }
+    .back-row a:hover { color: var(--text); }
+    @media (max-width: 640px) { .doc table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="/" class="brand" aria-label="DIR UVP Sprint home">
+        <span class="brand-mark" aria-hidden="true">DIR</span>
+        <span>DIR UVP Sprint</span>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link" href="/#evidence">All documents</a>
+        <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="doc-head">
+        <span class="eyebrow">Working document &middot; 1 of 5</span>
+        <h1>Participant Prep Sheet</h1>
+        <p class="provenance">From a completed engagement. Client identity, industry detail, and engagement-specific content have been removed or generalized. The structure, roles, rules, and prep requirements are unaltered.</p>
+      </div>
+
+      <article class="doc">
+<p><strong>Purpose.</strong> This sheet defines what each participant must prepare before the Day In The Room session. The goal is simple: arrive with proof, customer language, and decision readiness, so the room can produce a usable Unique Value Proposition, message pillars, customer-fit boundaries, claims discipline, and a validation plan.</p>
+<blockquote>
+<p><strong>Important:</strong> This is a decision workshop. It is not a branding brainstorm. Show up with examples, artifacts, and operational truth.</p>
+</blockquote>
+<h2>What everyone needs to know before the session</h2>
+<p><strong>The session produces seven concrete outputs:</strong></p>
+<ul>
+<li>A first-version core value proposition</li>
+<li>Three supporting message pillars</li>
+<li>Clear boundaries around the ideal customer and who is not a fit</li>
+<li>A map of the main alternatives customers choose from</li>
+<li>A record of approved public claims and the proof behind them</li>
+<li>A short talk track with responses to the most common objections</li>
+<li>A one-week testing plan to see what language resonates, what confuses people, and what should be refined</li>
+</ul>
+<p><strong>The room must include three essential voices:</strong> Sponsor / Decider, Revenue Voice, and Delivery Voice. Additional contributors are useful only if they bring real operating evidence.</p>
+<h2>Five questions every participant must be ready to answer</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>What do people most often come to the company for first?</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>What do they actually want beneath that first request?</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>What do they misunderstand about the company?</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>What do they compare you against?</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>What should you stop leading with?</td>
+</tr>
+</tbody>
+</table>
+<h2>1. Sponsor / Decider</h2>
+<p><em>Usually the owner, founder, CEO, or GM.</em></p>
+<p><strong>Bring</strong></p>
+<ul>
+<li>Clear authority to make final calls in the room.</li>
+<li>A rough ranking of offers by revenue, margin, strategic importance, and operational drag.</li>
+<li>An honest view of which parts of the business are core, growth, supporting, or distracting.</li>
+</ul>
+<p><strong>Be ready to decide</strong></p>
+<ul>
+<li>What the lead story is.</li>
+<li>What should stop leading the narrative.</li>
+<li>Which claims are too risky or too soft.</li>
+<li>Which audiences are not worth chasing.</li>
+</ul>
+<h2>2. Revenue Voice</h2>
+<p><em>The person who hears inquiries, objections, and buying questions most often.</em></p>
+<p><strong>Bring</strong></p>
+<ul>
+<li>Six months of inquiry examples across the main offer lines, or as many as are realistically available.</li>
+<li>Top 5 (or more) objections.</li>
+<li>Top 5 (or more) customer questions.</li>
+<li>Top recurring comparison points.</li>
+<li>Notes on what tends to convert and what tends to stall.</li>
+</ul>
+<p><strong>What the room is looking for</strong></p>
+<ul>
+<li>Exact phrases people use.</li>
+<li>What makes them hesitate.</li>
+<li>What they ask right before buying.</li>
+<li>What they say when price becomes an issue.</li>
+</ul>
+<h2>3. Delivery Voice</h2>
+<p><em>The person closest to what can actually be delivered consistently.</em></p>
+<p><strong>Bring</strong></p>
+<ul>
+<li>A clear explanation of what the company can reliably deliver.</li>
+<li>Operational boundaries on benefit language for each offer line.</li>
+<li>Known mismatch points between customer expectations and actual delivery.</li>
+</ul>
+<p><strong>What the room is looking for</strong></p>
+<ul>
+<li>Promises that sound good but create delivery pain.</li>
+<li>Offers that produce confusion or drain resources.</li>
+<li>Areas where staff need tighter approved language.</li>
+</ul>
+<h2>4. Offer-Line Leads</h2>
+<p><em>In the original engagement, an owner was named for each major offer line; their role sections are generalized here.</em></p>
+<p>Each lead brings, for their line:</p>
+<ul>
+<li>Current descriptions, labels, or collateral.</li>
+<li>FAQ lists and recurring customer questions.</li>
+<li>Available proof: third-party reports, certifications, credentials, process documentation, customer feedback.</li>
+<li>Any claim currently in use that feels too strong.</li>
+<li>Any customer misunderstanding that repeats.</li>
+<li>Any proof gap that needs filling before marketing says more.</li>
+</ul>
+<h2>5. Marketing / Admin Support</h2>
+<p><em>The person organizing the materials so the room is equipped to work.</em></p>
+<p><strong>Bring</strong></p>
+<ul>
+<li>One shared folder containing website copy, sales collateral, offer descriptions, inquiry emails, reviews or testimonials, sales-pattern notes, and competitor or substitute examples.</li>
+<li>Printed or digital worksheets for buyer triggers, alternatives, fit versus non-fit, and claims versus proof versus risk versus owner.</li>
+</ul>
+<h2>Artifact list</h2>
+<p>The session works only when it is based on actual materials, not abstraction. Use this checklist to verify the folder is complete.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Category</strong></th>
+<th><strong>What to gather</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Messaging / Copy</strong></td>
+<td>Website pages; brochures and handouts; offer and product copy; any email templates currently in use.</td>
+</tr>
+<tr>
+<td><strong>Customer Language</strong></td>
+<td>Inquiry emails; form submissions; sales call notes if available; reviews and testimonials; FAQs from customers.</td>
+</tr>
+<tr>
+<td><strong>Proof / Evidence</strong></td>
+<td>Third-party reports; certifications or credentials; process descriptions; production or delivery facts; repeat-purchase patterns; short case examples if available.</td>
+</tr>
+<tr>
+<td><strong>Revenue Reality</strong></td>
+<td>Best-selling offers; highest-margin offers; hardest-to-sell offers; most confusing offers; most frequently compared alternatives.</td>
+</tr>
+</tbody>
+</table>
+<h2>Prep timeline</h2>
+<p><strong>48 hours before the session</strong></p>
+<ul>
+<li>Final attendee list locked.</li>
+<li>Decider confirmed.</li>
+<li>Shared folder assembled.</li>
+<li>Inquiry examples collected.</li>
+<li>FAQ lists collected.</li>
+<li>Current messaging materials uploaded.</li>
+</ul>
+<p><strong>24 hours before the session</strong></p>
+<ul>
+<li>Top objections list compiled.</li>
+<li>Top recurring customer phrases compiled.</li>
+<li>Offer hierarchy draft prepared: core, growth, supporting, distracting.</li>
+<li>Claims-risk list drafted: safe now, needs proof, do not say.</li>
+</ul>
+<p><strong>Day of the session</strong></p>
+<ul>
+<li>Bring printed notes or accessible digital files.</li>
+<li>Bring real examples.</li>
+<li>Be ready to eliminate weak language, choose a lead story, and attach proof and boundaries to every pillar.</li>
+</ul>
+<blockquote>
+<p><strong>Watch out for phrases like</strong> <em>"best-in-class," "end-to-end," "trusted partner," "world-class,"</em> or <em>"proven"</em> anything — unless it can actually be proven. <em>(The original engagement's watch list named the client's own recurring overclaims; the rule is the same.)</em></p>
+</blockquote>
+<h2>Definition of successful prep</h2>
+<p>Prep is successful when the room has enough real material to answer six things: what value the company brings that it should lead with, who benefits most from what it offers, what alternatives buyers consider, what the company can claim safely, what proof exists now (and can be gathered), and what should no longer be claimed.</p>
+<p><strong>Clarity beats breadth. Evidence beats preference.</strong></p>
+      </article>
+
+      <aside class="doc-next">
+        <p>The Fit Check is the next step when you are ready to qualify. It runs without a sales call, and it can come back &ldquo;not a fit.&rdquo;</p>
+        <div class="actions">
+          <a class="btn btn-secondary" href="/evidence-executive-overview">Next: The Executive Overview &rarr;</a>
+          <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+        </div>
+      </aside>
+
+      <p class="back-row"><a href="/#evidence">&larr; All engagement documents</a></p>
+    </div>
+  </main>
+</body>
+</html>
