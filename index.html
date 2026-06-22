@@ -302,14 +302,19 @@
     .section-head {
       display: grid;
       grid-template-columns: .9fr 1.1fr;
-      gap: 20px;
-      align-items: end;
-      margin-bottom: 18px;
+      gap: 16px 28px;
+      align-items: start;
+      margin-bottom: 22px;
     }
+    /* Top-align heading and intro copy. Bottom-aligning (align-items:end) dropped a
+       short heading to the bottom of the row, leaving dead space above it. */
+    .section-head > h2 { margin-bottom: 0; }
+    .section-head > .section-copy { margin-top: 0; }
 
     .section-copy {
       max-width: 70ch;
       color: var(--muted);
+      line-height: 1.5;
     }
 
     .grid-3 {
