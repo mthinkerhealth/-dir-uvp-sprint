@@ -1193,6 +1193,8 @@
     // /api/clarity-config Function call. app.js falls back to that endpoint if absent.
     window.DIR_UVP_CONFIG = Object.assign({ turnstileSiteKey: '0x4AAAAAADovsrdHHQmYVZNH' }, window.DIR_UVP_CONFIG || {});
   </script>
-  <script src="/app.js" defer></script>
+  <!-- Bump ?v= on every app.js change so returning visitors get the new file immediately
+       (HTML is always revalidated; app.js itself is cached up to 4h by an edge rule). -->
+  <script src="/app.js?v=20260622" defer></script>
 </body>
 </html>
