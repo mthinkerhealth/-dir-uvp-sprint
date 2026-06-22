@@ -69,7 +69,8 @@ export const OUTPUT_SCHEMA = {
         required: ['kind', 'claim', 'why_it_matters', 'evidence'],
         properties: {
           kind: { type: 'string', enum: ['unproven', 'generic', 'over_broad'] },
-          claim: { type: 'string' }, why_it_matters: { type: 'string' }, evidence
+          claim: { type: 'string' }, why_it_matters: { type: 'string' },
+          evidence: { type: 'array', minItems: 1, maxItems: 3, items: evidence }
         }
       }
     },
@@ -78,7 +79,7 @@ export const OUTPUT_SCHEMA = {
       items: {
         type: 'object', additionalProperties: false,
         required: ['observation', 'evidence'],
-        properties: { observation: { type: 'string' }, evidence }
+        properties: { observation: { type: 'string' }, evidence: { type: 'array', minItems: 1, maxItems: 3, items: evidence } }
       }
     },
     operational_consequences: { type: 'array', maxItems: 4, items: { type: 'string' } },

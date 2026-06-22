@@ -252,7 +252,8 @@
   // ===================== report rendering =====================
   function evidenceList(items) {
     const ul = el('ul', 'cc-evidence');
-    (items || []).forEach((ev) => {
+    const list = Array.isArray(items) ? items : (items ? [items] : []);
+    list.forEach((ev) => {
       const li = el('li');
       const q = el('span', 'cc-quote', '“' + esc(ev.excerpt) + '”');
       const src = el('span', 'cc-src', ' — ' + esc(ev.source_label || ev.source_id) + (ev.page_number != null ? `, p.${ev.page_number}` : ''));
