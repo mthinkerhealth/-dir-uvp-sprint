@@ -35,7 +35,12 @@ The preliminary Sprint case evaluates whether a structured leadership decision p
 
 // Cloudflare Pages Function — POST /api/uvp-clarity-check
 export async function onRequestPost(context) {
-  return handleAnalysis(context.request, context.env, context);
+  try {
+    return await handleAnalysis(context.request, context.env, context);
+  } catch (error) {
+    console.error(JSON.stringify({ event: 'unhandled_failure', message: String((error && error.message) || error), stack: String((error && error.stack) || '') }));
+    return jsonError('unexpected', 'The analysis hit a temporary error and did not complete. Please try again in a moment.', 500);
+  }
 }
 
 async function handleAnalysis(request, env, ctx) {
@@ -210,7 +215,9 @@ async function retrievePage(initialUrl, sourceId) {
     const bytes = new Uint8Array(await response.arrayBuffer());
     if (bytes.byteLength > MAX_PAGE_BYTES) return { sourceId, usable: false, warning: `${initialUrl.hostname} exceeded the page size limit.` };
     const html = new TextDecoder().decode(bytes);
-    const extracted = extractVisibleText(html);
+    let extracted;
+    try { extracted = extractVisibleText(html); }
+    catch { return { sourceId, usable: false, warning: `Could not parse the page from ${initialUrl.hostname}.` }; }
     if (extracted.text.length < 120) return { sourceId, usable: false, warning: `${initialUrl.hostname} did not expose enough readable text.` };
     return { sourceId, usable: true, finalUrl: current.toString(), ...extracted };
   }
@@ -246,7 +253,7 @@ export function extractVisibleText(html) {
 }
 
 function decodeEntities(value) {
-  return value.replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'").replace(/&lt;/gi, '<').replace(/&gt;/gi, '>').replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)));
+  return value.replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'").replace(/&lt;/gi, '<').replace(/&gt;/gi, '>').replace(/&#(\d+);/g, (_, n) => { try { const cp = Number(n); return (cp >= 0 && cp <= 0x10FFFF) ? String.fromCodePoint(cp) : ''; } catch { return ''; } });
 }
 
 async function verifyTurnstile(token, ip, secret) {
