@@ -537,13 +537,13 @@
 
     const choices = el('div', 'cc-reco-actions');
     if (info.booking) {
-      const a = el('a', 'btn btn-primary', 'Book a call'); a.href = BOOKING_URL; a.target = '_blank'; a.rel = 'noopener noreferrer';
-      a.addEventListener('click', () => dl('booking_selected', { sprint_fit_band: fit }));
-      choices.appendChild(a);
+      const b = el('button', 'btn btn-primary', 'Book a call'); b.type = 'button';
+      b.addEventListener('click', () => { dl('booking_selected', { sprint_fit_band: fit }); showCapture(box, fit, 'call'); });
+      choices.appendChild(b);
     }
     if (info.email) {
       const b = el('button', info.booking ? 'btn btn-secondary' : 'btn btn-primary', 'Get this recommendation by email'); b.type = 'button';
-      b.addEventListener('click', () => { dl('recommendation_email_selected', { sprint_fit_band: fit }); showEmailCapture(box, fit); });
+      b.addEventListener('click', () => { dl('recommendation_email_selected', { sprint_fit_band: fit }); showCapture(box, fit, 'email'); });
       choices.appendChild(b);
     }
     if (!info.booking && !info.email) {
@@ -554,8 +554,50 @@
     box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  function showEmailCapture(box, fit) {
-    if (box.querySelector('.cc-email')) return;
+  const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+  // LEAD-2: the qualifying context the prospect typed + the derived bands, so the lead is
+  // actionable. Privacy boundary: NO report text, evidence excerpts, or files. fit_score is
+  // intentionally omitted — it's a numeric column for the website form; the clarity band
+  // lives in result_band, so sending it here only produced a "non-numeric" audit note.
+  function capturePayload(fit, email, intent) {
+    return {
+      email,
+      source: 'clarity-check',
+      next_step_choice: intent, // 'email' | 'call'
+      company_website: (stage1 && stage1.primaryUrl) || '',
+      company_type: (stage1 && stage1.companyType) || '',
+      what_you_sell: (stage1 && stage1.whatYouSell) || '',
+      intended_buyer: (stage1 && stage1.buyer) || '',
+      fit_tier: fit,
+      readiness: (stage2 && stage2.readiness) || '',
+      revenue_band: (stage2 && stage2.revenueBand) || '',
+      spend_band: (stage2 && stage2.spendBand) || '',
+      result_band: (lastReport && lastReport.overall_band) || '',
+      sprint_fit_band: fit
+    };
+  }
+
+  // LEAD-1: resolve true ONLY on a confirmed-good response (2xx + ok !== false). Any
+  // failure (non-2xx, ok:false, parse error, network/timeout) resolves false.
+  async function postCapture(payload) {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 15000);
+      const res = await fetch(CAPTURE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal, body: JSON.stringify(payload) });
+      clearTimeout(t);
+      let body = null; try { body = await res.json(); } catch (_) {}
+      return !!(res.ok && body && body.ok !== false);
+    } catch (_) { return false; }
+  }
+
+  // Unified capture panel. intent 'email' = send the recommendation. intent 'call' = record
+  // the qualified lead, then open the Google scheduler — so booking-path prospects (our
+  // best-fit ones) land in the sheet instead of vanishing into the calendar.
+  function showCapture(box, fit, intent) {
+    const existing = box.querySelector('.cc-email');
+    if (existing) existing.remove(); // allow switching between the two actions
+    const isCall = intent === 'call';
     const panel = el('div', 'cc-email');
     panel.innerHTML = `
       <div class="input-wrap">
@@ -563,61 +605,53 @@
         <input class="field" id="ccEmail" type="email" placeholder="name@company.com" autocomplete="email" />
         <p class="field-error" id="ccEmailErr" hidden aria-live="polite"></p>
       </div>
-      <button class="btn btn-primary" id="ccEmailSend" type="button">Send it</button>
-      <div class="success-note" id="ccEmailOk" hidden aria-live="polite">Thanks — we’ll review and reply within one business day.</div>
-      <p class="trust-note">We use this only to send your recommendation. If anything fails, email <a href="mailto:${CONTACT_EMAIL}?subject=UVP%20Clarity%20Check%20recommendation">${CONTACT_EMAIL}</a>.</p>
+      ${isCall
+        ? `<a class="btn btn-primary" id="ccBookGo" href="${BOOKING_URL}" target="_blank" rel="noopener noreferrer">Continue to booking →</a>`
+        : `<button class="btn btn-primary" id="ccEmailSend" type="button">Send it</button>`}
+      <div class="success-note" id="ccEmailOk" hidden aria-live="polite">${isCall ? 'Saved — your booking page is open in a new tab. See you there.' : 'Thanks — we’ll review and reply within one business day.'}</div>
+      <p class="trust-note">We use this only to ${isCall ? 'prepare for your call' : 'send your recommendation'}. If anything fails, email <a href="mailto:${CONTACT_EMAIL}?subject=UVP%20Clarity%20Check">${CONTACT_EMAIL}</a>.</p>
     `;
     box.appendChild(panel);
-    panel.querySelector('#ccEmailSend').addEventListener('click', async () => {
-      const email = panel.querySelector('#ccEmail').value.trim();
-      const err = panel.querySelector('#ccEmailErr');
-      const okNote = panel.querySelector('#ccEmailOk');
-      const btn = panel.querySelector('#ccEmailSend');
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { err.textContent = 'Enter a valid work email.'; err.hidden = false; return; }
+    const input = panel.querySelector('#ccEmail');
+    const err = panel.querySelector('#ccEmailErr');
+    const okNote = panel.querySelector('#ccEmailOk');
+
+    if (isCall) {
+      // The anchor's native click is a user gesture, so the new tab isn't popup-blocked.
+      // We capture in parallel (no await before navigation) and confirm/flag on this page.
+      panel.querySelector('#ccBookGo').addEventListener('click', (e) => {
+        const email = input.value.trim();
+        if (!EMAIL_RE.test(email)) { e.preventDefault(); err.textContent = 'Enter a valid work email to continue.'; err.hidden = false; return; }
+        err.hidden = true;
+        postCapture(capturePayload(fit, email, 'call')).then((ok) => {
+          if (ok) { okNote.hidden = false; dl('recommendation_call_captured', { sprint_fit_band: fit }); }
+          else {
+            err.textContent = `Your booking page opened, but we couldn’t log your details. Please email ${CONTACT_EMAIL} so we can prepare.`;
+            err.hidden = false;
+            dl('recommendation_call_failed', { sprint_fit_band: fit });
+          }
+        });
+        // do NOT preventDefault — let the anchor open the scheduler in a new tab
+      });
+      return;
+    }
+
+    const btn = panel.querySelector('#ccEmailSend');
+    btn.addEventListener('click', async () => {
+      const email = input.value.trim();
+      if (!EMAIL_RE.test(email)) { err.textContent = 'Enter a valid work email.'; err.hidden = false; return; }
       err.hidden = true;
       btn.disabled = true;
-      // LEAD-2: send the qualifying context the prospect typed + the derived bands so the
-      // lead is actionable. Privacy boundary: NO report text, evidence excerpts, or files.
-      const payload = {
-        email,
-        source: 'clarity-check',
-        next_step_choice: 'email',
-        company_website: (stage1 && stage1.primaryUrl) || '',
-        company_type: (stage1 && stage1.companyType) || '',
-        what_you_sell: (stage1 && stage1.whatYouSell) || '',
-        intended_buyer: (stage1 && stage1.buyer) || '',
-        fit_tier: fit,
-        fit_score: (lastReport && lastReport.overall_band) || '',
-        readiness: (stage2 && stage2.readiness) || '',
-        revenue_band: (stage2 && stage2.revenueBand) || '',
-        spend_band: (stage2 && stage2.spendBand) || '',
-        result_band: (lastReport && lastReport.overall_band) || '',
-        sprint_fit_band: fit
-      };
-      // LEAD-1: only show success on a confirmed-good response. Any failure (non-2xx,
-      // ok:false, parse error, network/timeout) shows the mailto fallback and keeps the
-      // email in the field to retry.
-      try {
-        const ctrl = new AbortController();
-        const t = setTimeout(() => ctrl.abort(), 15000);
-        const res = await fetch(CAPTURE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal, body: JSON.stringify(payload) });
-        clearTimeout(t);
-        let body = null; try { body = await res.json(); } catch (_) {}
-        if (res.ok && body && body.ok !== false) {
-          okNote.hidden = false;
-          dl('recommendation_email_captured', { sprint_fit_band: fit });
-        } else {
-          err.textContent = `That didn’t go through. Please email ${CONTACT_EMAIL} and we’ll send it.`;
-          err.hidden = false;
-          dl('recommendation_email_failed', { sprint_fit_band: fit, status: res.status });
-        }
-      } catch (_) {
+      const ok = await postCapture(capturePayload(fit, email, 'email'));
+      if (ok) {
+        okNote.hidden = false;
+        dl('recommendation_email_captured', { sprint_fit_band: fit });
+      } else {
         err.textContent = `That didn’t go through. Please email ${CONTACT_EMAIL} and we’ll send it.`;
         err.hidden = false;
-        dl('recommendation_email_failed', { sprint_fit_band: fit, status: 'network' });
-      } finally {
-        btn.disabled = false;
+        dl('recommendation_email_failed', { sprint_fit_band: fit });
       }
+      btn.disabled = false;
     });
   }
 
