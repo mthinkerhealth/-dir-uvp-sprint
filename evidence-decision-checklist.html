@@ -6,85 +6,96 @@
   <title>Leadership Discussion Guide / Decision Checklist | DIR UVP Sprint</title>
   <meta name="description" content="A working document from completed UVP Sprint engagements, client identity removed. Published so the method can be judged by its weight." />
   <meta name="robots" content="noindex,nofollow" />
-  <meta name="theme-color" content="#f2f2ec" />
+  <meta name="theme-color" content="#f4f1ea" />
   <link rel="canonical" href="https://uvpsprint.com/evidence-decision-checklist" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Michroma&family=Newsreader:ital,opsz,wght@0,18..72,400;0,18..72,500;0,18..72,600;1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+  <script>document.documentElement.className += ' js';</script>
   <style>
     :root {
-      --bg: #f2f2ec; --bg-2: #ecebe4; --panel: #ffffff; --panel-muted: #f7f6f0;
-      --text: #171717; --muted: #5d5d56; --line: #d8d6cc; --line-strong: #c8c4b7;
-      --accent: #627753; --accent-deep: #4b5d40; --accent-soft: #e7eee0;
-      --shadow: 0 14px 34px rgba(0,0,0,.05); --radius: 20px; --max: 860px;
+      --paper:#f4f1ea; --paper-2:#ece7dc; --surface:#fbf9f4;
+      --ink:#2b302d; --text:#2c322e; --body:#4c534c; --muted:#6c736b; --faint:#949a90;
+      --line:#ddd6c7; --line-strong:#cbc3b1;
+      --accent:#2f6b41; --accent-deep:#214d2f; --accent-bright:#5a9c6b; --accent-soft:#e5efe7;
+      --serif:"Newsreader",Georgia,"Times New Roman",serif;
+      --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+      --bank:"Bank Gothic","BankGothic Md BT","Bank Gothic Medium BT","Michroma","IBM Plex Sans",sans-serif;
+      --shadow:0 10px 30px rgba(27,30,27,.08);
+      --r:5px; --r-lg:8px; --max:820px; --ease:cubic-bezier(0.2,0,0.1,1);
     }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0; background: var(--bg); color: var(--text);
-      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--accent-deep); }
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 22px; }
-    .site-header {
-      position: sticky; top: 0; z-index: 30; background: rgba(242,242,236,.92);
-      backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
-    }
-    .nav { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; }
-    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: .01em; }
-    .brand-mark { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 800; }
-    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .nav-link { color: var(--muted); text-decoration: none; font-size: 14.5px; padding: 8px 10px; border-radius: 10px; }
-    .nav-link:hover { color: var(--text); background: var(--bg-2); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px;
-      border: 1px solid transparent; padding: 11px 18px; font-size: 14.5px; font-weight: 650;
-      text-decoration: none; cursor: pointer; }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-deep); }
-    .btn-secondary { background: var(--panel); border-color: var(--line-strong); color: var(--text); }
-    .btn-secondary:hover { border-color: var(--accent); }
-    main { padding: 42px 0 70px; }
-    .doc-head { margin-bottom: 8px; }
-    .eyebrow { display: inline-block; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); font-weight: 750; margin-bottom: 12px; }
-    h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.12; letter-spacing: -.015em; margin: 0 0 14px; }
-    .doc {
-      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
-      box-shadow: var(--shadow); padding: clamp(24px, 4.5vw, 48px); margin-top: 22px;
-    }
-    .doc h2 { font-size: 22px; letter-spacing: -.01em; margin: 34px 0 10px; padding-top: 22px; border-top: 1px solid var(--line); }
-    .doc h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
-    .doc h3 { font-size: 17px; margin: 26px 0 8px; }
-    .doc p { margin: 0 0 14px; }
-    .doc ul { margin: 0 0 16px; padding-left: 22px; }
-    .doc li { margin: 5px 0; }
-    .doc blockquote {
-      margin: 18px 0; padding: 14px 18px; background: var(--accent-soft);
-      border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
-    }
-    .doc blockquote p { margin: 0; }
-    .doc table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 15px; }
-    .doc th, .doc td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; vertical-align: top; }
-    .doc th { background: var(--panel-muted); font-weight: 700; }
-    .doc td:empty::after, .doc td:has(> :empty)::after { content: ""; display: block; min-height: 1.2em; }
-    .provenance { color: var(--muted); font-size: 15px; }
-    .blank { display: inline-block; min-width: 220px; border-bottom: 1px solid var(--line-strong); height: 1em; vertical-align: baseline; }
-    .doc-next {
-      margin-top: 26px; background: var(--panel); border: 1px solid var(--line);
-      border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 30px;
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .doc-next p { margin: 0; color: var(--muted); max-width: 56ch; }
-    .doc-next .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .back-row { margin-top: 18px; font-size: 14.5px; }
-    .back-row a { color: var(--muted); text-decoration: none; }
-    .back-row a:hover { color: var(--text); }
-    @media (max-width: 640px) { .doc table { display: block; overflow-x: auto; } }
-</style>
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--body); font-family:var(--sans); font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+    a { color:var(--accent-deep); text-decoration:none; } a:hover { color:var(--accent); }
+    .wrap { max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+    .js .reveal:not(.in) { opacity:0; transform:translateY(18px); }
+    .js .reveal.in { transition:opacity .65s var(--ease), transform .65s var(--ease); }
+    @media (prefers-reduced-motion: reduce){ .js .reveal:not(.in){opacity:1;transform:none;} .js .reveal.in{transition:none;} }
+
+    .site-header { position:sticky; top:0; z-index:30; background:rgba(244,241,234,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 0; }
+    .brand { display:inline-flex; align-items:center; gap:13px; color:var(--ink); text-decoration:none; }
+    .brand-mark { flex:0 0 auto; }
+    .brand-name { font-family:var(--bank); font-weight:400; font-size:15px; letter-spacing:.03em; text-transform:uppercase; line-height:1.15; color:var(--ink); }
+    .brand-name small { display:block; font-family:var(--bank); font-weight:400; font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-top:6px; }
+    .nav-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .nav-link { color:var(--muted); font-family:var(--bank); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; padding:9px 11px; border-radius:var(--r); text-decoration:none; transition:color .12s var(--ease); }
+    .nav-link:hover { color:var(--ink); }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:var(--r); border:0; padding:12px 18px; font-family:var(--sans); font-weight:600; font-size:14px; letter-spacing:.005em; text-decoration:none; cursor:pointer; transition:background .14s var(--ease), color .14s var(--ease), border-color .14s var(--ease), box-shadow .14s var(--ease), transform .1s var(--ease); }
+    .btn-primary { background:var(--accent); color:#fff; }
+    .btn-primary:hover { background:var(--accent-deep); box-shadow:0 10px 24px rgba(47,107,65,.26); }
+    .btn-primary:active { transform:translateY(1px); }
+    .btn-secondary { background:transparent; color:var(--ink); border:1.5px solid var(--ink); }
+    .btn-secondary:hover { background:var(--ink); color:var(--paper); }
+    .btn:focus-visible { outline:3px solid rgba(47,107,65,.34); outline-offset:2px; }
+
+    main { padding:54px 0 80px; }
+    .doc-head { margin-bottom:8px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:11px; font-family:var(--bank); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
+    .eyebrow::before { content:""; width:26px; height:2px; background:var(--accent); display:inline-block; flex:0 0 auto; }
+    h1 { font-family:var(--serif); font-weight:500; color:var(--ink); font-size:clamp(30px,5vw,46px); line-height:1.04; letter-spacing:-.025em; margin:0 0 16px; }
+    .provenance { color:var(--muted); font-size:15.5px; line-height:1.55; max-width:64ch; }
+
+    .doc { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:clamp(26px,4.5vw,52px); margin-top:26px; }
+    .doc > :first-child { margin-top:0; }
+    .doc h2 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.7rem; line-height:1.1; letter-spacing:-.02em; margin:40px 0 12px; padding-top:28px; border-top:1px solid var(--line); }
+    .doc h2:first-child { margin-top:0; padding-top:0; border-top:0; }
+    .doc h3 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.22rem; margin:28px 0 8px; letter-spacing:-.01em; }
+    .doc p { margin:0 0 15px; color:var(--body); }
+    .doc strong { color:var(--ink); font-weight:600; }
+    .doc ul { margin:0 0 18px; padding-left:22px; }
+    .doc li { margin:6px 0; }
+    .doc li::marker { color:var(--accent); }
+    .doc hr { border:0; border-top:1px solid var(--line); margin:30px 0; }
+    .doc blockquote { margin:20px 0; padding:16px 20px; background:var(--accent-soft); border-left:4px solid var(--accent); border-radius:0 var(--r) var(--r) 0; }
+    .doc blockquote p { margin:0; color:var(--text); }
+    .doc table { width:100%; border-collapse:collapse; margin:16px 0 22px; font-size:14.5px; }
+    .doc th, .doc td { border:1px solid var(--line); padding:10px 13px; text-align:left; vertical-align:top; }
+    .doc th { background:var(--paper-2); font-weight:600; color:var(--ink); }
+    .doc td:empty::after, .doc td:has(> :empty)::after { content:""; display:block; min-height:1.2em; }
+    .blank { display:inline-block; min-width:220px; border-bottom:1px solid var(--line-strong); height:1em; vertical-align:baseline; }
+
+    .doc-next { margin-top:28px; background:var(--surface); border:1px solid var(--line); border-top:4px solid var(--accent); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:28px 32px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px; }
+    .doc-next p { margin:0; color:var(--muted); max-width:54ch; }
+    .doc-next .actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .back-row { margin-top:22px; font-family:var(--bank); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; }
+    .back-row a { color:var(--muted); text-decoration:none; }
+    .back-row a:hover { color:var(--ink); }
+
+    @media (max-width:640px){ .doc table { display:block; overflow-x:auto; } .site-header { backdrop-filter:none; background:var(--paper); } }
+  </style>
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav">
       <a href="/" class="brand" aria-label="DIR UVP Sprint home">
-        <span class="brand-mark" aria-hidden="true">DIR</span>
-        <span>DIR UVP Sprint</span>
+        <svg class="brand-mark" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <rect x="2.2" y="2.2" width="25.6" height="25.6" rx="2" stroke="#2b302d" stroke-width="1.6"/>
+          <rect x="11" y="11" width="8" height="8" rx="1" fill="#2f6b41"/>
+        </svg>
+        <span class="brand-name">DIR UVP Sprint<small>Day In Room</small></span>
       </a>
       <div class="nav-actions">
         <a class="nav-link" href="/#evidence">All documents</a>
@@ -95,13 +106,13 @@
 
   <main>
     <div class="wrap">
-      <div class="doc-head">
+      <div class="doc-head reveal">
         <span class="eyebrow">Working document &middot; 4 of 5</span>
         <h1>Leadership Discussion Guide / Decision Checklist</h1>
         <p class="provenance">From a completed engagement: the one-page instrument the leadership team worked through before the Day In The Room session. Client identity and industry detail removed or generalized; the questions, structure, and required conclusions are unaltered.</p>
       </div>
 
-      <article class="doc">
+      <article class="doc reveal">
 <p><strong>Meeting goal.</strong> Keep the room focused on one thing: turn the business from a broad collection of good things into a clear, usable business story with proof, boundaries, and next steps.</p>
 <h2>1. Frame the problem</h2>
 <p><strong>Say this plainly:</strong> the business does not lack substance. It lacks compression. Today's job is to decide what leads, what supports, what needs proof, and what should stop getting top billing.</p>
@@ -283,7 +294,7 @@
 <p>Answer: <span class="blank"></span></p>
       </article>
 
-      <aside class="doc-next">
+      <aside class="doc-next reveal">
         <p>The Fit Check is the next step when you are ready to qualify. It runs without a sales call, and it can come back &ldquo;not a fit.&rdquo;</p>
         <div class="actions">
           <a class="btn btn-secondary" href="/evidence-structure-template">Next: The Structure of a Finished UVP &rarr;</a>
@@ -298,5 +309,35 @@
     <div class="wrap" style="font-size:13.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between;"><span>&copy; 2026 Mediathink</span><span><a href="/privacy" style="color:var(--muted); text-decoration:underline;">Privacy</a></span></div>
   </footer>
 
-</body>
+<script>
+    (function () {
+      var els = [].slice.call(document.querySelectorAll('.reveal'));
+      if (!els.length) return;
+      var revealAll = function () { els.forEach(function (el) { el.classList.add('in'); }); };
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { revealAll(); return; }
+        els.forEach(function (el) {
+          var sibs = [].slice.call(el.parentElement.children).filter(function (c) { return c.classList.contains('reveal'); });
+          el.style.transitionDelay = (Math.min(sibs.indexOf(el), 6) * 60) + 'ms';
+        });
+        var pending = els.slice();
+        var check = function () {
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          pending = pending.filter(function (el) {
+            var r = el.getBoundingClientRect();
+            if (r.top < vh * 0.92 && r.bottom > 0) { el.classList.add('in'); return false; }
+            return true;
+          });
+          if (!pending.length) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
+        };
+        var ticking = false;
+        var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; check(); }); } };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        check(); window.addEventListener('load', check); setTimeout(check, 350);
+      } catch (e) { revealAll(); }
+    })();
+  </script>
+  </body>
 </html>
+

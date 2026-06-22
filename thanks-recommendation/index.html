@@ -10,7 +10,7 @@
     content="Your DIR UVP Sprint recommendation request has been received. We’ll review your fit check and respond within 1 business day."
   />
   <meta name="robots" content="noindex,nofollow" />
-  <meta name="theme-color" content="#f2f2ec" />
+  <meta name="theme-color" content="#f4f1ea" />
   <link rel="canonical" href="https://uvpsprint.com/thanks-recommendation" />
 
   <meta property="og:title" content="Thanks — We Got Your Request | DIR UVP Sprint" />
@@ -33,267 +33,75 @@
   </script>
   <!-- End Google Tag Manager -->
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Michroma&family=Newsreader:ital,opsz,wght@0,18..72,400;0,18..72,500;0,18..72,600;1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+  <script>document.documentElement.className += ' js';</script>
+
   <style>
     :root {
-      --bg: #f2f2ec;
-      --bg-2: #ecebe4;
-      --panel: #ffffff;
-      --text: #171717;
-      --muted: #5d5d56;
-      --line: #d8d6cc;
-      --accent: #627753;
-      --accent-deep: #4b5d40;
-      --accent-soft: #e7eee0;
-      --success: #0f766e;
-      --shadow: 0 14px 34px rgba(0,0,0,.05);
-      --radius: 20px;
-      --max: 920px;
+      --paper:#f4f1ea; --paper-2:#ece7dc; --surface:#fbf9f4;
+      --ink:#2b302d; --text:#2c322e; --body:#4c534c; --muted:#6c736b; --faint:#949a90;
+      --line:#ddd6c7; --line-strong:#cbc3b1;
+      --accent:#2f6b41; --accent-deep:#214d2f; --accent-bright:#5a9c6b; --accent-soft:#e5efe7;
+      --success:#3f7a4e; --success-soft:#e6efe7;
+      --serif:"Newsreader",Georgia,"Times New Roman",serif;
+      --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+      --bank:"Bank Gothic","BankGothic Md BT","Bank Gothic Medium BT","Michroma","IBM Plex Sans",sans-serif;
+      --shadow:0 10px 30px rgba(27,30,27,.08); --shadow-lg:0 24px 56px rgba(27,30,27,.14);
+      --r:5px; --r-lg:8px; --max:900px; --ease:cubic-bezier(0.2,0,0.1,1);
     }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; min-height:100vh; background:var(--paper); color:var(--body); font-family:var(--sans); font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+    a { color:var(--accent-deep); text-decoration:none; } a:hover { color:var(--accent); }
+    .wrap { max-width:var(--max); margin:0 auto; padding:0 24px; }
 
-    * { box-sizing: border-box; }
+    .js .reveal:not(.in) { opacity:0; transform:translateY(18px); }
+    .js .reveal.in { transition:opacity .65s var(--ease), transform .65s var(--ease); }
+    @media (prefers-reduced-motion: reduce){ .js .reveal:not(.in){opacity:1;transform:none;} .js .reveal.in{transition:none;} }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    .site-header { position:sticky; top:0; z-index:30; background:rgba(244,241,234,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 0; }
+    .brand { display:inline-flex; align-items:center; gap:13px; color:var(--ink); text-decoration:none; }
+    .brand-mark { flex:0 0 auto; }
+    .brand-name { font-family:var(--bank); font-weight:400; font-size:15px; letter-spacing:.03em; text-transform:uppercase; line-height:1.15; color:var(--ink); }
+    .brand-name small { display:block; font-family:var(--bank); font-weight:400; font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-top:6px; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:var(--r); border:0; padding:13px 20px; font-family:var(--sans); font-weight:600; font-size:14.5px; letter-spacing:.005em; text-decoration:none; cursor:pointer; transition:background .14s var(--ease), color .14s var(--ease), border-color .14s var(--ease), box-shadow .14s var(--ease), transform .1s var(--ease); }
+    .btn-primary { background:var(--accent); color:#fff; }
+    .btn-primary:hover { background:var(--accent-deep); box-shadow:0 10px 24px rgba(47,107,65,.26); }
+    .btn-primary:active { transform:translateY(1px); }
+    .btn-secondary { background:transparent; color:var(--ink); border:1.5px solid var(--ink); }
+    .btn-secondary:hover { background:var(--ink); color:var(--paper); }
+    .btn:focus-visible { outline:3px solid rgba(47,107,65,.34); outline-offset:2px; }
 
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg), var(--bg-2));
-      line-height: 1.45;
-      text-rendering: optimizeLegibility;
-      min-height: 100vh;
-    }
+    .page { padding:64px 0 80px; }
+    .card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow-lg); padding:clamp(28px,4.5vw,52px); }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    .eyebrow { display:inline-flex; align-items:center; gap:11px; font-family:var(--bank); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
+    .eyebrow::before { content:""; width:26px; height:2px; background:var(--accent); display:inline-block; flex:0 0 auto; }
 
-    .wrap {
-      width: min(calc(100% - 32px), var(--max));
-      margin: 0 auto;
-    }
+    .status-row { display:inline-flex; align-items:center; gap:10px; padding:8px 14px; border-radius:999px; background:var(--success-soft); color:var(--success); font-family:var(--bank); font-size:11px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:22px; border:1px solid rgba(63,122,78,.2); }
+    .dot { width:9px; height:9px; border-radius:999px; background:var(--success); flex:0 0 auto; }
 
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(10px);
-      background: rgba(242,242,236,.9);
-      border-bottom: 1px solid rgba(23,23,23,.06);
-    }
+    h1 { font-family:var(--serif); font-weight:500; color:var(--ink); font-size:clamp(2.1rem,5vw,3.4rem); line-height:1.04; letter-spacing:-.025em; margin:0 0 16px; }
+    h2 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.32rem; line-height:1.15; letter-spacing:-.015em; margin:0 0 12px; }
+    .lead { font-size:1.18rem; color:var(--body); max-width:58ch; margin:0 0 30px; line-height:1.5; }
 
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      min-height: 72px;
-    }
+    .grid { display:grid; grid-template-columns:1.2fr .8fr; gap:18px; margin-top:8px; }
+    .panel { background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); padding:24px; }
+    .panel p { margin:0; color:var(--muted); }
+    .panel a { color:var(--accent-deep); text-decoration:underline; text-underline-offset:2px; }
+    .list-clean { margin:14px 0 0; padding:0; list-style:none; display:grid; gap:12px; }
+    .list-clean li { position:relative; padding-left:30px; color:var(--body); line-height:1.5; }
+    .list-clean li::before { content:""; position:absolute; left:2px; top:7px; width:14px; height:7px; border-left:2.5px solid var(--accent); border-bottom:2.5px solid var(--accent); transform:rotate(-45deg); }
 
-    .brand {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      font-weight: 700;
-      letter-spacing: -.02em;
-    }
+    .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:28px; }
+    .small { color:var(--muted); font-size:14.5px; margin-top:22px; max-width:62ch; }
+    .footer-note { margin-top:16px; color:var(--faint); font-size:12.5px; }
 
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--text);
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .page {
-      padding: 56px 0 72px;
-    }
-
-    .card {
-      background: linear-gradient(180deg, #ffffff, #f8f7f1);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 34px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--accent-deep);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    h1, h2 {
-      margin: 0 0 12px;
-      letter-spacing: -.04em;
-    }
-
-    h1 {
-      font-size: clamp(2.2rem, 5.8vw, 4rem);
-      line-height: .95;
-      font-weight: 900;
-    }
-
-    h2 {
-      font-size: clamp(1.15rem, 2.8vw, 1.5rem);
-      line-height: 1.05;
-      font-weight: 800;
-    }
-
-    .lead {
-      font-size: 1.05rem;
-      color: var(--muted);
-      max-width: 58ch;
-      margin: 0 0 24px;
-    }
-
-    .status-row {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: #eef7f6;
-      color: var(--success);
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(15,118,110,.12);
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: var(--success);
-      flex: 0 0 auto;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 18px;
-      margin-top: 10px;
-    }
-
-    .panel {
-      background: rgba(255,255,255,.62);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 22px;
-    }
-
-    .panel p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .list-clean {
-      margin: 12px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-
-    .list-clean li {
-      position: relative;
-      padding-left: 18px;
-      color: var(--muted);
-    }
-
-    .list-clean li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      top: -1px;
-      color: var(--accent-deep);
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 26px;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 999px;
-      padding: 14px 18px;
-      cursor: pointer;
-      transition: transform .16s ease, background .16s ease, border-color .16s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-weight: 700;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-deep);
-    }
-
-    .btn-secondary {
-      background: rgba(255,255,255,.78);
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 20px;
-      max-width: 62ch;
-    }
-
-    .footer-note {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .footer-note a {
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      font-weight: 700;
-    }
-
-    @media (max-width: 820px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card {
-        padding: 24px;
-      }
-
-      .page {
-        padding-top: 40px;
-      }
-    }
+    @media (max-width:820px){ .grid { grid-template-columns:1fr; } .page { padding-top:44px; } }
+    @media (max-width:640px){ .site-header { backdrop-filter:none; background:var(--paper); } }
   </style>
 
   <script type="application/ld+json">
@@ -316,15 +124,18 @@
   <header class="site-header">
     <div class="wrap nav">
       <a href="/" class="brand" aria-label="DIR UVP Sprint home">
-        <span class="brand-mark" aria-hidden="true">DIR</span>
-        <span>DIR UVP Sprint</span>
+        <svg class="brand-mark" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <rect x="2.2" y="2.2" width="25.6" height="25.6" rx="2" stroke="#2b302d" stroke-width="1.6"/>
+          <rect x="11" y="11" width="8" height="8" rx="1" fill="#2f6b41"/>
+        </svg>
+        <span class="brand-name">DIR UVP Sprint<small>Day In Room</small></span>
       </a>
     </div>
   </header>
 
   <main class="page">
     <div class="wrap">
-      <section class="card">
+      <section class="card reveal">
         <div class="eyebrow">Recommendation request received</div>
         <div class="status-row">
           <span class="dot" aria-hidden="true"></span>
@@ -333,7 +144,7 @@
 
         <h1>Your recommendation request has been received.</h1>
         <p class="lead">
-          We’ll review your fit check and company information, then send a next-step recommendation within 1 business day.
+          We&rsquo;ll review your fit check and company information, then send a next-step recommendation within 1 business day.
         </p>
 
         <div class="grid">
@@ -380,6 +191,32 @@
     window.dataLayer.push({
       event: 'recommendation_thank_you_view'
     });
+  </script>
+
+  <script>
+    (function () {
+      var els = [].slice.call(document.querySelectorAll('.reveal'));
+      if (!els.length) return;
+      var revealAll = function () { els.forEach(function (el) { el.classList.add('in'); }); };
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { revealAll(); return; }
+        var pending = els.slice();
+        var check = function () {
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          pending = pending.filter(function (el) {
+            var r = el.getBoundingClientRect();
+            if (r.top < vh * 0.92 && r.bottom > 0) { el.classList.add('in'); return false; }
+            return true;
+          });
+          if (!pending.length) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
+        };
+        var ticking = false;
+        var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; check(); }); } };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        check(); window.addEventListener('load', check); setTimeout(check, 350);
+      } catch (e) { revealAll(); }
+    })();
   </script>
 </body>
 </html>

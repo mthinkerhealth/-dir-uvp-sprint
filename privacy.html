@@ -7,7 +7,7 @@
   <title>Privacy Policy | DIR UVP Sprint</title>
   <meta name="description" content="How DIR UVP Sprint (Mediathink) handles information on uvpsprint.com, including the UVP Clarity Check." />
   <meta name="robots" content="index,follow" />
-  <meta name="theme-color" content="#f2f2ec" />
+  <meta name="theme-color" content="#f4f1ea" />
   <link rel="canonical" href="https://uvpsprint.com/privacy" />
 
   <meta property="og:title" content="Privacy Policy | DIR UVP Sprint" />
@@ -24,809 +24,73 @@
     })(window,document,'script','dataLayer','GTM-MLJZVTKV');
   </script>
   <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Michroma&family=Newsreader:ital,opsz,wght@0,18..72,400;0,18..72,500;0,18..72,600;1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+  <script>document.documentElement.className += ' js';</script>
   <style>
     :root {
-      --bg: #f2f2ec;
-      --bg-2: #ecebe4;
-      --panel: #ffffff;
-      --panel-muted: #f7f6f0;
-      --text: #171717;
-      --muted: #5d5d56;
-      --line: #d8d6cc;
-      --line-strong: #c8c4b7;
-      --accent: #627753;
-      --accent-deep: #4b5d40;
-      --accent-soft: #e7eee0;
-      --success: #0f766e;
-      --warning: #8a4b08;
-      --error: #b42318;
-      --shadow: 0 14px 34px rgba(0,0,0,.05);
-      --shadow-soft: 0 10px 24px rgba(0,0,0,.035);
-      --radius: 20px;
-      --max: 1140px;
-      --fit-max: 760px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg), var(--bg-2));
-      line-height: 1.42;
-      text-rendering: optimizeLegibility;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    button, input, textarea { font: inherit; }
-
-    .wrap {
-      width: min(calc(100% - 32px), var(--max));
-      margin: 0 auto;
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(10px);
-      background: rgba(242,242,236,.9);
-      border-bottom: 1px solid rgba(23,23,23,.06);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      min-height: 72px;
-    }
-
-    .brand {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      font-weight: 700;
-      letter-spacing: -.02em;
-    }
-
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--text);
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .nav-link {
-      color: var(--muted);
-      font-size: 14px;
-      display: none;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 999px;
-      padding: 14px 18px;
-      cursor: pointer;
-      transition: transform .16s ease, opacity .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-weight: 700;
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn:focus-visible,
-    .choice:focus-visible,
-    .faq-question:focus-visible,
-    .field:focus-visible,
-    .textarea:focus-visible,
-    .next-step-choice:focus-visible,
-    .option-reset:focus-visible {
-      outline: 3px solid rgba(98,119,83,.18);
-      outline-offset: 2px;
-    }
-
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-deep); }
-
-    .btn-secondary {
-      background: rgba(255,255,255,.78);
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .btn-ghost {
-      background: #efeee8;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .btn[disabled],
-    .btn[aria-disabled="true"] {
-      opacity: .45;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    section { padding: 54px 0; }
-    .hero { padding: 58px 0 38px; }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.18fr .82fr;
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .card,
-    .faq-item,
-    .fit-shell {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-copy {
-      padding: 38px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-panel {
-      padding: 22px;
-      display: grid;
-      gap: 14px;
-      align-content: start;
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--accent-deep);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    h1, h2, h3 {
-      margin: 0 0 10px;
-      letter-spacing: -.045em;
-    }
-
-    h1 {
-      font-size: clamp(2.5rem, 6.2vw, 4.95rem);
-      line-height: .92;
-      font-weight: 900;
-    }
-
-    h2 {
-      font-size: clamp(1.7rem, 3.4vw, 2.45rem);
-      line-height: .98;
-      font-weight: 800;
-    }
-
-    h3 {
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .lead {
-      font-size: 1.07rem;
-      font-weight: 500;
-      color: var(--muted);
-      max-width: 54ch;
-      margin: 0 0 20px;
-    }
-
-    .cta-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .micro {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 0;
-      max-width: 60ch;
-    }
-
-    .hero-stat {
-      padding: 16px 16px 14px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: linear-gradient(180deg, #fbfbf8, #f4f3ec);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
-    }
-
-    .hero-stat strong {
-      display: block;
-      font-size: 1.45rem;
-      margin-bottom: 6px;
-    }
-
-    .kicker {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 0;
-    }
-
-    .section-head {
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 20px;
-      align-items: end;
-      margin-bottom: 18px;
-    }
-
-    .section-copy {
-      max-width: 70ch;
-      color: var(--muted);
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .card {
-      padding: 20px;
-      background: linear-gradient(180deg, #ffffff, #f8f7f1);
-      box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.7);
-    }
-
-    .card-muted {
-      background: linear-gradient(180deg, #fbfbf7, #f3f2eb);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .card-strong {
-      border-top: 4px solid var(--accent);
-      padding-top: 18px;
-    }
-
-    .card p { color: var(--muted); }
-
-    .list-clean {
-      display: grid;
-      gap: 10px;
-      padding: 0;
-      margin: 14px 0 0;
-      list-style: none;
-    }
-
-    .list-clean li {
-      padding-left: 18px;
-      position: relative;
-    }
-
-    .list-clean li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      top: -1px;
-      color: var(--accent-deep);
-    }
-
-    .process-step {
-      position: relative;
-      padding-top: 18px;
-    }
-
-    .step-num {
-      position: absolute;
-      top: -18px;
-      left: 22px;
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      background: var(--accent);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      border: 4px solid var(--bg);
-      box-shadow: 0 6px 16px rgba(0,0,0,.12);
-    }
-
-    .price-card {
-      padding: 26px;
-      min-height: 100%;
-    }
-
-    .price-card-main {
-      border-top: 5px solid var(--accent);
-      box-shadow: 0 18px 42px rgba(0,0,0,.06);
-    }
-
-    .price-card-secondary {
-      background: linear-gradient(180deg, #fbfbf7, #f4f3ec);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .price {
-      font-size: clamp(2.4rem, 5.2vw, 3.6rem);
-      line-height: .95;
-      margin-bottom: 10px;
-      font-weight: 900;
-      letter-spacing: -.05em;
-    }
-
-    .faq-stack { display: grid; gap: 12px; }
-
-    .faq-item {
-      padding: 15px 18px;
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-    }
-
-    .faq-question {
-      display: flex;
-      width: 100%;
-      border: 0;
-      background: transparent;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      cursor: pointer;
-      font-weight: 700;
-      text-align: left;
-      color: var(--text);
-      padding: 0;
-    }
-
-    .faq-plus {
-      color: var(--accent-deep);
-      font-weight: 800;
-      font-size: 1.3rem;
-      line-height: 1;
-      width: 1.15rem;
-      text-align: center;
-      flex: 0 0 auto;
-    }
-
-    .faq-answer {
-      display: none;
-      padding-top: 10px;
-      color: var(--muted);
-      max-width: 78ch;
-    }
-
-    .faq-item.open .faq-answer { display: block; }
-
-    .fit-check { scroll-margin-top: 100px; }
-
-    .fit-shell {
-      overflow: hidden;
-      background: linear-gradient(180deg, #ffffff, #f7f6f0);
-    }
-
-    .fit-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #fff, #f7f6ef);
-    }
-
-    .fit-header p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      max-width: 66ch;
-    }
-
-    .progress {
-      min-width: 160px;
-      text-align: right;
-    }
-
-    .progress-bar {
-      width: 160px;
-      height: 8px;
-      border-radius: 999px;
-      background: #e9e7dd;
-      overflow: hidden;
-      margin-left: auto;
-      border: 1px solid rgba(0,0,0,.03);
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-deep));
-      transition: width .2s ease;
-    }
-
-    .progress-label {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 8px;
-    }
-
-    .fit-stage {
-      padding: 16px 18px 16px;
-      display: grid;
-      gap: 12px;
-      justify-items: center;
-      min-height: 360px;
-      align-content: start;
-      background:
-        radial-gradient(circle at top left, rgba(98,119,83,.05), transparent 32%),
-        linear-gradient(180deg, #fbfaf6, #f4f2eb);
-    }
-
-    .fit-module {
-      width: min(100%, var(--fit-max));
-      display: grid;
-      gap: 12px;
-    }
-
-    .fit-meta {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .fit-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent-deep);
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      border: 1px solid rgba(98,119,83,.16);
-    }
-
-    .fit-last {
-      color: var(--muted);
-      font-size: 14px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.7);
-      border: 1px solid var(--line);
-      max-width: min(100%, 340px);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .fit-question {
-      padding: 18px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fff, #f9f8f2);
-      border: 1px solid var(--line-strong);
-      box-shadow: 0 10px 26px rgba(0,0,0,.04), inset 0 1px 0 rgba(255,255,255,.8);
-    }
-
-    .fit-question h3 {
-      font-size: clamp(1.3rem, 2.9vw, 1.85rem);
-      margin-bottom: 6px;
-    }
-
-    .fit-question p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .choices {
-      display: grid;
-      gap: 10px;
-    }
-
-    .choice {
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff, #f7f6f0);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 14px 16px;
-      text-align: left;
-      cursor: pointer;
-      transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease, color .16s ease;
-      width: 100%;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
-      font-weight: 500;
-      opacity: 1;
-    }
-
-    .choice:hover,
-    .choice.selected {
-      transform: translateY(-1px);
-      border-color: rgba(75, 93, 64, 0.72);
-      background: linear-gradient(180deg, #e2ead8, #d4dfc7);
-      box-shadow:
-        0 10px 22px rgba(75, 93, 64, 0.14),
-        inset 0 1px 0 rgba(255,255,255,.72);
-      color: #111111;
-    }
-
-    .choice.selected {
-      border-width: 2px;
-      font-weight: 700;
-    }
-
-    .input-wrap {
-      display: grid;
-      gap: 10px;
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
-    }
-
-    .field,
-    .textarea {
-      width: 100%;
-      border: 1px solid var(--line-strong);
-      background: #fff;
-      border-radius: 12px;
-      padding: 14px 14px;
-      outline: none;
-    }
-
-    .field.invalid,
-    .textarea.invalid {
-      border-color: var(--error);
-      background: #fff8f7;
-    }
-
-    .textarea { min-height: 110px; resize: vertical; }
-    .field-note { font-size: 12px; color: var(--muted); margin: 0; }
-    .field-error { font-size: 12px; color: var(--error); margin: 0; }
-
-    .fit-actions {
-      width: min(100%, var(--fit-max));
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding-top: 0;
-      flex-wrap: wrap;
-    }
-
-    .fit-actions .left,
-    .fit-actions .right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .tiny { font-size: 12px; color: var(--muted); }
-
-    .fit-result {
-      display: none;
-      width: min(100%, var(--fit-max));
-      padding: 20px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .fit-result.visible { display: block; }
-
-    .result-badge {
-      display: inline-flex;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #eef7f6;
-      color: var(--success);
-      font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-
-    .result-badge.warning { background: #fff7ed; color: var(--warning); }
-    .result-badge.low { background: #fef2f2; color: var(--error); }
-
-    .next-step-panel {
-      margin-top: 16px;
-      display: none;
-      gap: 12px;
-    }
-
-    .next-step-panel.visible {
-      display: grid;
-    }
-
-    .next-step-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .next-step-choice {
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-      border-radius: 16px;
-      padding: 15px;
-      text-align: left;
-      cursor: pointer;
-      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
-    }
-
-    .next-step-choice:hover {
-      transform: translateY(-1px);
-      border-color: rgba(98,119,83,.28);
-      box-shadow: 0 8px 20px rgba(98,119,83,.06);
-    }
-
-    .next-step-choice.selected {
-      transform: translateY(-1px);
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(98,119,83,.12), 0 10px 24px rgba(98,119,83,.10);
-      background: linear-gradient(180deg, #fbfcf8, #edf2e7);
-    }
-
-    .next-step-choice strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 1rem;
-    }
-
-    .next-step-choice p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .followup-panel {
-      display: none;
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff, #f7f6f0);
-    }
-
-    .followup-panel.visible {
-      display: block;
-    }
-
-    .followup-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    .option-reset {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      font-weight: 700;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 12px;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    .success-note {
-      margin-top: 12px;
-      font-size: 14px;
-      color: var(--success);
-      font-weight: 600;
-      display: none;
-    }
-
-    .success-note.visible {
-      display: block;
-    }
-
-    .trust-note {
-      margin: 10px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-      max-width: 64ch;
-    }
-
-    .fallback-link {
-      font-weight: 700;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    @media (max-width: 980px) {
-      .hero-grid,
-      .section-head,
-      .grid-3,
-      .grid-2,
-      .next-step-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-copy { padding: 28px; }
-      .nav-link { display: none; }
-    }
-
-    @media (min-width: 981px) {
-      .nav-link { display: inline; }
-    }
-
-    @media (max-width: 640px) {
-      .wrap { width: min(calc(100% - 22px), var(--max)); }
-      section { padding: 46px 0; }
-      .hero { padding-top: 40px; }
-      .hero-copy, .hero-panel, .card, .price-card { padding: 20px; }
-      .fit-header, .fit-stage { padding-left: 16px; padding-right: 16px; }
-      .progress { min-width: 100px; }
-      .progress-bar { width: 100px; }
-      .fit-stage { min-height: 340px; }
-      .tiny { display: none; }
-      .fit-meta { align-items: flex-start; }
-      .fit-last { width: 100%; max-width: 100%; border-radius: 14px; }
-      .next-step-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-  <style>
-    .legal-wrap { width: min(calc(100% - 32px), 760px); margin: 0 auto; padding: 54px 0 72px; }
-    .legal-wrap .eyebrow { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .09em; margin: 0 0 14px; }
-    .legal-wrap h1 { margin: 0 0 10px; }
-    .legal-wrap .meta { color: var(--muted); font-size: 14.5px; margin: 0 0 28px; }
-    .legal-wrap h2 { margin: 38px 0 10px; font-size: 21px; }
-    .legal-wrap p, .legal-wrap li { color: var(--text); line-height: 1.62; font-size: 16px; }
-    .legal-wrap ul { padding-left: 20px; margin: 10px 0; }
-    .legal-wrap li { margin: 7px 0; }
-    .legal-wrap a { color: var(--accent-deep); text-decoration: underline; }
-    .legal-wrap .intro { font-size: 17px; }
+      --paper:#f4f1ea; --paper-2:#ece7dc; --surface:#fbf9f4;
+      --ink:#2b302d; --text:#2c322e; --body:#4c534c; --muted:#6c736b; --faint:#949a90;
+      --line:#ddd6c7; --line-strong:#cbc3b1;
+      --accent:#2f6b41; --accent-deep:#214d2f; --accent-bright:#5a9c6b; --accent-soft:#e5efe7;
+      --serif:"Newsreader",Georgia,"Times New Roman",serif;
+      --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+      --bank:"Bank Gothic","BankGothic Md BT","Bank Gothic Medium BT","Michroma","IBM Plex Sans",sans-serif;
+      --shadow:0 10px 30px rgba(27,30,27,.08);
+      --r:5px; --r-lg:8px; --max:820px; --ease:cubic-bezier(0.2,0,0.1,1);
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--body); font-family:var(--sans); font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+    a { color:var(--accent-deep); text-decoration:none; } a:hover { color:var(--accent); }
+    .wrap { max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+    .js .reveal:not(.in) { opacity:0; transform:translateY(18px); }
+    .js .reveal.in { transition:opacity .65s var(--ease), transform .65s var(--ease); }
+    @media (prefers-reduced-motion: reduce){ .js .reveal:not(.in){opacity:1;transform:none;} .js .reveal.in{transition:none;} }
+
+    .site-header { position:sticky; top:0; z-index:30; background:rgba(244,241,234,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 0; }
+    .brand { display:inline-flex; align-items:center; gap:13px; color:var(--ink); text-decoration:none; }
+    .brand-mark { flex:0 0 auto; }
+    .brand-name { font-family:var(--bank); font-weight:400; font-size:15px; letter-spacing:.03em; text-transform:uppercase; line-height:1.15; color:var(--ink); }
+    .brand-name small { display:block; font-family:var(--bank); font-weight:400; font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-top:6px; }
+    .nav-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .nav-link { color:var(--muted); font-family:var(--bank); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; padding:9px 11px; border-radius:var(--r); text-decoration:none; transition:color .12s var(--ease); }
+    .nav-link:hover { color:var(--ink); }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:var(--r); border:0; padding:12px 18px; font-family:var(--sans); font-weight:600; font-size:14px; letter-spacing:.005em; text-decoration:none; cursor:pointer; transition:background .14s var(--ease), color .14s var(--ease), border-color .14s var(--ease), box-shadow .14s var(--ease), transform .1s var(--ease); }
+    .btn-primary { background:var(--accent); color:#fff; }
+    .btn-primary:hover { background:var(--accent-deep); box-shadow:0 10px 24px rgba(47,107,65,.26); }
+    .btn-primary:active { transform:translateY(1px); }
+    .btn:focus-visible { outline:3px solid rgba(47,107,65,.34); outline-offset:2px; }
+
+    main { padding:54px 0 80px; }
+    .doc-head { margin-bottom:8px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:11px; font-family:var(--bank); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
+    .eyebrow::before { content:""; width:26px; height:2px; background:var(--accent); display:inline-block; flex:0 0 auto; }
+    h1 { font-family:var(--serif); font-weight:500; color:var(--ink); font-size:clamp(30px,5vw,46px); line-height:1.04; letter-spacing:-.025em; margin:0 0 14px; }
+    .provenance { color:var(--muted); font-size:15px; line-height:1.55; max-width:64ch; }
+
+    .doc { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:clamp(26px,4.5vw,52px); margin-top:26px; }
+    .doc > :first-child { margin-top:0; }
+    .doc .intro { font-size:1.08rem; color:var(--text); margin:0 0 20px; line-height:1.6; }
+    .doc h2 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.55rem; line-height:1.12; letter-spacing:-.02em; margin:40px 0 12px; padding-top:28px; border-top:1px solid var(--line); }
+    .doc h2:first-of-type { }
+    .doc p { margin:0 0 15px; color:var(--body); }
+    .doc strong { color:var(--ink); font-weight:600; }
+    .doc ul { margin:0 0 18px; padding-left:22px; }
+    .doc li { margin:7px 0; color:var(--body); }
+    .doc li::marker { color:var(--accent); }
+    .doc a { color:var(--accent-deep); text-decoration:underline; text-underline-offset:2px; }
+    .doc a:hover { color:var(--accent); }
+
+    .back-row { margin-top:22px; font-family:var(--bank); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; }
+    .back-row a { color:var(--muted); text-decoration:none; }
+    .back-row a:hover { color:var(--ink); }
+
+    @media (max-width:640px){ .site-header { backdrop-filter:none; background:var(--paper); } }
   </style>
 </head>
 <body>
@@ -838,78 +102,106 @@
   <header class="site-header">
     <div class="wrap nav">
       <a href="/" class="brand" aria-label="DIR UVP Sprint home">
-        <span class="brand-mark" aria-hidden="true">DIR</span>
-        <span>DIR UVP Sprint</span>
+        <svg class="brand-mark" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <rect x="2.2" y="2.2" width="25.6" height="25.6" rx="2" stroke="#2b302d" stroke-width="1.6"/>
+          <rect x="11" y="11" width="8" height="8" rx="1" fill="#2f6b41"/>
+        </svg>
+        <span class="brand-name">DIR UVP Sprint<small>Day In Room</small></span>
       </a>
       <div class="nav-actions">
         <a class="nav-link" href="/#evidence">Evidence</a>
-        <a class="nav-link" href="/#offer">Offer</a>
-        <a class="nav-link" href="/#process">Process</a>
-        <a class="nav-link" href="/#pricing">Pricing</a>
-        <a class="nav-link" href="/#faq">FAQ</a>
         <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
       </div>
     </div>
   </header>
 
   <main id="top">
-    <div class="legal-wrap">
-      <p class="eyebrow">Privacy</p>
-      <h1>Privacy Policy</h1>
-      <p class="meta">Effective date: June 20, 2026 &middot; Applies to uvpsprint.com</p>
+    <div class="wrap">
+      <div class="doc-head reveal">
+        <span class="eyebrow">Privacy</span>
+        <h1>Privacy Policy</h1>
+        <p class="provenance">Effective date: June 20, 2026 &middot; Applies to uvpsprint.com</p>
+      </div>
 
-      <p class="intro">DIR UVP Sprint is operated by Mediathink. This page explains what we collect when you use this site, what we do with it, and the choices you have. It is written to be read, not to hide behind legal language. If anything here is unclear, email <a href="mailto:tom@mediathink.com">tom@mediathink.com</a>.</p>
+      <article class="doc reveal">
+        <p class="intro">DIR UVP Sprint is operated by Mediathink. This page explains what we collect when you use this site, what we do with it, and the choices you have. It is written to be read, not to hide behind legal language. If anything here is unclear, email <a href="mailto:tom@mediathink.com">tom@mediathink.com</a>.</p>
 
-      <h2>What this site collects</h2>
-      <p><strong>When you use the UVP Clarity Check.</strong> The Clarity Check lets you submit your own materials for analysis. When you use it, you provide:</p>
-      <ul>
-        <li>one or more website addresses (URLs) you ask us to review;</li>
-        <li>up to two PDF files you choose to upload;</li>
-        <li>two short text answers describing what you sell and who your buyer is;</li>
-        <li>your company type and, in the fit step, broad revenue and marketing-spend ranges.</li>
-      </ul>
-      <p>We use these only to produce your clarity report. <strong>We do not keep them.</strong> The page text we read and the PDFs you upload are sent to our analysis provider in a single request, used to generate your report, and not stored on our servers afterward. There is no account, no saved history, and nothing for us to log. The &ldquo;clear this check&rdquo; button on the results screen clears the copy held in your own browser.</p>
-      <p><strong>Your analysis is processed by OpenAI.</strong> To produce the report, the submitted page text and PDFs are sent to OpenAI&rsquo;s API. We send this with storage turned off, and OpenAI states that data sent through its API is not used to train its models. OpenAI may retain data briefly &mdash; up to 30 days &mdash; for abuse monitoring, unless a zero-retention arrangement applies. We do not control that retention; we mention it so you can decide what to submit. Please don&rsquo;t upload anything regulated, personal, financial, medical, or highly confidential.</p>
-      <p><strong>If you contact us or book a call.</strong> If you give us your email or book a call, we collect that contact information so we can follow up with you. Bookings are handled through Google Calendar.</p>
-      <p><strong>Analytics.</strong> We use Google Analytics, loaded through Google Tag Manager, to understand how the site is used in aggregate &mdash; how many people view a page, start the check, complete it, and so on. We have configured analytics so that the URLs you enter, your uploaded files and their names, the report content, your answers, and your email are <strong>never</strong> sent to analytics. Analytics sees counts and categories, not your materials.</p>
+        <h2>What this site collects</h2>
+        <p><strong>When you use the UVP Clarity Check.</strong> The Clarity Check lets you submit your own materials for analysis. When you use it, you provide:</p>
+        <ul>
+          <li>one or more website addresses (URLs) you ask us to review;</li>
+          <li>up to two PDF files you choose to upload;</li>
+          <li>two short text answers describing what you sell and who your buyer is;</li>
+          <li>your company type and, in the fit step, broad revenue and marketing-spend ranges.</li>
+        </ul>
+        <p>We use these only to produce your clarity report. <strong>We do not keep them.</strong> The page text we read and the PDFs you upload are sent to our analysis provider in a single request, used to generate your report, and not stored on our servers afterward. There is no account, no saved history, and nothing for us to log. The &ldquo;clear this check&rdquo; button on the results screen clears the copy held in your own browser.</p>
+        <p><strong>Your analysis is processed by OpenAI.</strong> To produce the report, the submitted page text and PDFs are sent to OpenAI&rsquo;s API. We send this with storage turned off, and OpenAI states that data sent through its API is not used to train its models. OpenAI may retain data briefly &mdash; up to 30 days &mdash; for abuse monitoring, unless a zero-retention arrangement applies. We do not control that retention; we mention it so you can decide what to submit. Please don&rsquo;t upload anything regulated, personal, financial, medical, or highly confidential.</p>
+        <p><strong>If you contact us or book a call.</strong> If you give us your email or book a call, we collect that contact information so we can follow up with you. Bookings are handled through Google Calendar.</p>
+        <p><strong>Analytics.</strong> We use Google Analytics, loaded through Google Tag Manager, to understand how the site is used in aggregate &mdash; how many people view a page, start the check, complete it, and so on. We have configured analytics so that the URLs you enter, your uploaded files and their names, the report content, your answers, and your email are <strong>never</strong> sent to analytics. Analytics sees counts and categories, not your materials.</p>
 
-      <h2>What we do not do</h2>
-      <ul>
-        <li>We do not sell or share your personal information for advertising.</li>
-        <li>We do not run advertising or retargeting trackers on this site.</li>
-        <li>We do not build profiles of you across other websites.</li>
-        <li>We do not show a generic result in place of a real one; if the tool cannot analyze your materials, it tells you so.</li>
-      </ul>
+        <h2>What we do not do</h2>
+        <ul>
+          <li>We do not sell or share your personal information for advertising.</li>
+          <li>We do not run advertising or retargeting trackers on this site.</li>
+          <li>We do not build profiles of you across other websites.</li>
+          <li>We do not show a generic result in place of a real one; if the tool cannot analyze your materials, it tells you so.</li>
+        </ul>
 
-      <h2>Cookies</h2>
-      <p>This site uses cookies set by Google Analytics to measure usage. These are analytics cookies, not advertising cookies. You can block or delete cookies in your browser settings, and you can install Google&rsquo;s Analytics opt-out browser add-on if you prefer not to be counted. Blocking analytics cookies does not affect your ability to use the Clarity Check.</p>
+        <h2>Cookies</h2>
+        <p>This site uses cookies set by Google Analytics to measure usage. These are analytics cookies, not advertising cookies. You can block or delete cookies in your browser settings, and you can install Google&rsquo;s Analytics opt-out browser add-on if you prefer not to be counted. Blocking analytics cookies does not affect your ability to use the Clarity Check.</p>
 
-      <h2>Your choices</h2>
-      <p>You can:</p>
-      <ul>
-        <li>use the Clarity Check without giving us contact information &mdash; the full report is shown before any email is requested;</li>
-        <li>clear your check from your browser using the on-screen control;</li>
-        <li>ask us what contact information we hold about you, or ask us to delete it, by emailing <a href="mailto:tom@mediathink.com">tom@mediathink.com</a>;</li>
-        <li>control cookies through your browser as described above.</li>
-      </ul>
-      <p>Because we do not store the materials you submit to the Clarity Check, there is nothing on our side to retrieve or delete for those &mdash; they are gone once your report is generated.</p>
+        <h2>Your choices</h2>
+        <p>You can:</p>
+        <ul>
+          <li>use the Clarity Check without giving us contact information &mdash; the full report is shown before any email is requested;</li>
+          <li>clear your check from your browser using the on-screen control;</li>
+          <li>ask us what contact information we hold about you, or ask us to delete it, by emailing <a href="mailto:tom@mediathink.com">tom@mediathink.com</a>;</li>
+          <li>control cookies through your browser as described above.</li>
+        </ul>
+        <p>Because we do not store the materials you submit to the Clarity Check, there is nothing on our side to retrieve or delete for those &mdash; they are gone once your report is generated.</p>
 
-      <h2>Children</h2>
-      <p>This site is intended for business use and is not directed to children under 13. We do not knowingly collect information from children.</p>
+        <h2>Children</h2>
+        <p>This site is intended for business use and is not directed to children under 13. We do not knowingly collect information from children.</p>
 
-      <h2>Changes to this policy</h2>
-      <p>If we change how the site handles information, we will update this page and change the effective date above.</p>
+        <h2>Changes to this policy</h2>
+        <p>If we change how the site handles information, we will update this page and change the effective date above.</p>
 
-      <h2>Contact</h2>
-      <p>Questions about this policy or your information: <a href="mailto:tom@mediathink.com">tom@mediathink.com</a>.</p>
+        <h2>Contact</h2>
+        <p>Questions about this policy or your information: <a href="mailto:tom@mediathink.com">tom@mediathink.com</a>.</p>
+      </article>
+
+      <p class="back-row reveal"><a href="/">&larr; Back to home</a></p>
     </div>
   </main>
 
-  <footer style="border-top:1px solid var(--line); padding:26px 0; margin-top:10px;">
-    <div class="wrap" style="font-size:13.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between;">
-      <span>&copy; 2026 Mediathink</span>
-      <span><a href="/privacy" style="color:var(--muted); text-decoration:underline;">Privacy</a></span>
-    </div>
+  <footer style="border-top:1px solid var(--line); padding:26px 0; margin-top:40px;">
+    <div class="wrap" style="font-size:13.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between;"><span>&copy; 2026 Mediathink</span><span><a href="/privacy" style="color:var(--muted); text-decoration:underline;">Privacy</a></span></div>
   </footer>
+
+  <script>
+    (function () {
+      var els = [].slice.call(document.querySelectorAll('.reveal'));
+      if (!els.length) return;
+      var revealAll = function () { els.forEach(function (el) { el.classList.add('in'); }); };
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { revealAll(); return; }
+        var pending = els.slice();
+        var check = function () {
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          pending = pending.filter(function (el) {
+            var r = el.getBoundingClientRect();
+            if (r.top < vh * 0.92 && r.bottom > 0) { el.classList.add('in'); return false; }
+            return true;
+          });
+          if (!pending.length) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
+        };
+        var ticking = false;
+        var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; check(); }); } };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        check(); window.addEventListener('load', check); setTimeout(check, 350);
+      } catch (e) { revealAll(); }
+    })();
+  </script>
 </body>
 </html>

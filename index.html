@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.className += ' js';</script>
 
   <title>DIR UVP Sprint | A Tested Unique Value Proposition for B2B Leadership Teams</title>
   <meta
@@ -10,7 +11,7 @@
     content="DIR UVP Sprint is a structured leadership-room engagement that produces one tested unique value proposition your B2B team agrees on. One day in the room. A fixed price."
   />
   <meta name="robots" content="index,follow" />
-  <meta name="theme-color" content="#f2f2ec" />
+  <meta name="theme-color" content="#f4f1ea" />
   <link rel="canonical" href="https://uvpsprint.com/" />
 
   <meta property="og:title" content="DIR UVP Sprint | Positioning Decision Sprint for B2B Teams" />
@@ -33,27 +34,53 @@
   </script>
   <!-- End Google Tag Manager -->
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Michroma&family=Newsreader:ital,opsz,wght@0,18..72,400;0,18..72,500;0,18..72,600;1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+
   <style>
     :root {
-      --bg: #f2f2ec;
-      --bg-2: #ecebe4;
-      --panel: #ffffff;
-      --panel-muted: #f7f6f0;
-      --text: #171717;
-      --muted: #5d5d56;
-      --line: #d8d6cc;
-      --line-strong: #c8c4b7;
-      --accent: #627753;
-      --accent-deep: #4b5d40;
-      --accent-soft: #e7eee0;
-      --success: #0f766e;
-      --warning: #8a4b08;
-      --error: #b42318;
-      --shadow: 0 14px 34px rgba(0,0,0,.05);
-      --shadow-soft: 0 10px 24px rgba(0,0,0,.035);
-      --radius: 20px;
-      --max: 1140px;
-      --fit-max: 760px;
+      /* ---- Original identity: "decision document" ---- */
+      --paper: #f4f1ea;
+      --paper-2: #ece7dc;
+      --surface: #fbf9f4;
+      --ink: #2b302d;          /* tasteful dark gray (cool, green-leaning) */
+      --ink-2: #3a423d;
+      --text: #2c322e;
+      --body: #4c534c;
+      --muted: #6c736b;
+      --faint: #949a90;
+      --line: #ddd6c7;
+      --line-strong: #cbc3b1;
+      --accent: #2f6b41;       /* deep forest green */
+      --accent-deep: #214d2f;
+      --accent-bright: #5a9c6b; /* legible green on the dark band */
+      --accent-soft: #e5efe7;
+
+      --on-ink: #f4f1ea;
+      --on-ink-muted: #a9b0a6;
+      --ink-line: rgba(244,241,234,.14);
+      --ink-surface: #343a36;
+
+      --success: #3f7a4e;
+      --success-soft: #e6efe7;
+      --warning: #9a6a16;
+      --warning-soft: #f3e6cc;
+      --error: #a8432a;
+      --error-soft: #f5ddd4;
+
+      --serif: "Newsreader", Georgia, "Times New Roman", serif;
+      --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --bank: "Bank Gothic", "BankGothic Md BT", "Bank Gothic Medium BT", "Michroma", "IBM Plex Sans", sans-serif;
+
+      --shadow-sm: 0 1px 2px rgba(27,30,27,.05);
+      --shadow: 0 10px 30px rgba(27,30,27,.08);
+      --shadow-lg: 0 24px 56px rgba(27,30,27,.14);
+
+      --r: 5px;
+      --r-lg: 8px;
+      --max: 1180px;
+      --ease: cubic-bezier(0.2,0,0.1,1);
     }
 
     * { box-sizing: border-box; }
@@ -61,835 +88,333 @@
 
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg), var(--bg-2));
-      line-height: 1.42;
+      font-family: var(--sans);
+      color: var(--body);
+      background: var(--paper);
+      line-height: 1.62;
+      font-size: 16.5px;
+      -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
 
-    a { color: inherit; text-decoration: none; }
-    button, input, textarea { font: inherit; }
+    a { color: var(--accent-deep); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    button, input, textarea, select { font: inherit; }
 
-    .wrap {
-      width: min(calc(100% - 32px), var(--max));
-      margin: 0 auto;
-    }
+    .wrap { width: min(calc(100% - 44px), var(--max)); margin: 0 auto; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
+    /* ---------- Scroll reveal (transform/opacity only) ---------- */
+    .js .reveal:not(.in) { opacity: 0; transform: translateY(18px); }
+    .js .reveal.in { transition: opacity .65s var(--ease), transform .65s var(--ease); }
+    @media (prefers-reduced-motion: reduce) { .js .reveal:not(.in) { opacity: 1; transform: none; } .js .reveal.in { transition: none; } }
 
+    /* ---------- Header ---------- */
     .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(10px);
-      background: rgba(242,242,236,.9);
-      border-bottom: 1px solid rgba(23,23,23,.06);
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(244,241,234,.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
+    .brand { display: inline-flex; align-items: center; gap: 13px; color: var(--ink); }
+    .brand:hover { color: var(--ink); }
+    .brand-mark { flex: 0 0 auto; }
+    .brand-name { font-family: var(--bank); font-weight: 400; font-size: 15px; letter-spacing: .03em; text-transform: uppercase; line-height: 1.15; color: var(--ink); }
+    .brand-name small { display: block; font-family: var(--bank); font-weight: 400; font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin-top: 6px; }
+    .nav-actions { display: flex; align-items: center; gap: 4px; }
+    .nav-link { color: var(--muted); font-family: var(--bank); font-size: 10.5px; letter-spacing: .03em; text-transform: uppercase; font-weight: 400; padding: 9px 11px; border-radius: var(--r); display: none; transition: color .12s var(--ease); }
+    .nav-link:hover { color: var(--ink); }
 
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      min-height: 72px;
-    }
-
-    .brand {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      font-weight: 700;
-      letter-spacing: -.02em;
-    }
-
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--text);
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .nav-link {
-      color: var(--muted);
-      font-size: 14px;
-      display: none;
-    }
-
+    /* ---------- Buttons ---------- */
     .btn {
-      border: 0;
-      border-radius: 999px;
-      padding: 14px 18px;
-      cursor: pointer;
-      transition: transform .16s ease, opacity .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-weight: 700;
+      border: 0; border-radius: var(--r); padding: 13px 20px; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      font-family: var(--sans); font-weight: 600; font-size: 14.5px; line-height: 1.1;
+      letter-spacing: .005em; transition: background .14s var(--ease), color .14s var(--ease), border-color .14s var(--ease), box-shadow .14s var(--ease), transform .1s var(--ease);
     }
-
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn:focus-visible,
-    .choice:focus-visible,
-    .faq-question:focus-visible,
-    .field:focus-visible,
-    .textarea:focus-visible,
-    .next-step-choice:focus-visible,
-    .option-reset:focus-visible {
-      outline: 3px solid rgba(98,119,83,.18);
-      outline-offset: 2px;
-    }
-
     .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-deep); }
-
-    .btn-secondary {
-      background: rgba(255,255,255,.78);
-      color: var(--text);
-      border: 1px solid var(--line);
+    .btn-primary:hover { background: var(--accent-deep); color: #fff; box-shadow: 0 10px 24px rgba(47,107,65,.28); }
+    .btn-primary:active { transform: translateY(1px); }
+    .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+    .btn-secondary:hover { background: var(--ink); color: var(--on-ink); }
+    .btn-secondary:active { transform: translateY(1px); }
+    .btn-ghost { background: var(--paper-2); color: var(--ink); border: 1px solid var(--line-strong); }
+    .btn-ghost:hover { background: var(--surface); border-color: var(--ink); color: var(--ink); }
+    .btn-lg { padding: 16px 26px; font-size: 15px; }
+    .btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn:focus-visible, .choice:focus-visible, .faq-question:focus-visible,
+    .field:focus-visible, .textarea:focus-visible, select.field:focus-visible {
+      outline: 3px solid rgba(47,107,65,.34); outline-offset: 2px;
     }
 
-    .btn-ghost {
-      background: #efeee8;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .btn[disabled],
-    .btn[aria-disabled="true"] {
-      opacity: .45;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    section { padding: 54px 0; }
-    .hero { padding: 58px 0 38px; }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.18fr .82fr;
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .card,
-    .faq-item,
-    .fit-shell {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-copy {
-      padding: 38px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-panel {
-      padding: 22px;
-      display: grid;
-      gap: 14px;
-      align-content: start;
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--accent-deep);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    h1, h2, h3 {
-      margin: 0 0 10px;
-      letter-spacing: -.045em;
-    }
-
-    h1 {
-      font-size: clamp(2.5rem, 6.2vw, 4.95rem);
-      line-height: .92;
-      font-weight: 900;
-    }
-
-    h2 {
-      font-size: clamp(1.7rem, 3.4vw, 2.45rem);
-      line-height: .98;
-      font-weight: 800;
-    }
-
-    h3 {
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .lead {
-      font-size: 1.07rem;
-      font-weight: 500;
-      color: var(--muted);
-      max-width: 54ch;
-      margin: 0 0 20px;
-    }
-
-    .cta-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .micro {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 0;
-      max-width: 60ch;
-    }
-
-    .hero-stat {
-      padding: 16px 16px 14px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: linear-gradient(180deg, #fbfbf8, #f4f3ec);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
-    }
-
-    .hero-stat strong {
-      display: block;
-      font-size: 1.45rem;
-      margin-bottom: 6px;
-    }
+    /* ---------- Typography ---------- */
+    h1, h2, h3, h4 { font-family: var(--serif); color: var(--ink); margin: 0; font-weight: 600; }
+    h1 { font-size: clamp(2.7rem, 6.4vw, 5rem); line-height: 1.0; letter-spacing: -.025em; font-weight: 500; }
+    h2 { font-size: clamp(1.95rem, 3.8vw, 3rem); line-height: 1.04; letter-spacing: -.022em; }
+    h3 { font-size: 1.3rem; line-height: 1.18; letter-spacing: -.015em; }
+    em, i { font-style: italic; }
 
     .kicker {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 0;
+      display: inline-flex; align-items: center; gap: 11px;
+      font-family: var(--bank); font-weight: 400; font-size: 11px;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 20px;
     }
+    .kicker::before { content: ""; width: 26px; height: 2px; background: var(--accent); display: inline-block; flex: 0 0 auto; }
+    .kicker .sec { color: var(--accent-deep); }
+    .kicker.on-ink { color: var(--on-ink-muted); }
+    .kicker.on-ink::before { background: var(--accent-bright); }
+    .kicker.on-ink .sec { color: var(--accent-bright); }
 
-    .section-head {
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 16px 28px;
-      align-items: start;
-      margin-bottom: 22px;
+    section { padding: 84px 0; }
+
+    .section-head { max-width: 740px; margin-bottom: 44px; }
+    .section-head.wide { max-width: 920px; }
+    .section-head p { color: var(--muted); font-size: 1.13rem; margin: 18px 0 0; line-height: 1.55; }
+    .lede-2 { color: var(--muted); font-size: 1.04rem; margin: 16px 0 0; max-width: 860px; }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 70px 0 64px; }
+    .hero-grid { display: grid; grid-template-columns: 1.32fr .68fr; gap: 40px; align-items: stretch; }
+    .hero-copy { display: flex; flex-direction: column; justify-content: center; }
+    .hero-copy h1 { margin-bottom: 26px; }
+    .hero-copy h1 em { color: var(--accent); font-style: italic; }
+    .lead { font-size: 1.24rem; color: var(--body); max-width: 50ch; margin: 0 0 30px; line-height: 1.5; }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 26px; }
+    .micro { color: var(--muted); font-size: 14.5px; margin: 0; max-width: 60ch; line-height: 1.55; }
+    .micro strong { color: var(--ink); font-weight: 600; }
+
+    .spec {
+      background: var(--ink); color: var(--on-ink); border-radius: var(--r-lg);
+      padding: 4px 30px; display: flex; flex-direction: column; justify-content: center;
+      box-shadow: var(--shadow-lg);
     }
-    /* Top-align heading and intro copy. Bottom-aligning (align-items:end) dropped a
-       short heading to the bottom of the row, leaving dead space above it. */
-    .section-head > h2 { margin-bottom: 0; }
-    .section-head > .section-copy { margin-top: 0; }
+    .spec-row { padding: 26px 0; border-bottom: 1px solid var(--ink-line); }
+    .spec-row:last-child { border-bottom: 0; }
+    .spec-label { font-family: var(--bank); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-bright); margin-bottom: 11px; }
+    .spec-value { font-family: var(--serif); font-weight: 500; font-size: 2.2rem; letter-spacing: -.03em; line-height: 1; color: var(--on-ink); margin-bottom: 10px; }
+    .spec-value.sm { font-size: 1.7rem; }
+    .spec p { margin: 0; font-size: 13.5px; color: var(--on-ink-muted); line-height: 1.5; }
 
-    .section-copy {
-      max-width: 70ch;
-      color: var(--muted);
-      line-height: 1.5;
+    /* ---------- Cells / cards ---------- */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+    .cell { background: var(--surface); padding: 30px 28px; }
+    .cell .idx { font-family: var(--bank); font-size: 11px; letter-spacing: .06em; color: var(--accent); display: block; margin-bottom: 16px; }
+    .cell h3 { margin-bottom: 10px; }
+    .cell p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; }
+
+    /* free-standing card grid (deliverables / differentiators) */
+    .grid-3-loose { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 28px; }
+    .card .idx { font-family: var(--bank); font-size: 11px; letter-spacing: .06em; color: var(--accent); display: block; margin-bottom: 16px; }
+    .card h3 { margin-bottom: 10px; }
+    .card p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; }
+    .card-quiet { background: transparent; border-style: dashed; }
+
+    /* ---------- Negation triad (why it gets used) ---------- */
+    .grid-neg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 40px; }
+    .neg { padding: 28px 0 6px; border-top: 2px solid var(--ink); }
+    .neg-mark { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; border: 1.5px solid var(--accent); color: var(--accent); font-size: 14px; line-height: 1; margin-bottom: 18px; }
+    .neg h3 { font-size: 1.32rem; margin-bottom: 10px; }
+    .neg p { color: var(--muted); margin: 0; font-size: 15.5px; line-height: 1.58; }
+    @media (max-width: 760px) { .grid-neg { grid-template-columns: 1fr; gap: 0; } .neg { padding-bottom: 26px; } }
+
+    /* ---------- Dark band (evidence / authority) ---------- */
+    .band-dark { background: var(--ink); color: var(--on-ink); }
+    .band-dark h1, .band-dark h2, .band-dark h3, .band-dark h4 { color: var(--on-ink); }
+    .band-dark .section-head p { color: var(--on-ink-muted); }
+    .pull {
+      font-family: var(--serif); font-weight: 400; font-style: italic;
+      font-size: clamp(1.6rem, 3.4vw, 2.5rem); line-height: 1.18; color: var(--on-ink);
+      margin: 0 0 48px; max-width: 24ch; letter-spacing: -.01em;
     }
+    .pull .accent { color: var(--accent-bright); font-style: italic; }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+    .docs { border-top: 1px solid var(--ink-line); }
+    .doc-row {
+      display: grid; grid-template-columns: 64px 1fr auto; gap: 24px; align-items: baseline;
+      padding: 26px 4px; border-bottom: 1px solid var(--ink-line);
+      transition: background .14s var(--ease), padding .14s var(--ease);
+      color: var(--on-ink); cursor: pointer;
     }
+    .doc-row:hover { background: var(--ink-surface); padding-left: 16px; padding-right: 16px; }
+    .doc-num { font-family: var(--bank); font-size: 13px; color: var(--accent-bright); letter-spacing: .04em; }
+    .doc-main h3 { font-size: 1.4rem; margin-bottom: 7px; }
+    .doc-main h3 a { color: var(--on-ink); }
+    .doc-main p { margin: 0; color: var(--on-ink-muted); font-size: 14.5px; line-height: 1.5; max-width: 64ch; }
+    .doc-go { font-family: var(--bank); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--on-ink-muted); white-space: nowrap; transition: color .14s var(--ease); }
+    .doc-row:hover .doc-go { color: var(--accent-bright); }
+    .doc-lead { display: grid; grid-template-columns: 64px 1fr auto; gap: 24px; align-items: baseline; padding: 26px 4px; border-bottom: 1px solid var(--ink-line); }
+    .doc-lead .doc-num { color: var(--on-ink-muted); }
+    .doc-lead .doc-go a { color: var(--accent-bright); }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
+    /* ---------- Ledger (offer deliverables) ---------- */
+    .ledger { border-top: 1px solid var(--line-strong); }
+    .ledger-row { display: grid; grid-template-columns: 56px 1fr; gap: 22px; padding: 24px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+    .ledger-row .idx { font-family: var(--bank); font-size: 12px; color: var(--accent); letter-spacing: .04em; }
+    .ledger-row h3 { font-size: 1.22rem; margin-bottom: 6px; }
+    .ledger-row p { margin: 0; color: var(--muted); font-size: 15.5px; line-height: 1.55; max-width: 70ch; }
 
-    .card {
-      padding: 20px;
-      background: linear-gradient(180deg, #ffffff, #f8f7f1);
-      box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.7);
-    }
+    /* ---------- Process ---------- */
+    .grid-process { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 36px; }
+    .step { padding: 28px 0; border-top: 2px solid var(--ink); }
+    .step .step-num { font-family: var(--serif); font-weight: 500; font-size: 2.6rem; color: var(--accent); letter-spacing: -.04em; line-height: 1; display: block; margin-bottom: 16px; }
+    .step h3 { margin-bottom: 9px; font-size: 1.22rem; }
+    .step p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; }
 
-    .card-muted {
-      background: linear-gradient(180deg, #fbfbf7, #f3f2eb);
-      box-shadow: var(--shadow-soft);
-    }
+    /* ---------- Fit lists ---------- */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .fit-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 34px; }
+    .fit-card.yes { border-top: 4px solid var(--accent); }
+    .fit-card h2 { font-size: 1.7rem; margin-bottom: 22px; }
+    .list-clean { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+    .list-clean li { padding-left: 32px; position: relative; color: var(--body); line-height: 1.5; }
+    .list-clean.yes li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 8px; border-left: 2.5px solid var(--accent); border-bottom: 2.5px solid var(--accent); transform: rotate(-45deg); }
+    .list-clean.no li::before { content: "\2715"; position: absolute; left: 2px; top: 0; color: var(--faint); font-size: 15px; font-weight: 600; }
 
-    .card-strong {
-      border-top: 4px solid var(--accent);
-      padding-top: 18px;
-    }
+    /* ---------- Pricing ---------- */
+    .price-card { background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-lg); padding: 40px; }
+    .price-card-main { border-top: 5px solid var(--accent); box-shadow: var(--shadow); }
+    .price-card-secondary { background: var(--paper-2); border-style: solid; }
+    .price { font-family: var(--serif); font-weight: 500; color: var(--ink); font-size: clamp(3.4rem, 7vw, 5rem); line-height: .92; letter-spacing: -.04em; margin: 8px 0 16px; }
+    .price-card h2 { font-size: 1.9rem; margin-bottom: 8px; }
+    .price-card p { color: var(--muted); font-size: 15.5px; }
+    .price-card .list-clean { margin-top: 22px; }
 
-    .card p { color: var(--muted); }
-
-    .list-clean {
-      display: grid;
-      gap: 10px;
-      padding: 0;
-      margin: 14px 0 0;
-      list-style: none;
-    }
-
-    .list-clean li {
-      padding-left: 18px;
-      position: relative;
-    }
-
-    .list-clean li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      top: -1px;
-      color: var(--accent-deep);
-    }
-
-    .process-step {
-      position: relative;
-      padding-top: 18px;
-    }
-
-    .step-num {
-      position: absolute;
-      top: -18px;
-      left: 22px;
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      background: var(--accent);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      border: 4px solid var(--bg);
-      box-shadow: 0 6px 16px rgba(0,0,0,.12);
-    }
-
-    .price-card {
-      padding: 26px;
-      min-height: 100%;
-    }
-
-    .price-card-main {
-      border-top: 5px solid var(--accent);
-      box-shadow: 0 18px 42px rgba(0,0,0,.06);
-    }
-
-    .price-card-secondary {
-      background: linear-gradient(180deg, #fbfbf7, #f4f3ec);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .price {
-      font-size: clamp(2.4rem, 5.2vw, 3.6rem);
-      line-height: .95;
-      margin-bottom: 10px;
-      font-weight: 900;
-      letter-spacing: -.05em;
-    }
-
-    .faq-stack { display: grid; gap: 12px; }
-
-    .faq-item {
-      padding: 15px 18px;
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-    }
-
+    /* ---------- FAQ ---------- */
+    .faq-stack { max-width: 880px; border-top: 1px solid var(--line-strong); }
+    .faq-item { border-bottom: 1px solid var(--line); }
     .faq-question {
-      display: flex;
-      width: 100%;
-      border: 0;
-      background: transparent;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      cursor: pointer;
-      font-weight: 700;
-      text-align: left;
-      color: var(--text);
-      padding: 0;
+      display: flex; width: 100%; border: 0; background: transparent; align-items: center;
+      justify-content: space-between; gap: 20px; cursor: pointer; padding: 24px 0;
+      font-family: var(--serif); font-weight: 600; font-size: 1.28rem; text-align: left;
+      color: var(--ink); letter-spacing: -.012em; line-height: 1.25;
     }
-
-    .faq-plus {
-      color: var(--accent-deep);
-      font-weight: 800;
-      font-size: 1.3rem;
-      line-height: 1;
-      width: 1.15rem;
-      text-align: center;
-      flex: 0 0 auto;
-    }
-
-    .faq-answer {
-      display: none;
-      padding-top: 10px;
-      color: var(--muted);
-      max-width: 78ch;
-    }
-
+    .faq-plus { color: var(--accent); font-family: var(--sans); font-weight: 400; font-size: 1.6rem; line-height: 1; width: 1.2rem; text-align: center; flex: 0 0 auto; transition: transform .2s var(--ease); }
+    .faq-item.open .faq-plus { transform: rotate(45deg); }
+    .faq-answer { display: none; padding: 0 0 26px; color: var(--muted); max-width: 78ch; line-height: 1.62; font-size: 16px; }
     .faq-item.open .faq-answer { display: block; }
+    .faq-answer strong { color: var(--ink); font-weight: 600; }
 
-    .fit-check { scroll-margin-top: 100px; }
+    /* ---------- Fit check shell ---------- */
+    .fit-check { scroll-margin-top: 88px; }
+    .fit-shell { background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: clamp(24px, 4vw, 44px); margin-top: 8px; }
 
-    .fit-shell {
-      overflow: hidden;
-      background: linear-gradient(180deg, #ffffff, #f7f6f0);
-    }
+    /* ---------- Footer ---------- */
+    .site-footer { border-top: 1px solid var(--line-strong); padding: 34px 0; margin-top: 8px; }
+    .footer-row { font-family: var(--bank); font-size: 10.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); display: flex; gap: 18px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+    .site-footer a { color: var(--muted); }
+    .site-footer a:hover { color: var(--ink); }
 
-    .fit-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #fff, #f7f6ef);
-    }
-
-    .fit-header p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      max-width: 66ch;
-    }
-
-    .progress {
-      min-width: 160px;
-      text-align: right;
-    }
-
-    .progress-bar {
-      width: 160px;
-      height: 8px;
-      border-radius: 999px;
-      background: #e9e7dd;
-      overflow: hidden;
-      margin-left: auto;
-      border: 1px solid rgba(0,0,0,.03);
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-deep));
-      transition: width .2s ease;
-    }
-
-    .progress-label {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 8px;
-    }
-
-    .fit-stage {
-      padding: 16px 18px 16px;
-      display: grid;
-      gap: 12px;
-      justify-items: center;
-      min-height: 360px;
-      align-content: start;
-      background:
-        radial-gradient(circle at top left, rgba(98,119,83,.05), transparent 32%),
-        linear-gradient(180deg, #fbfaf6, #f4f2eb);
-    }
-
-    .fit-module {
-      width: min(100%, var(--fit-max));
-      display: grid;
-      gap: 12px;
-    }
-
-    .fit-meta {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .fit-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent-deep);
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      border: 1px solid rgba(98,119,83,.16);
-    }
-
-    .fit-last {
-      color: var(--muted);
-      font-size: 14px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.7);
-      border: 1px solid var(--line);
-      max-width: min(100%, 340px);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .fit-question {
-      padding: 18px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fff, #f9f8f2);
-      border: 1px solid var(--line-strong);
-      box-shadow: 0 10px 26px rgba(0,0,0,.04), inset 0 1px 0 rgba(255,255,255,.8);
-    }
-
-    .fit-question h3 {
-      font-size: clamp(1.3rem, 2.9vw, 1.85rem);
-      margin-bottom: 6px;
-    }
-
-    .fit-question p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .choices {
-      display: grid;
-      gap: 10px;
-    }
-
-    .choice {
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff, #f7f6f0);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 14px 16px;
-      text-align: left;
-      cursor: pointer;
-      transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease, color .16s ease;
-      width: 100%;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
-      font-weight: 500;
-      opacity: 1;
-    }
-
-    .choice:hover,
-    .choice.selected {
-      transform: translateY(-1px);
-      border-color: rgba(75, 93, 64, 0.72);
-      background: linear-gradient(180deg, #e2ead8, #d4dfc7);
-      box-shadow:
-        0 10px 22px rgba(75, 93, 64, 0.14),
-        inset 0 1px 0 rgba(255,255,255,.72);
-      color: #111111;
-    }
-
-    .choice.selected {
-      border-width: 2px;
-      font-weight: 700;
-    }
-
-    .input-wrap {
-      display: grid;
-      gap: 10px;
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
-    }
-
-    .field,
-    .textarea {
-      width: 100%;
-      border: 1px solid var(--line-strong);
-      background: #fff;
-      border-radius: 12px;
-      padding: 14px 14px;
-      outline: none;
-    }
-
-    .field.invalid,
-    .textarea.invalid {
-      border-color: var(--error);
-      background: #fff8f7;
-    }
-
-    .textarea { min-height: 110px; resize: vertical; }
-    .field-note { font-size: 12px; color: var(--muted); margin: 0; }
-    .field-error { font-size: 12px; color: var(--error); margin: 0; }
-
-    .fit-actions {
-      width: min(100%, var(--fit-max));
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding-top: 0;
-      flex-wrap: wrap;
-    }
-
-    .fit-actions .left,
-    .fit-actions .right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .tiny { font-size: 12px; color: var(--muted); }
-
-    .fit-result {
-      display: none;
-      width: min(100%, var(--fit-max));
-      padding: 20px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .fit-result.visible { display: block; }
-
-    .result-badge {
-      display: inline-flex;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #eef7f6;
-      color: var(--success);
-      font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-
-    .result-badge.warning { background: #fff7ed; color: var(--warning); }
-    .result-badge.low { background: #fef2f2; color: var(--error); }
-
-    .next-step-panel {
-      margin-top: 16px;
-      display: none;
-      gap: 12px;
-    }
-
-    .next-step-panel.visible {
-      display: grid;
-    }
-
-    .next-step-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .next-step-choice {
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #fff, #f8f7f1);
-      border-radius: 16px;
-      padding: 15px;
-      text-align: left;
-      cursor: pointer;
-      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
-    }
-
-    .next-step-choice:hover {
-      transform: translateY(-1px);
-      border-color: rgba(98,119,83,.28);
-      box-shadow: 0 8px 20px rgba(98,119,83,.06);
-    }
-
-    .next-step-choice.selected {
-      transform: translateY(-1px);
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(98,119,83,.12), 0 10px 24px rgba(98,119,83,.10);
-      background: linear-gradient(180deg, #fbfcf8, #edf2e7);
-    }
-
-    .next-step-choice strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 1rem;
-    }
-
-    .next-step-choice p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .followup-panel {
-      display: none;
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff, #f7f6f0);
-    }
-
-    .followup-panel.visible {
-      display: block;
-    }
-
-    .followup-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    .option-reset {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      font-weight: 700;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 12px;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    .success-note {
-      margin-top: 12px;
-      font-size: 14px;
-      color: var(--success);
-      font-weight: 600;
-      display: none;
-    }
-
-    .success-note.visible {
-      display: block;
-    }
-
-    .trust-note {
-      margin: 10px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-      max-width: 64ch;
-    }
-
-    .fallback-link {
-      font-weight: 700;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
+    /* ---------- Responsive ---------- */
+    @media (min-width: 981px) { .nav-link { display: inline-flex; } }
     @media (max-width: 980px) {
-      .hero-grid,
-      .section-head,
-      .grid-3,
-      .grid-2,
-      .next-step-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-copy { padding: 28px; }
-      .nav-link { display: none; }
+      .hero-grid, .grid-2 { grid-template-columns: 1fr; }
+      .grid-3, .grid-3-loose, .grid-process { grid-template-columns: repeat(2, 1fr); }
+      .step:nth-child(-n+2) { border-top: 2px solid var(--ink); }
     }
-
-    @media (min-width: 981px) {
-      .nav-link { display: inline; }
-    }
-
     @media (max-width: 640px) {
-      .wrap { width: min(calc(100% - 22px), var(--max)); }
-      section { padding: 46px 0; }
-      .hero { padding-top: 40px; }
-      .hero-copy, .hero-panel, .card, .price-card { padding: 20px; }
-      .fit-header, .fit-stage { padding-left: 16px; padding-right: 16px; }
-      .progress { min-width: 100px; }
-      .progress-bar { width: 100px; }
-      .fit-stage { min-height: 340px; }
-      .tiny { display: none; }
-      .fit-meta { align-items: flex-start; }
-      .fit-last { width: 100%; max-width: 100%; border-radius: 14px; }
-      .next-step-grid { grid-template-columns: 1fr; }
-      /* Live backdrop blur on a sticky element repaints every scroll frame — costly on
-         mobile GPUs/battery. The header bg is near-opaque anyway, so go fully opaque here. */
-      .site-header { backdrop-filter: none; background: rgb(242,242,236); }
+      .wrap { width: min(calc(100% - 30px), var(--max)); }
+      section { padding: 60px 0; }
+      .hero { padding-top: 48px; }
+      .grid-3, .grid-3-loose, .grid-process { grid-template-columns: 1fr; }
+      .cell, .card, .fit-card, .price-card { padding: 24px; }
+      .doc-row, .doc-lead { grid-template-columns: 44px 1fr; }
+      .doc-go { display: none; }
+      .site-header { backdrop-filter: none; background: var(--paper); }
     }
-    /* ---- UVP Clarity Check ---- */
+
+    /* ============================================================
+       UVP Clarity Check — tool styling (class contract for app.js)
+       ============================================================ */
     .clarity-app { width: 100%; }
     .cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .cc-grid .cc-span { grid-column: 1 / -1; }
     @media (max-width: 640px) { .cc-grid { grid-template-columns: 1fr; } }
-    .clarity-form .input-wrap { display: flex; flex-direction: column; gap: 6px; }
-    .clarity-form label { font-weight: 600; font-size: 14.5px; }
-    .cc-hint { color: var(--muted); font-size: 13px; margin: 2px 0 0; }
-    .cc-check { display: flex; gap: 10px; align-items: flex-start; margin: 18px 0; font-size: 14px; color: var(--muted); line-height: 1.5; }
-    .cc-check input { margin-top: 3px; }
+
+    .clarity-form .input-wrap, .input-wrap { display: flex; flex-direction: column; gap: 7px; }
+    .clarity-form label, .input-wrap label { font-family: var(--sans); font-weight: 600; font-size: 14.5px; color: var(--ink); }
+    .field, .textarea {
+      width: 100%; border: 1.5px solid var(--line-strong); background: #fff;
+      border-radius: var(--r); padding: 13px 14px; outline: none; color: var(--ink);
+      transition: border-color .12s var(--ease), box-shadow .12s var(--ease);
+    }
+    .field:focus, .textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(47,107,65,.14); }
+    .textarea { min-height: 110px; resize: vertical; }
+    .field.invalid, .textarea.invalid { border-color: var(--error); background: #fdf4f1; }
+    select.field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236c736b' d='M6 8 0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .field-note { font-size: 12px; color: var(--muted); margin: 0; }
+    .field-error { font-size: 13px; color: var(--error); margin: 0; font-weight: 600; }
+    .cc-hint { color: var(--muted); font-size: 13px; margin: 2px 0 0; line-height: 1.5; }
+
+    .cc-check { display: flex; gap: 11px; align-items: flex-start; margin: 20px 0; font-size: 14px; color: var(--muted); line-height: 1.55; }
+    .cc-check input { margin-top: 4px; flex: 0 0 auto; accent-color: var(--accent); }
     .cc-check a { color: var(--accent-deep); text-decoration: underline; }
-    .cc-turnstile { margin: 12px 0; }
-    .cc-submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+    .cc-turnstile { margin: 14px 0; }
+
+    .cc-submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
     .cc-submit-row .tiny { color: var(--muted); max-width: 520px; }
-    .cc-analyzing { text-align: center; padding: 48px 0; }
-    .cc-spinner { width: 34px; height: 34px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; margin: 0 auto 16px; animation: cc-spin 0.9s linear infinite; }
+    .tiny { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+    .cc-analyzing { text-align: center; padding: 52px 0; }
+    .cc-spinner { width: 36px; height: 36px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; margin: 0 auto 18px; animation: cc-spin .9s linear infinite; }
     @keyframes cc-spin { to { transform: rotate(360deg); } }
     @media (prefers-reduced-motion: reduce) { .cc-spinner { animation: none; } }
-    .cc-analyzing-msg { font-weight: 600; }
-    .cc-error { text-align: center; padding: 32px 0; }
+    .cc-analyzing-msg { font-family: var(--serif); font-weight: 600; font-size: 1.15rem; color: var(--ink); }
+
+    .cc-error { text-align: center; padding: 36px 0; }
     .cc-error h3 { margin-bottom: 8px; }
-    .cc-error-msg { color: var(--muted); margin-bottom: 16px; }
-    .cc-band { border-radius: var(--radius); padding: 20px 22px; margin-bottom: 22px; border: 1px solid var(--line); background: var(--panel-muted); }
-    .cc-band-eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); }
-    .cc-band-value { font-size: 26px; font-weight: 700; margin: 2px 0 8px; }
-    .cc-band-note { color: var(--muted); font-size: 14px; margin: 0; }
-    .cc-band-clear { border-left: 4px solid var(--accent); }
+    .cc-error-msg { color: var(--muted); margin-bottom: 18px; }
+
+    .cc-band { border-radius: var(--r-lg); padding: 24px 26px; margin-bottom: 24px; border: 1px solid var(--line); background: var(--paper-2); }
+    .cc-band-eyebrow { font-family: var(--bank); font-size: 10px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); }
+    .cc-band-value { font-family: var(--serif); font-size: 30px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); margin: 6px 0 10px; }
+    .cc-band-note { color: var(--muted); font-size: 14px; margin: 0; line-height: 1.55; }
+    .cc-band-clear { border-left: 4px solid var(--success); }
     .cc-band-emerging { border-left: 4px solid var(--warning); }
     .cc-band-fragmented { border-left: 4px solid var(--error); }
     .cc-band-not_enough_evidence { border-left: 4px solid var(--line-strong); }
-    .cc-confidence { color: var(--muted); font-size: 13.5px; margin: -10px 0 18px; }
-    .cc-block { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 18px; }
-    .cc-block h4 { font-size: 18px; margin: 0 0 12px; }
-    .cc-state, .cc-dim, .cc-item { padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .cc-confidence { color: var(--muted); font-size: 13.5px; margin: -12px 0 20px; }
+
+    .cc-block { border-top: 1px solid var(--line); padding-top: 22px; margin-top: 22px; }
+    .cc-block h4 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 14px; letter-spacing: -.01em; }
+    .cc-state, .cc-dim, .cc-item { padding: 15px 0; border-bottom: 1px solid var(--line); }
     .cc-state:last-child, .cc-dim:last-child, .cc-item:last-child { border-bottom: none; }
     .cc-state-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .cc-state-label { font-weight: 600; }
-    .cc-state-note { color: var(--text); font-size: 14.5px; margin: 6px 0; line-height: 1.55; }
-    .cc-pill { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--bg-2); color: var(--muted); white-space: nowrap; }
-    .cc-pill-clearly_present, .cc-level-clear { background: var(--accent-soft); color: var(--accent-deep); }
-    .cc-pill-present_generic, .cc-level-partial, .cc-pill-generic { background: #f3e7cf; color: var(--warning); }
-    .cc-pill-conflicting, .cc-level-weak, .cc-pill-over_broad { background: #f6dcd7; color: var(--error); }
-    .cc-pill-not_found, .cc-level-absent, .cc-pill-unproven { background: var(--bg-2); color: var(--muted); }
-    .cc-case { display: inline-block; background: var(--accent-soft); color: var(--accent-deep); margin-bottom: 8px; }
-    .cc-evidence { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
-    .cc-evidence li { font-size: 13.5px; line-height: 1.5; border-left: 2px solid var(--line-strong); padding-left: 10px; }
-    .cc-quote { color: var(--text); }
+    .cc-state-label { font-family: var(--sans); font-weight: 600; color: var(--ink); }
+    .cc-state-note { color: var(--body); font-size: 14.5px; margin: 7px 0; line-height: 1.6; }
+
+    .cc-pill { font-family: var(--sans); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--paper-2); color: var(--muted); white-space: nowrap; letter-spacing: .04em; text-transform: uppercase; }
+    .cc-pill-clearly_present, .cc-level-clear { background: var(--success-soft); color: var(--success); }
+    .cc-pill-present_generic, .cc-level-partial, .cc-pill-generic { background: var(--warning-soft); color: var(--warning); }
+    .cc-pill-conflicting, .cc-level-weak, .cc-pill-over_broad { background: var(--error-soft); color: var(--error); }
+    .cc-pill-not_found, .cc-level-absent, .cc-pill-unproven { background: var(--paper-2); color: var(--muted); }
+    .cc-case { display: inline-block; background: var(--success-soft); color: var(--success); margin-bottom: 8px; }
+
+    .cc-evidence { list-style: none; padding: 0; margin: 10px 0 0; display: flex; flex-direction: column; gap: 7px; }
+    .cc-evidence li { font-size: 13.5px; line-height: 1.55; border-left: 2px solid var(--line-strong); padding-left: 12px; }
+    .cc-quote { color: var(--ink); font-style: italic; }
     .cc-src { color: var(--muted); }
-    .cc-bullets { margin: 8px 0 0; padding-left: 18px; color: var(--text); font-size: 14.5px; }
-    .cc-bullets li { margin: 5px 0; }
-    .cc-stage2 { border-top: 2px solid var(--line-strong); margin-top: 26px; padding-top: 22px; }
-    .cc-stage2 h4 { font-size: 19px; margin: 0 0 4px; }
-    .cc-stage2-form { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; max-width: 620px; }
-    .cc-reco { margin-top: 20px; }
-    .cc-reco-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-    .cc-reco-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
-    .cc-email { margin-top: 16px; max-width: 480px; display: flex; flex-direction: column; gap: 10px; }
-    .cc-utils { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .cc-bullets { margin: 10px 0 0; padding-left: 18px; color: var(--body); font-size: 14.5px; }
+    .cc-bullets li { margin: 6px 0; }
+
+    .cc-stage2 { border-top: 2px solid var(--line-strong); margin-top: 30px; padding-top: 26px; }
+    .cc-stage2 h4 { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; margin: 0 0 5px; }
+    .cc-stage2-form { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; max-width: 620px; }
+
+    .cc-reco { margin-top: 22px; }
+    .cc-reco-title { font-family: var(--serif); font-size: 1.55rem; font-weight: 600; letter-spacing: -.015em; color: var(--ink); margin-bottom: 6px; }
+    .cc-reco-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+    .cc-email { margin-top: 18px; max-width: 480px; display: flex; flex-direction: column; gap: 10px; }
+
+    .success-note { margin-top: 4px; font-size: 14px; color: var(--success); font-weight: 600; }
+    .trust-note { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); max-width: 64ch; line-height: 1.5; }
+    .trust-note a { color: var(--accent-deep); text-decoration: underline; }
+    .fallback-link { font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+    .cc-utils { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+
     @media print { .site-header, .cc-stage2, .cc-utils, .cc-submit-row, #ccRetry { display: none !important; } }
   </style>
 
@@ -913,215 +438,258 @@
   <header class="site-header">
     <div class="wrap nav">
       <a href="#top" class="brand" aria-label="DIR UVP Sprint home">
-        <span class="brand-mark" aria-hidden="true">DIR</span>
-        <span>DIR UVP Sprint</span>
+        <svg class="brand-mark" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <rect x="2.2" y="2.2" width="25.6" height="25.6" rx="2" stroke="#2b302d" stroke-width="1.6"/>
+          <rect x="11" y="11" width="8" height="8" rx="1" fill="#2f6b41"/>
+        </svg>
+        <span class="brand-name">DIR UVP Sprint<small>Day In Room</small></span>
       </a>
-      <div class="nav-actions">
+      <nav class="nav-actions" aria-label="Primary">
         <a class="nav-link" href="#evidence">Evidence</a>
         <a class="nav-link" href="#offer">Offer</a>
         <a class="nav-link" href="#process">Process</a>
         <a class="nav-link" href="#pricing">Pricing</a>
         <a class="nav-link" href="#faq">FAQ</a>
         <a class="btn btn-primary" href="#fit-check">Start the Fit Check</a>
-      </div>
+      </nav>
     </div>
   </header>
 
   <main id="top">
+    <!-- HERO -->
     <section class="hero">
       <div class="wrap hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">Proof-disciplined positioning for B2B teams</div>
-          <h1>Your buyers don’t get it. Fix that first.</h1>
-          <p class="lead">DIR UVP Sprint is a structured leadership-room engagement for business-to-business teams whose market story is muddy, whose proof is thin, and whose people describe the company three different ways. You leave with one unique value proposition your leadership has tested and agreed on.</p>
+        <div class="hero-copy reveal">
+          <div class="kicker"><span class="sec">§00</span> Proof-disciplined positioning</div>
+          <h1>Your buyers don&rsquo;t get it. <em>Fix that first.</em></h1>
+          <p class="lead">DIR UVP Sprint is a structured leadership-room engagement for B2B teams whose market story is muddy, whose proof is thin, and whose people describe the company three different ways. You leave with one unique value proposition your leadership has tested and agreed on.</p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="#evidence">See how the work runs</a>
-            <a class="btn btn-secondary" href="#fit-check">Skip to the Fit Check</a>
+            <a class="btn btn-primary btn-lg" href="#evidence">See how the work runs</a>
+            <a class="btn btn-secondary btn-lg" href="#fit-check">Skip to the Fit Check</a>
           </div>
-          <p class="micro">DIR stands for <strong>Day In Room</strong>. UVP stands for <strong>Unique Value Proposition</strong>. One day, your leadership team in one room, working a structured sequence to a single agreed answer. The working documents below show how the engagement runs; judge the method by its weight. The Fit Check is one step away whenever you’re ready to qualify — no sales call required.</p>
+          <p class="micro"><strong>DIR</strong> stands for Day In Room. <strong>UVP</strong> stands for Unique Value Proposition. One day, your leadership team in one room, working a structured sequence to a single agreed answer. The working documents below show how the engagement runs &mdash; judge the method by its weight. The Fit Check is one step away whenever you&rsquo;re ready to qualify. No sales call required.</p>
         </div>
 
-        <aside class="hero-panel">
-          <div class="hero-stat">
-            <strong>One day in the room</strong>
-            <p class="kicker">Your leadership team, one structured working session, one agreed answer. Pre-work before, documentation and field-testing support after.</p>
+        <aside class="spec reveal" aria-label="At a glance">
+          <div class="spec-row">
+            <div class="spec-label">Fixed price</div>
+            <div class="spec-value">$35,000</div>
+            <p>One price for one outcome. Not a day rate, not a deliverable count.</p>
           </div>
-          <div class="hero-stat">
-            <strong>One agreed answer</strong>
-            <p class="kicker">A unique value proposition your leadership has tested in the room and will stand behind, documented so the people who execute can use it.</p>
+          <div class="spec-row">
+            <div class="spec-label">Format</div>
+            <div class="spec-value sm">One day in the room</div>
+            <p>Your leadership team, one structured working session, one agreed answer.</p>
           </div>
-          <div class="hero-stat">
-            <strong>Judge it by the documents</strong>
-            <p class="kicker">Working documents from a completed engagement are published below. The Fit Check is there when you’re ready — no sales call required.</p>
+          <div class="spec-row">
+            <div class="spec-label">To start</div>
+            <div class="spec-value sm">No sales call</div>
+            <p>Begin with the Fit Check. A live conversation only if it moves the decision forward.</p>
           </div>
         </aside>
       </div>
     </section>
 
+    <!-- PROBLEM -->
     <section>
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head wide reveal">
+          <div class="kicker"><span class="sec">§01</span> The symptoms</div>
           <h2>A positioning problem usually shows up before anyone calls it one.</h2>
-          <p class="section-copy">Most teams do not say, “we have a unique value proposition problem.” They say sales is missing, buyers do not get the difference, pricing pressure keeps showing up, and the website’s claims feel weak, unsupported, or too easy to confuse with everyone else.</p>
+          <p>Most teams do not say, &ldquo;we have a unique value proposition problem.&rdquo; They say sales is missing, buyers do not get the difference, pricing pressure keeps showing up, and the website&rsquo;s claims feel weak, unsupported, or too easy to confuse with everyone else.</p>
         </div>
 
         <div class="grid-3">
-          <article class="card"><h3>Sales calls stall in “so what?”</h3><p>The pitch sounds fine internally. Buyers still do not immediately understand why it matters.</p></article>
-          <article class="card"><h3>The website’s claims are unsupported or weak</h3><p>The site explains what you do, but it does not prove why a buyer should believe the difference.</p></article>
-          <article class="card"><h3>Leadership tells three different stories</h3><p>Founder, sales, and delivery are all describing the business differently.</p></article>
-          <article class="card"><h3>Operations leads with features</h3><p>The team explains the machine, the process, the platform, or the workflow instead of the buyer outcome.</p></article>
-          <article class="card"><h3>Competitors sound too similar</h3><p>Everything in the category starts collapsing into the same claims.</p></article>
-          <article class="card"><h3>Pricing pressure shows up downstream</h3><p>If buyers do not grasp the difference early, the conversation gets dragged back to price.</p></article>
+          <article class="cell reveal"><span class="idx">01</span><h3>Sales calls stall in &ldquo;so what?&rdquo;</h3><p>The pitch sounds fine internally. Buyers still do not immediately understand why it matters.</p></article>
+          <article class="cell reveal"><span class="idx">02</span><h3>Website claims are weak or unsupported</h3><p>The site explains what you do, but it does not prove why a buyer should believe the difference.</p></article>
+          <article class="cell reveal"><span class="idx">03</span><h3>Leadership tells three stories</h3><p>Founder, sales, and delivery are all describing the business differently.</p></article>
+          <article class="cell reveal"><span class="idx">04</span><h3>Operations leads with features</h3><p>The team explains the machine, the process, or the workflow instead of the buyer outcome.</p></article>
+          <article class="cell reveal"><span class="idx">05</span><h3>Competitors sound too similar</h3><p>Everything in the category starts collapsing into the same claims.</p></article>
+          <article class="cell reveal"><span class="idx">06</span><h3>Pricing pressure shows up downstream</h3><p>If buyers do not grasp the difference early, the conversation gets dragged back to price.</p></article>
         </div>
       </div>
     </section>
 
-
-    <!-- Evidence layer (funnel_architecture_spec_v2.md §3–§4). Framing per evidence_layer_framing_copy.md, Placement 1 — ships as written. -->
-    <section id="evidence">
+    <!-- EVIDENCE LAYER — dark authority band -->
+    <section id="evidence" class="band-dark">
       <div class="wrap">
-        <div class="section-head">
-          <h2>How the work actually runs</h2>
-          <p class="section-copy">These are working documents from completed engagements, with the clients’ identities and answers removed. They are here so you can judge the method by its weight rather than by claims about it: what participants are required to bring, how the day is structured, what rules govern the room, and the shape of what comes out.</p>
-          <p class="section-copy" style="margin-top:12px;">The last document is the structure of the finished deliverable itself, cells empty. The structure recurs across engagements in unrelated industries; the content never does. That recurrence is what separates a method from an improviser.</p>
+        <div class="section-head wide reveal">
+          <div class="kicker on-ink"><span class="sec">§02</span> How the work actually runs</div>
+          <h2>Judge the method by its weight, not by claims about it.</h2>
+          <p>These are working documents from completed engagements, with client identities and answers removed. They show what participants are required to bring, how the day is structured, what rules govern the room, and the shape of what comes out.</p>
         </div>
 
-        <div class="grid-3" style="margin-bottom:18px;">
-          <article class="card"><h3><a href="/evidence-prep-sheet" style="text-decoration:none;color:inherit;">1. Participant Prep Sheet</a></h3><p>What each participant must bring before the day. The evidence demand the method places on the room.</p><p><a href="/evidence-prep-sheet">Read it &rarr;</a></p></article>
-          <article class="card"><h3><a href="/evidence-executive-overview" style="text-decoration:none;color:inherit;">2. Executive Overview</a></h3><p>The frame that does not change with the client — shown side by side across two engagements in unrelated industries.</p><p><a href="/evidence-executive-overview">Read it &rarr;</a></p></article>
-          <article class="card"><h3><a href="/evidence-agenda" style="text-decoration:none;color:inherit;">3. Day In The Room Agenda</a></h3><p>The session hour by hour: segments, decision rules, required roles, and the definition of done.</p><p><a href="/evidence-agenda">Read it &rarr;</a></p></article>
-          <article class="card"><h3><a href="/evidence-decision-checklist" style="text-decoration:none;color:inherit;">4. Decision Checklist</a></h3><p>The pre-session instrument leadership works through. Eleven decisions, each with a required conclusion.</p><p><a href="/evidence-decision-checklist">Read it &rarr;</a></p></article>
-          <article class="card"><h3><a href="/evidence-structure-template" style="text-decoration:none;color:inherit;">5. The Structure of a Finished UVP</a></h3><p>The full architecture of the deliverable, cells empty. The structure held across unrelated engagements; the content never did.</p><p><a href="/evidence-structure-template">Read it &rarr;</a></p></article>
-          <article class="card card-muted"><h3>Where this leads</h3><p>If reading these tells you that you could run this discipline yourself, that is a legitimate conclusion and some companies should. If it tells you the structure is the easy part and the deciding is the hard part, the Fit Check is the next step.</p><p><a href="#fit-check">Start the Fit Check &rarr;</a></p></article>
+        <p class="pull reveal">The structure recurs across unrelated industries. <span class="accent">The content never does.</span></p>
+
+        <div class="docs reveal">
+          <a class="doc-row" href="/evidence-prep-sheet">
+            <span class="doc-num">01</span>
+            <div class="doc-main"><h3>Participant Prep Sheet</h3><p>What each participant must bring before the day &mdash; the evidence demand the method places on the room.</p></div>
+            <span class="doc-go">Read &rarr;</span>
+          </a>
+          <a class="doc-row" href="/evidence-executive-overview">
+            <span class="doc-num">02</span>
+            <div class="doc-main"><h3>Executive Overview</h3><p>The frame that does not change with the client &mdash; shown side by side across two engagements in unrelated industries.</p></div>
+            <span class="doc-go">Read &rarr;</span>
+          </a>
+          <a class="doc-row" href="/evidence-agenda">
+            <span class="doc-num">03</span>
+            <div class="doc-main"><h3>Day In The Room Agenda</h3><p>The session hour by hour: segments, decision rules, required roles, and the definition of done.</p></div>
+            <span class="doc-go">Read &rarr;</span>
+          </a>
+          <a class="doc-row" href="/evidence-decision-checklist">
+            <span class="doc-num">04</span>
+            <div class="doc-main"><h3>Decision Checklist</h3><p>The pre-session instrument leadership works through. Eleven decisions, each with a required conclusion.</p></div>
+            <span class="doc-go">Read &rarr;</span>
+          </a>
+          <a class="doc-row" href="/evidence-structure-template">
+            <span class="doc-num">05</span>
+            <div class="doc-main"><h3>The Structure of a Finished UVP</h3><p>The full architecture of the deliverable, cells empty. The structure held across engagements; the content never did.</p></div>
+            <span class="doc-go">Read &rarr;</span>
+          </a>
+          <div class="doc-lead">
+            <span class="doc-num">&mdash;</span>
+            <div class="doc-main"><h3>Where this leads</h3><p>If reading these tells you that you could run this discipline yourself, that is a legitimate conclusion. If it tells you the structure is the easy part and the deciding is the hard part, the Fit Check is the next step.</p></div>
+            <span class="doc-go"><a href="#fit-check">Start &rarr;</a></span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- NOTE (M-8, Phase-3 remainder): worst of the "four questions" reduction repaired; full buyer-facing language for the room/consensus architecture still to be built when that methodology work lands. -->
+    <!-- WHAT YOU WALK OUT WITH -->
     <section id="offer">
       <div class="wrap">
-        <div class="section-head">
-          <h2>What you walk out with</h2>
-          <p class="section-copy">One outcome: a unique value proposition your leadership team has tested in the room and agreed on, then documented so the people who execute can use it. The answer is built and decided in the session, not handed to you afterward. What it covers — audience, the alternatives you are weighed against, what you can credibly claim, the proof behind it — is worked until the room agrees.</p>
+        <div class="section-head wide reveal">
+          <div class="kicker"><span class="sec">§03</span> What you walk out with</div>
+          <h2>One outcome: an agreed answer, built and decided in the room.</h2>
+          <p>A unique value proposition your leadership team has tested in the room and agreed on, then documented so the people who execute can use it. The answer is built and decided in the session, not handed to you afterward.</p>
+          <p class="lede-2">The documented answer usually carries the components below. The exact set follows what your leadership decides in the room. You are not buying a fixed list of artifacts &mdash; you are buying the agreed answer, written down in the form your team can act on.</p>
         </div>
 
-        <p class="section-copy" style="margin-bottom:18px;">The documented answer usually carries the components below. The exact set follows what your leadership decides in the room — some engagements add an offer hierarchy, an objection layer, or an implementation sequence. You are not buying a fixed list of artifacts; you are buying the agreed answer, written down in the form your team can act on.</p>
-
-        <div class="grid-3" id="deliverables">
-          <article class="card"><h3>The UVP itself</h3><p>The agreed value proposition in a one-sentence and a short-paragraph form: who you are for, the alternatives you are weighed against, the outcome you deliver, and why you.</p></article>
-          <article class="card"><h3>Fit boundaries</h3><p>Best-fit, lower-fit, and the buyers worth stepping away from. Where the story should stop trying to carry weight it cannot.</p></article>
-          <article class="card"><h3>Alternatives map</h3><p>What customers choose instead — competitors, the status quo, substitutes, doing nothing — and the honest contrast against each.</p></article>
-          <article class="card"><h3>Claims register</h3><p>What you can say now, what needs proof first, what should be softened, and what should be cut. With the boundary on each.</p></article>
-          <article class="card"><h3>Talk track</h3><p>How leadership and sales explain the company in a real conversation, built from the claims the room agreed it can stand behind.</p></article>
-          <article class="card"><h3>Reference standard</h3><p>The agreed answer written as a baseline your team, agency, or consultant can hold future marketing and sales language against.</p></article>
+        <div class="ledger" id="deliverables">
+          <div class="ledger-row reveal"><span class="idx">01</span><div><h3>The UVP itself</h3><p>The agreed value proposition in one-sentence and short-paragraph form: who you are for, the alternatives you are weighed against, the outcome you deliver, and why you.</p></div></div>
+          <div class="ledger-row reveal"><span class="idx">02</span><div><h3>Fit boundaries</h3><p>Best-fit, lower-fit, and the buyers worth stepping away from. Where the story should stop trying to carry weight it cannot.</p></div></div>
+          <div class="ledger-row reveal"><span class="idx">03</span><div><h3>Alternatives map</h3><p>What customers choose instead &mdash; competitors, the status quo, substitutes, doing nothing &mdash; and the honest contrast against each.</p></div></div>
+          <div class="ledger-row reveal"><span class="idx">04</span><div><h3>Claims register</h3><p>What you can say now, what needs proof first, what should be softened, and what should be cut. With the boundary on each.</p></div></div>
+          <div class="ledger-row reveal"><span class="idx">05</span><div><h3>Talk track</h3><p>How leadership and sales explain the company in a real conversation, built from the claims the room agreed it can stand behind.</p></div></div>
+          <div class="ledger-row reveal"><span class="idx">06</span><div><h3>Reference standard</h3><p>The agreed answer written as a baseline your team, agency, or consultant can hold future marketing and sales language against.</p></div></div>
         </div>
       </div>
     </section>
 
+    <!-- DIFFERENTIATORS -->
     <section>
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head wide reveal">
+          <div class="kicker"><span class="sec">§04</span> Why it gets used</div>
           <h2>Most messaging work dies in a deck. This one is built to be used.</h2>
-          <p class="section-copy">The difference is not prettier language. The difference is structure, proof discipline, and outputs that can actually be used in sales, web, and leadership conversations.</p>
+          <p>The difference is not prettier language. The difference is structure, proof discipline, and outputs that can actually be used in sales, web, and leadership conversations.</p>
         </div>
 
-        <div class="grid-3">
-          <article class="card card-muted"><h3>Not a brainstorm</h3><p>This is a decision sprint, not an open-ended workshop with no decider and no boundary.</p></article>
-          <article class="card card-muted"><h3>Not wordsmithing theater</h3><p>Claims are tied to alternatives, mechanisms, and proof, not just adjectives and taste.</p></article>
-          <article class="card card-muted"><h3>Not shelfware</h3><p>The outputs are designed to show up in sales, web, outbound, and partner explanations immediately.</p></article>
+        <div class="grid-neg">
+          <article class="neg reveal"><span class="neg-mark" aria-hidden="true">&#10005;</span><h3>Not a brainstorm</h3><p>This is a decision sprint, not an open-ended workshop with no decider and no boundary.</p></article>
+          <article class="neg reveal"><span class="neg-mark" aria-hidden="true">&#10005;</span><h3>Not wordsmithing theater</h3><p>Claims are tied to alternatives, mechanisms, and proof &mdash; not just adjectives and taste.</p></article>
+          <article class="neg reveal"><span class="neg-mark" aria-hidden="true">&#10005;</span><h3>Not shelfware</h3><p>The outputs are designed to show up in sales, web, outbound, and partner explanations immediately.</p></article>
         </div>
       </div>
     </section>
 
+    <!-- PROCESS -->
     <section id="process">
       <div class="wrap">
-        <div class="section-head">
-          <h2>How it works</h2>
-          <p class="section-copy">DIR means <strong>Day In Room</strong>. The engagement is one structured working session, run in a single day, with your leadership team in the room. The answer is built and agreed there. What comes before is preparation; what comes after is documentation and a window of field-testing support.</p>
+        <div class="section-head wide reveal">
+          <div class="kicker"><span class="sec">§05</span> How it works</div>
+          <h2>One structured working session, run in a single day.</h2>
+          <p>DIR means Day In Room. The answer is built and agreed there. What comes before is preparation; what comes after is documentation and a window of field-testing support.</p>
         </div>
 
-        <div class="grid-3">
-          <article class="card process-step"><div class="step-num">1</div><h3>Fit Check</h3><p>You answer a short guided set of questions so we can determine whether this is actually a positioning problem and whether your team is ready.</p></article>
-          <article class="card process-step"><div class="step-num">2</div><h3>Input Review</h3><p>If it looks promising, you submit your current homepage or pitch, competitors, customer examples, and one sales call if available.</p></article>
-          <article class="card process-step"><div class="step-num">3</div><h3>The Room, First Half</h3><p>Who you are really for, the alternatives you are measured against, and the points where your current story breaks. Worked in the room until the team agrees.</p></article>
-          <article class="card process-step"><div class="step-num">4</div><h3>The Room, Second Half</h3><p>What you can claim, the proof behind each claim, and the objections the claim has to survive. The unique value proposition takes its final shape here.</p></article>
-          <article class="card process-step"><div class="step-num">5</div><h3>The Agreed Answer</h3><p>The deliverable is what the room decided: one unique value proposition your leadership has tested and signed off on, then documented. It is not a recap of the day and not a set of options for you to choose from later.</p></article>
-          <article class="card process-step"><div class="step-num">6</div><h3>Field-Testing Support</h3><p>You leave with a way to pressure-test the answer in-market over an agreed window. If real-world results call for refinement, we support the changes that documentation and proof require, at no additional charge.</p></article>
+        <div class="grid-process">
+          <article class="step reveal"><span class="step-num">01</span><h3>Fit Check</h3><p>You answer a short guided set of questions so we can determine whether this is actually a positioning problem and whether your team is ready.</p></article>
+          <article class="step reveal"><span class="step-num">02</span><h3>Input Review</h3><p>If it looks promising, you submit your current homepage or pitch, competitors, customer examples, and one sales call if available.</p></article>
+          <article class="step reveal"><span class="step-num">03</span><h3>The Room, First Half</h3><p>Who you are really for, the alternatives you are measured against, and the points where your current story breaks. Worked until the team agrees.</p></article>
+          <article class="step reveal"><span class="step-num">04</span><h3>The Room, Second Half</h3><p>What you can claim, the proof behind each claim, and the objections the claim has to survive. The UVP takes its final shape here.</p></article>
+          <article class="step reveal"><span class="step-num">05</span><h3>The Agreed Answer</h3><p>The deliverable is what the room decided: one UVP your leadership has tested and signed off on, then documented. Not a recap, not a menu of options.</p></article>
+          <article class="step reveal"><span class="step-num">06</span><h3>Field-Testing Support</h3><p>You leave with a way to pressure-test the answer in-market over an agreed window. If results call for refinement, we support the changes proof requires, at no additional charge.</p></article>
         </div>
       </div>
     </section>
 
+    <!-- FIT -->
     <section>
-      <div class="wrap grid-2">
-        <article class="card card-strong">
-          <h2>Good fit if…</h2>
-          <ul class="list-clean">
-            <li>You are a small to midsized business-to-business company.</li>
-            <li>Buyers do not quickly understand why you matter.</li>
-            <li>Sales, marketing, and leadership are not telling the same story.</li>
-            <li>You can provide real examples and make real decisions.</li>
-            <li>You want clarity fast, not months of drift.</li>
-          </ul>
-        </article>
+      <div class="wrap">
+        <div class="section-head reveal"><div class="kicker"><span class="sec">§06</span> Qualification</div><h2>Who this is for &mdash; and who it isn&rsquo;t.</h2></div>
+        <div class="grid-2">
+          <article class="fit-card yes reveal">
+            <h2>Good fit if&hellip;</h2>
+            <ul class="list-clean yes">
+              <li>You are a small to midsized B2B company.</li>
+              <li>Buyers do not quickly understand why you matter.</li>
+              <li>Sales, marketing, and leadership are not telling the same story.</li>
+              <li>You can provide real examples and make real decisions.</li>
+              <li>You want clarity fast, not months of drift.</li>
+            </ul>
+          </article>
 
-        <article class="card card-muted">
-          <h2>Not a fit if…</h2>
-          <ul class="list-clean">
-            <li>You want a logo exercise.</li>
-            <li>You want copy without strategic decisions.</li>
-            <li>You cannot provide inputs.</li>
-            <li>You are unwilling to narrow the Ideal Customer Profile.</li>
-            <li>You want a bespoke consulting swamp.</li>
-          </ul>
-        </article>
+          <article class="fit-card reveal">
+            <h2>Not a fit if&hellip;</h2>
+            <ul class="list-clean no">
+              <li>You want a logo exercise.</li>
+              <li>You want copy without strategic decisions.</li>
+              <li>You cannot provide inputs.</li>
+              <li>You are unwilling to narrow the Ideal Customer Profile.</li>
+              <li>You want a bespoke consulting swamp.</li>
+            </ul>
+          </article>
+        </div>
       </div>
     </section>
 
+    <!-- PRICING -->
     <section id="pricing">
-      <div class="wrap grid-2">
-        <article class="card price-card price-card-main">
-          <div class="eyebrow">Fixed price</div>
-          <h2>DIR UVP Sprint</h2>
-          <div class="price">$35,000</div>
-          <p class="section-copy">One fixed price for one outcome: a unique value proposition your leadership team has tested and agreed on. Not a day rate, not a deliverable count. You are paying for the answer and the agreement behind it.</p>
+      <div class="wrap">
+        <div class="section-head reveal"><div class="kicker"><span class="sec">§07</span> The price</div><h2>One fixed price. One outcome.</h2></div>
+        <div class="grid-2">
+          <article class="price-card price-card-main reveal">
+            <div class="kicker" style="margin-bottom:6px;">DIR UVP Sprint</div>
+            <div class="price">$35,000</div>
+            <p>One fixed price for one outcome: a unique value proposition your leadership team has tested and agreed on. Not a day rate, not a deliverable count. You are paying for the answer and the agreement behind it.</p>
+            <ul class="list-clean yes">
+              <li>One tested UVP, agreed by your leadership in the room</li>
+              <li>Documented so the people who execute can use it</li>
+              <li>A window of field-testing support after the session</li>
+            </ul>
+            <p class="tiny" style="margin-top:18px;">One day in the room. Run remotely by default; in-person by arrangement. Pre-work before, documentation after. Start with the Fit Check &mdash; no sales call required.</p>
+            <div class="cta-row" style="margin-top:24px;">
+              <a class="btn btn-primary btn-lg" href="#fit-check">Start the Fit Check</a>
+              <a class="btn btn-secondary btn-lg" href="#faq">Read the FAQ</a>
+            </div>
+          </article>
 
-          <ul class="list-clean">
-            <li>One tested unique value proposition, agreed by your leadership in the room</li>
-            <li>Documented so the people who execute can use it</li>
-            <li>A window of field-testing support after the session</li>
-          </ul>
-          <p class="micro" style="margin-top:10px;">One day in the room. Run remotely by default; in-person by arrangement. Pre-work before, documentation after. Start with the Fit Check — no sales call required.</p>
-
-          <div class="cta-row" style="margin-top:18px;">
-            <a class="btn btn-primary" href="#fit-check">Start the Fit Check</a>
-            <a class="btn btn-secondary" href="#faq">Read the FAQ</a>
-          </div>
-        </article>
-
-        <article class="card price-card price-card-secondary">
-          <h2>What happens after the sprint?</h2>
-          <p class="section-copy">Usually, the answer is simple: your internal team, agency, fractional executive, or sales consultant uses the output. That is the point. This sprint is designed to make the people already responsible for execution more effective, not to replace them.</p>
-
-          <ul class="list-clean">
-            <li>A documented unique value proposition</li>
-            <li>Aligned leadership language</li>
-            <li>Message boundaries and proof standards</li>
-            <li>A usable reference point for web, sales, and marketing review</li>
-          </ul>
-
-          <p class="section-copy" style="margin-top:16px;">We do not sell marketing retainers, ad management, sales consulting, or broad implementation services. The engagement produces one outcome — a unique value proposition your leadership has agreed on — and stops there. After the session you have an agreed window to field-test the answer. If what you learn calls for refinement, we support the documentation and proof changes that follow, at no additional charge. A finding that would change the answer itself is a different conclusion, and that belongs back in the room as a separate engagement, not a free redo.</p>
-        </article>
+          <article class="price-card price-card-secondary reveal">
+            <div class="kicker" style="margin-bottom:6px;">After the sprint</div>
+            <h2 style="font-size:1.6rem;">What happens next?</h2>
+            <p style="margin-top:10px;">Usually the answer is simple: your internal team, agency, fractional executive, or sales consultant uses the output. That is the point &mdash; this sprint makes the people already responsible for execution more effective, not replaced.</p>
+            <ul class="list-clean yes" style="margin-top:20px;">
+              <li>A documented unique value proposition</li>
+              <li>Aligned leadership language</li>
+              <li>Message boundaries and proof standards</li>
+              <li>A usable reference point for web, sales, and marketing review</li>
+            </ul>
+            <p style="margin-top:20px; font-size:15px; line-height:1.6;">We do not sell marketing retainers, ad management, sales consulting, or broad implementation. The engagement produces one outcome and stops there. After the session you have an agreed window to field-test the answer; if what you learn calls for refinement, we support the documentation and proof changes that follow, at no additional charge. A finding that would change the answer itself belongs back in the room as a separate engagement &mdash; not a free redo.</p>
+          </article>
+        </div>
       </div>
     </section>
 
+    <!-- FAQ -->
     <section id="faq">
       <div class="wrap">
-        <div class="section-head">
-          <h2>FAQ</h2>
-          <p class="section-copy">Short answers to the questions that actually slow decisions down.</p>
+        <div class="section-head reveal">
+          <div class="kicker"><span class="sec">§08</span> Questions</div>
+          <h2>The questions that slow decisions down.</h2>
         </div>
 
-        <div class="faq-stack">
+        <div class="faq-stack reveal">
           <article class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-1">
               <span>What does DIR mean?</span><span class="faq-plus" aria-hidden="true">+</span>
@@ -1138,7 +706,7 @@
 
           <article class="faq-item open">
             <button class="faq-question" type="button" aria-expanded="true" aria-controls="faq-3">
-              <span>Will this give us finished website copy?</span><span class="faq-plus" aria-hidden="true">−</span>
+              <span>Will this give us finished website copy?</span><span class="faq-plus" aria-hidden="true">+</span>
             </button>
             <div class="faq-answer" id="faq-3" style="display:block;">No. It gives you the message system the website copy should follow. That is more valuable than jumping straight into page writing.</div>
           </article>
@@ -1147,7 +715,7 @@
             <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-4">
               <span>Do I need to book a call to get started?</span><span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer" id="faq-4">No. Start with the Fit Check. If the sprint looks right, you’ll get a recommendation for the next step. A live conversation only happens if it helps move the decision forward.</div>
+            <div class="faq-answer" id="faq-4">No. Start with the Fit Check. If the sprint looks right, you&rsquo;ll get a recommendation for the next step. A live conversation only happens if it helps move the decision forward.</div>
           </article>
 
           <article class="faq-item">
@@ -1161,37 +729,93 @@
             <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-6">
               <span>Do you help with implementation?</span><span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer" id="faq-6">No. What you buy is the outcome — a unique value proposition your leadership has agreed on — documented clearly enough that your internal team, agency, fractional executive, or sales consultant can run with it. They do the implementation; the engagement makes them more effective at it. After the session you have an agreed window to field-test the answer, and we support the documentation and proof refinements that follow at no additional charge.</div>
+            <div class="faq-answer" id="faq-6">No. What you buy is the outcome &mdash; a unique value proposition your leadership has agreed on &mdash; documented clearly enough that your internal team, agency, fractional executive, or sales consultant can run with it. They do the implementation; the engagement makes them more effective at it. After the session you have an agreed window to field-test the answer, and we support the documentation and proof refinements that follow at no additional charge.</div>
           </article>
 
           <article class="faq-item">
             <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-7">
               <span>Do you compete with agencies, fractional executives, or sales consultants?</span><span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer" id="faq-7">No. The engagement is built to strengthen the people already serving you. The answer is not handed down by a consultant — your leadership team decides it in the room; the session is structured to get them there and to hold the standard of proof. We facilitate that and document what the room agreed, clearly enough that it becomes the baseline for future marketing and sales language.</div>
+            <div class="faq-answer" id="faq-7">No. The engagement is built to strengthen the people already serving you. The answer is not handed down by a consultant &mdash; your leadership team decides it in the room; the session is structured to get them there and to hold the standard of proof. We facilitate that and document what the room agreed, clearly enough that it becomes the baseline for future marketing and sales language.</div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Fit Check + economic screen (M-15 / funnel_architecture_spec_v2.md §5). Economic floors are internal field-test placeholders and are never shown to the prospect. -->
+    <!-- FIT CHECK / CLARITY CHECK TOOL -->
     <section id="fit-check" class="fit-check">
       <div class="wrap">
-        <div class="section-head">
-          <h2>Check Your UVP Clarity</h2>
-          <p class="section-copy">You&rsquo;ve seen how the method works above. Now run your own materials through the same standard. The check reviews your homepage, up to two more pages, and up to two PDFs, then returns an evidence-cited reading of where your value proposition is clear and where it isn&rsquo;t &mdash; quoting your own words. It never tells you what your message should be; that is the work of the room. You get the full report before we ask for anything. No sales call required.</p>
+        <div class="section-head wide reveal">
+          <div class="kicker"><span class="sec">§09</span> Run your own materials</div>
+          <h2>Check your UVP clarity.</h2>
+          <p>You&rsquo;ve seen how the method works above. Now run your own materials through the same standard. The check reviews your homepage, up to two more pages, and up to two PDFs, then returns an evidence-cited reading of where your value proposition is clear and where it isn&rsquo;t &mdash; quoting your own words. It never tells you what your message should be; that is the work of the room. You get the full report before we ask for anything. No sales call required.</p>
         </div>
-        <div class="fit-shell">
+        <div class="fit-shell reveal">
           <div id="clarityApp" class="clarity-app"></div>
-          <noscript><p class="section-copy">The UVP Clarity Check needs JavaScript enabled. You can review the methodology documents above, or email tom@mediathink.com.</p></noscript>
+          <noscript><p style="color:var(--muted);">The UVP Clarity Check needs JavaScript enabled. You can review the methodology documents above, or email tom@mediathink.com.</p></noscript>
         </div>
       </div>
     </section>
   </main>
 
-  <footer style="border-top:1px solid var(--line); padding:26px 0; margin-top:10px;">
-    <div class="wrap" style="font-size:13.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between;"><span>&copy; 2026 Mediathink</span><span><a href="/privacy" style="color:var(--muted); text-decoration:underline;">Privacy</a></span></div>
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>&copy; 2026 Mediathink</span>
+      <span><a href="/privacy">Privacy</a></span>
+    </div>
   </footer>
+
+  <!-- Scroll-reveal: transform/opacity only, rAF-throttled, reduced-motion safe.
+       Scroll-driven (not IntersectionObserver) so content can never get stuck hidden. -->
+  <script>
+    (function () {
+      var els = [].slice.call(document.querySelectorAll('.reveal'));
+      if (!els.length) return;
+      var revealAll = function () { els.forEach(function (el) { el.classList.add('in'); }); };
+      try {
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) { revealAll(); return; }
+        els.forEach(function (el) {
+          var sibs = [].slice.call(el.parentElement.children).filter(function (c) { return c.classList.contains('reveal'); });
+          el.style.transitionDelay = (Math.min(sibs.indexOf(el), 6) * 60) + 'ms';
+        });
+        var pending = els.slice();
+        var check = function () {
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          pending = pending.filter(function (el) {
+            var r = el.getBoundingClientRect();
+            if (r.top < vh * 0.92 && r.bottom > 0) { el.classList.add('in'); return false; }
+            return true;
+          });
+          if (!pending.length) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
+        };
+        var ticking = false;
+        var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; check(); }); } };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        check();
+        window.addEventListener('load', check);
+        setTimeout(check, 350);
+      } catch (e) { revealAll(); }
+    })();
+  </script>
+
+  <!-- FAQ accordion (self-contained; independent of app.js) -->
+  <script>
+    (function () {
+      document.querySelectorAll('.faq-item .faq-question').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var item = btn.closest('.faq-item');
+          var open = item.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          var plus = btn.querySelector('.faq-plus');
+          if (plus) plus.textContent = open ? '\u2212' : '+';
+          var ans = item.querySelector('.faq-answer');
+          if (ans) ans.style.display = open ? 'block' : '';
+        });
+      });
+    })();
+  </script>
 
   <script>
     // Turnstile site keys are public; inlining it lets app.js skip the per-view
@@ -1200,6 +824,7 @@
   </script>
   <!-- Bump ?v= on every app.js change so returning visitors get the new file immediately
        (HTML is always revalidated; app.js itself is cached up to 4h by an edge rule). -->
-  <script src="/app.js?v=20260622" defer></script>
+  <script src="app.js?v=20260622" defer></script>
 </body>
 </html>
+
