@@ -823,6 +823,9 @@
       .fit-meta { align-items: flex-start; }
       .fit-last { width: 100%; max-width: 100%; border-radius: 14px; }
       .next-step-grid { grid-template-columns: 1fr; }
+      /* Live backdrop blur on a sticky element repaints every scroll frame — costly on
+         mobile GPUs/battery. The header bg is near-opaque anyway, so go fully opaque here. */
+      .site-header { backdrop-filter: none; background: rgb(242,242,236); }
     }
     /* ---- UVP Clarity Check ---- */
     .clarity-app { width: 100%; }
@@ -1186,7 +1189,9 @@
   </footer>
 
   <script>
-    window.DIR_UVP_CONFIG = window.DIR_UVP_CONFIG || {};
+    // Turnstile site keys are public; inlining it lets app.js skip the per-view
+    // /api/clarity-config Function call. app.js falls back to that endpoint if absent.
+    window.DIR_UVP_CONFIG = Object.assign({ turnstileSiteKey: '0x4AAAAAADovsrdHHQmYVZNH' }, window.DIR_UVP_CONFIG || {});
   </script>
   <script src="/app.js" defer></script>
 </body>

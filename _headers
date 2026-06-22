@@ -1,0 +1,12 @@
+# Cloudflare Pages headers — https://developers.cloudflare.com/pages/configuration/headers/
+
+# app.js has a stable (non-hashed) filename, so a long TTL means deploys don't reach
+# returning visitors for hours. Short TTL + revalidation: fixes propagate within minutes,
+# unchanged file still returns a cheap 304 via ETag.
+/app.js
+  Cache-Control: public, max-age=600, must-revalidate
+  X-Content-Type-Options: nosniff
+
+# Static document pages: always revalidate so content edits go live immediately.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

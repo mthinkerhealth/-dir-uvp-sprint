@@ -68,6 +68,7 @@
   // ---- State ----
   let TURNSTILE_SITE_KEY = '';
   let turnstileWidgetId = null;
+  let turnstileRequested = false;
   let lastReport = null;
   let stage1 = null;
 
@@ -79,7 +80,7 @@
     root.appendChild(buildErrorPanel());
     const report = el('div', 'clarity-report'); report.id = 'clarityReport'; report.hidden = true;
     root.appendChild(report);
-    loadConfigAndTurnstile();
+    armTurnstileLazyLoad();
     dl('clarity_check_viewed');
   }
 
@@ -150,12 +151,37 @@
   }
 
   // ===================== config / turnstile =====================
-  async function loadConfigAndTurnstile() {
-    try {
-      const res = await fetch(CONFIG_URL, { headers: { Accept: 'application/json' } });
-      const cfg = await res.json();
-      TURNSTILE_SITE_KEY = cfg.turnstileSiteKey || '';
-    } catch (_) { TURNSTILE_SITE_KEY = ''; }
+  // Load Turnstile only when the visitor shows intent to use the form (it scrolls into
+  // view, or they focus/tap it). Most visitors never submit, so this avoids fetching and
+  // running the Cloudflare challenge script for everyone. Idempotent — first signal wins.
+  function armTurnstileLazyLoad() {
+    const form = $('clarityForm');
+    if (!form) return;
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { io.disconnect(); loadTurnstile(); }
+      }, { rootMargin: '200px' });
+      io.observe(form);
+    } else {
+      loadTurnstile();
+    }
+    form.addEventListener('focusin', loadTurnstile, { once: true });
+    form.addEventListener('pointerdown', loadTurnstile, { once: true });
+  }
+
+  async function loadTurnstile() {
+    if (turnstileRequested) return;
+    turnstileRequested = true;
+    // Prefer the inlined public site key (no network); fall back to the config endpoint.
+    if (CONFIG.turnstileSiteKey) {
+      TURNSTILE_SITE_KEY = CONFIG.turnstileSiteKey;
+    } else {
+      try {
+        const res = await fetch(CONFIG_URL, { headers: { Accept: 'application/json' } });
+        const cfg = await res.json();
+        TURNSTILE_SITE_KEY = cfg.turnstileSiteKey || '';
+      } catch (_) { TURNSTILE_SITE_KEY = ''; }
+    }
     if (!TURNSTILE_SITE_KEY) return;
     if (window.turnstile) return renderTurnstile();
     const s = document.createElement('script');
@@ -224,7 +250,10 @@
     // hiccup, not a real result, so those are retried silently. A legitimate JSON error
     // (missing fields, capacity, rate limit, expired challenge) is returned and shown to
     // the user, never retried.
-    const MAX_ATTEMPTS = 3;             // 1 initial attempt + up to 2 silent retries
+    // Re-POSTing a multi-megabyte PDF payload repeatedly is wasteful on the flaky mobile
+    // connections that trigger retries — allow one safety retry with files, two without.
+    const hasPdfs = ($('pdfs').files || []).length > 0;
+    const MAX_ATTEMPTS = hasPdfs ? 2 : 3;
     const RETRY_DELAY_MS = 1200;
     const ATTEMPT_TIMEOUT_MS = 90_000;  // above the function's own ~60s ceiling — only aborts true hangs
     let data = null;
@@ -287,7 +316,11 @@
   function startAnalyzingMessages() {
     const msgs = ['Reading selected pages…', 'Reviewing supplied collateral…', 'Comparing the company story…', 'Testing claims and proof…', 'Preparing the assessment…'];
     let i = 0; const node = $('ccAnalyzingMsg'); if (node) node.textContent = msgs[0];
-    msgTimer = setInterval(() => { i = Math.min(i + 1, msgs.length - 1); if (node) node.textContent = msgs[i]; }, 2600);
+    msgTimer = setInterval(() => {
+      i += 1;
+      if (node) node.textContent = msgs[Math.min(i, msgs.length - 1)];
+      if (i >= msgs.length - 1) stopAnalyzingMessages(); // last message shown — stop waking the timer
+    }, 2600);
   }
   function stopAnalyzingMessages() { if (msgTimer) { clearInterval(msgTimer); msgTimer = null; } }
 

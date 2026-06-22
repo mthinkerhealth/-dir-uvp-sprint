@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# Internal notes — must NOT deploy (Cloudflare Pages serves repo-root files publicly)
+QA-NOTES.md
