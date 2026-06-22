@@ -82,6 +82,11 @@ export function deriveSprintFit({ clarityBand, preliminaryCase, readiness, compa
   return 'strong_fit';
 }
 
+// SEC-4 (accepted/documented): this uses a short hardcoded multi-part-TLD list, not the
+// full Public Suffix List. Two subdomains on a shared host (e.g. *.amazonaws.com,
+// *.github.io) can therefore be treated as the same registrable domain. Used only for the
+// "additional pages must be same-domain" check, so the blast radius is low. If this ever
+// matters, swap in a PSL lookup.
 export function registrableDomain(hostname) {
   const host = String(hostname || '').toLowerCase().replace(/\.$/, '');
   const parts = host.split('.').filter(Boolean);

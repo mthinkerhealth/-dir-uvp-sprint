@@ -19,6 +19,14 @@
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
   const esc = (s) => String(s == null ? '' : s);
+  // UI-1: the model sometimes returns excerpts already wrapped in quotes; we add our own
+  // curly pair, which read as doubled (""…""). Strip a single wrapping quote pair first —
+  // only when both ends are quote glyphs, so trailing possessives etc. are untouched.
+  const unquote = (s) => {
+    s = String(s == null ? '' : s).trim();
+    if (s.length >= 2 && /^["“”'‘’«»]/.test(s[0]) && /["“”'‘’«»]$/.test(s[s.length - 1])) s = s.slice(1, -1).trim();
+    return s;
+  };
   const uuid = () => { try { return crypto.randomUUID(); } catch (_) { return 'k-' + Date.now().toString(36) + '-' + Math.random().toString(16).slice(2); } };
 
   // ---- Economic + fit logic (mirrors functions/_shared/domain.js; Stage 2 is computed in the browser) ----
@@ -71,6 +79,7 @@
   let turnstileRequested = false;
   let lastReport = null;
   let stage1 = null;
+  let stage2 = null;
 
   // ===================== rendering =====================
   function render(root) {
@@ -239,7 +248,12 @@
     // Cloudflare returns the cached siteverify result instead of rejecting a reused token.
     if (TURNSTILE_SITE_KEY) fd.set('turnstileIdempotencyKey', uuid());
 
-    stage1 = { companyType: form.companyType.value };
+    stage1 = {
+      companyType: form.companyType.value,
+      primaryUrl: form.primaryUrl.value.trim(),
+      whatYouSell: form.whatYouSell.value.trim(),
+      buyer: form.buyer.value.trim()
+    };
     showOnly('clarityAnalyzing');
     startAnalyzingMessages();
     const filledPages = 1 + Array.from(form.querySelectorAll('input[name="additionalUrls"]')).filter((i) => i.value.trim()).length;
@@ -337,7 +351,7 @@
     const list = Array.isArray(items) ? items : (items ? [items] : []);
     list.forEach((ev) => {
       const li = el('li');
-      const q = el('span', 'cc-quote', '“' + esc(ev.excerpt) + '”');
+      const q = el('span', 'cc-quote', '“' + unquote(esc(ev.excerpt)) + '”');
       const src = el('span', 'cc-src', ' — ' + esc(ev.source_label || ev.source_id) + (ev.page_number != null ? `, p.${ev.page_number}` : ''));
       li.appendChild(q); li.appendChild(src); ul.appendChild(li);
     });
@@ -497,6 +511,7 @@
       e.preventDefault();
       const err = $('ccStage2Error'); err.hidden = true;
       if (!form.readiness.value || !form.revenueBand.value || !form.spendBand.value) { err.textContent = 'Please answer all three.'; err.hidden = false; return; }
+      stage2 = { readiness: form.readiness.value, revenueBand: form.revenueBand.value, spendBand: form.spendBand.value };
       dl('sprint_fit_started');
       const fit = deriveSprintFit({
         clarityBand: report.overall_band,
@@ -556,10 +571,53 @@
     panel.querySelector('#ccEmailSend').addEventListener('click', async () => {
       const email = panel.querySelector('#ccEmail').value.trim();
       const err = panel.querySelector('#ccEmailErr');
+      const okNote = panel.querySelector('#ccEmailOk');
+      const btn = panel.querySelector('#ccEmailSend');
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { err.textContent = 'Enter a valid work email.'; err.hidden = false; return; }
       err.hidden = true;
-      try { await fetch(CAPTURE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, source: 'clarity-check', result_band: lastReport && lastReport.overall_band, sprint_fit_band: fit }) }); } catch (_) {}
-      panel.querySelector('#ccEmailOk').hidden = false;
+      btn.disabled = true;
+      // LEAD-2: send the qualifying context the prospect typed + the derived bands so the
+      // lead is actionable. Privacy boundary: NO report text, evidence excerpts, or files.
+      const payload = {
+        email,
+        source: 'clarity-check',
+        next_step_choice: 'email',
+        company_website: (stage1 && stage1.primaryUrl) || '',
+        company_type: (stage1 && stage1.companyType) || '',
+        what_you_sell: (stage1 && stage1.whatYouSell) || '',
+        intended_buyer: (stage1 && stage1.buyer) || '',
+        fit_tier: fit,
+        fit_score: (lastReport && lastReport.overall_band) || '',
+        readiness: (stage2 && stage2.readiness) || '',
+        revenue_band: (stage2 && stage2.revenueBand) || '',
+        spend_band: (stage2 && stage2.spendBand) || '',
+        result_band: (lastReport && lastReport.overall_band) || '',
+        sprint_fit_band: fit
+      };
+      // LEAD-1: only show success on a confirmed-good response. Any failure (non-2xx,
+      // ok:false, parse error, network/timeout) shows the mailto fallback and keeps the
+      // email in the field to retry.
+      try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 15000);
+        const res = await fetch(CAPTURE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal, body: JSON.stringify(payload) });
+        clearTimeout(t);
+        let body = null; try { body = await res.json(); } catch (_) {}
+        if (res.ok && body && body.ok !== false) {
+          okNote.hidden = false;
+          dl('recommendation_email_captured', { sprint_fit_band: fit });
+        } else {
+          err.textContent = `That didn’t go through. Please email ${CONTACT_EMAIL} and we’ll send it.`;
+          err.hidden = false;
+          dl('recommendation_email_failed', { sprint_fit_band: fit, status: res.status });
+        }
+      } catch (_) {
+        err.textContent = `That didn’t go through. Please email ${CONTACT_EMAIL} and we’ll send it.`;
+        err.hidden = false;
+        dl('recommendation_email_failed', { sprint_fit_band: fit, status: 'network' });
+      } finally {
+        btn.disabled = false;
+      }
     });
   }
 

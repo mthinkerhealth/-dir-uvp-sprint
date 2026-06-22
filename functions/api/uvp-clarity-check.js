@@ -3,6 +3,7 @@ import { OUTPUT_SCHEMA } from '../_shared/schema.js';
 
 const MAX_PAGES = 3;
 const MAX_PAGE_BYTES = 1_000_000;
+const MAX_DOWNLOAD_BYTES = 8_000_000;
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_REDIRECTS = 3;
 const OPENAI_TIMEOUT_MS = 55_000;
@@ -99,7 +100,7 @@ async function handleAnalysis(request, env, ctx) {
   const usablePages = pageResults.filter((item) => item.usable);
   const sourceWarnings = pageResults.filter((item) => !item.usable).map((item) => item.warning);
   if (usablePages.length === 0 && pdfs.length === 0) {
-    return jsonError('insufficient_evidence', 'We could not read the selected pages. Try again with accessible pages or a PDF.', 422, { sourceWarnings });
+    return jsonError('insufficient_evidence', 'We couldn’t read enough from those pages (some sites block automated readers or render with JavaScript). Try a different page URL, or upload a PDF of your sales/marketing material — PDFs are read directly and usually work best.', 422, { sourceWarnings });
   }
 
   const content = [{
@@ -158,10 +159,11 @@ async function callOpenAI(content, env) {
         model: env.OPENAI_MODEL || 'gpt-5.4-mini-2026-03-17',
         store: false,
         reasoning: { effort: 'low' },
-        // Reasoning tokens are billed against max_output_tokens on the Responses API.
-        // This report is a large strict-schema object, so a tight cap silently yields
-        // status:"incomplete". Keep headroom; override per-environment if needed.
-        max_output_tokens: Number(env.OPENAI_MAX_OUTPUT_TOKENS) || 6000,
+        // Reasoning tokens are billed against max_output_tokens on the Responses API, so a
+        // tight cap silently yields status:"incomplete" on content-rich sites — a deterministic
+        // dead end no "retry" can fix. 10k gives comfortable headroom for reasoning + the full
+        // strict-schema report; override per-environment if needed.
+        max_output_tokens: Number(env.OPENAI_MAX_OUTPUT_TOKENS) || 10000,
         instructions: SYSTEM_PROMPT,
         input: [{ role: 'user', content }],
         text: { format: { type: 'json_schema', name: 'uvp_clarity_report', strict: true, schema: OUTPUT_SCHEMA } }
@@ -177,10 +179,15 @@ async function callOpenAI(content, env) {
     throw apiFailure(category, 'The analysis service could not complete this check. No diagnosis was generated; please retry.', 502);
   }
   const body = await response.json();
+  const usage = body.usage || {};
+  // Log usage on every call (success and incomplete) so the cap can be tuned from data
+  // and an alert can fire if the incomplete rate climbs.
+  console.log(JSON.stringify({ event: 'openai_usage', status: body.status || 'completed', input_tokens: usage.input_tokens || 0, output_tokens: usage.output_tokens || 0, cap: Number(env.OPENAI_MAX_OUTPUT_TOKENS) || 10000 }));
   if (body.status === 'incomplete') {
     const reason = body.incomplete_details?.reason || 'unknown';
-    console.error(JSON.stringify({ event: 'openai_incomplete', reason }));
-    throw apiFailure('incomplete', 'The analysis ended before the report was complete. Please retry.', 502);
+    console.error(JSON.stringify({ event: 'openai_incomplete', reason, output_tokens: usage.output_tokens || 0 }));
+    // Don't promise a plain retry helps — a same-size re-request hits the same wall. Steer to less input.
+    throw apiFailure('incomplete', 'The analysis didn’t fit within its size limit. Try again with just your most important page, or a single focused PDF.', 502);
   }
   const message = (body.output || []).find((item) => item.type === 'message');
   const refusal = message?.content?.find((item) => item.type === 'refusal');
@@ -192,12 +199,15 @@ async function callOpenAI(content, env) {
   let parsed;
   try { parsed = JSON.parse(text); }
   catch { throw apiFailure('malformed', 'The analysis returned an incomplete report. Please retry.', 502); }
-  return { parsed, usage: body.usage || {} };
+  return { parsed, usage };
 }
 
 async function retrievePage(initialUrl, sourceId) {
   let current = initialUrl;
   for (let redirect = 0; redirect <= MAX_REDIRECTS; redirect += 1) {
+    if (await hostResolvesPrivate(current.hostname)) {
+      return { sourceId, usable: false, warning: `Blocked ${initialUrl.hostname}: it resolves to a non-public address.` };
+    }
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), PAGE_TIMEOUT_MS);
     let response;
@@ -205,7 +215,14 @@ async function retrievePage(initialUrl, sourceId) {
       response = await fetch(current.toString(), {
         signal: controller.signal,
         redirect: 'manual',
-        headers: { 'User-Agent': 'DIR-UVP-Clarity-Check/1.0 (+https://uvpsprint.com)', Accept: 'text/html' }
+        headers: {
+          // A custom UA gets 403'd by many edge WAFs (Cloudflare/Akamai), which surfaced as
+          // a false "insufficient evidence". Present as a mainstream browser; keep the
+          // contact hint so we remain identifiable.
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 (+https://uvpsprint.com)',
+          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.9'
+        }
       });
     } catch {
       return { sourceId, usable: false, warning: `Could not retrieve ${initialUrl.hostname}.` };
@@ -220,16 +237,28 @@ async function retrievePage(initialUrl, sourceId) {
     }
     if (!response.ok) return { sourceId, usable: false, warning: `${initialUrl.hostname} returned HTTP ${response.status}.` };
     const type = (response.headers.get('content-type') || '').toLowerCase();
-    if (!type.includes('text/html')) return { sourceId, usable: false, warning: `${initialUrl.hostname} did not return an HTML page.` };
-    const length = Number(response.headers.get('content-length') || 0);
-    if (length > MAX_PAGE_BYTES) return { sourceId, usable: false, warning: `${initialUrl.hostname} exceeded the page size limit.` };
+    if (!type.includes('text/html') && !type.includes('application/xhtml+xml')) {
+      return { sourceId, usable: false, warning: `${initialUrl.hostname} did not return an HTML page.` };
+    }
+    // Reject only truly enormous bodies (memory guard); truncate large-but-legitimate
+    // pages to MAX_PAGE_BYTES and parse them instead of discarding (was a false negative).
+    const declared = Number(response.headers.get('content-length') || 0);
+    if (declared > MAX_DOWNLOAD_BYTES) return { sourceId, usable: false, warning: `${initialUrl.hostname} is too large to analyze.` };
     const bytes = new Uint8Array(await response.arrayBuffer());
-    if (bytes.byteLength > MAX_PAGE_BYTES) return { sourceId, usable: false, warning: `${initialUrl.hostname} exceeded the page size limit.` };
-    const html = new TextDecoder().decode(bytes);
+    const slice = bytes.byteLength > MAX_PAGE_BYTES ? bytes.subarray(0, MAX_PAGE_BYTES) : bytes;
+    const html = new TextDecoder('utf-8', { fatal: false }).decode(slice);
     let extracted;
     try { extracted = extractVisibleText(html); }
     catch { return { sourceId, usable: false, warning: `Could not parse the page from ${initialUrl.hostname}.` }; }
-    if (extracted.text.length < 120) return { sourceId, usable: false, warning: `${initialUrl.hostname} did not expose enough readable text.` };
+    // Thin body text (common on JS-rendered SPAs): fall back to title + meta/OG description
+    // as supplemental evidence rather than declaring the page unreadable.
+    if (extracted.text.length < 120) {
+      const supplemental = [extracted.title, extracted.description].filter(Boolean).join('. ').trim();
+      if (supplemental.length >= 60) {
+        return { sourceId, usable: true, finalUrl: current.toString(), title: extracted.title, description: extracted.description, text: supplemental };
+      }
+      return { sourceId, usable: false, warning: `${initialUrl.hostname} exposed almost no readable text (it may require JavaScript to render — a PDF works better).` };
+    }
     return { sourceId, usable: true, finalUrl: current.toString(), ...extracted };
   }
   return { sourceId, usable: false, warning: `Could not retrieve ${initialUrl.hostname}.` };
@@ -244,14 +273,48 @@ export function validatePublicUrl(raw) {
 }
 
 function isIpLiteral(host) {
-  if (host.includes(':')) return true;
-  if (!/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) return false;
-  return true;
+  if (host.includes(':')) return true; // IPv6
+  // Any host whose every dot-separated label is purely numeric — decimal, octal (0177…)
+  // or hex (0x7f…) — is an IP in some encoding (e.g. 0177.0.0.1, 0x7f.0.0.1), not a domain.
+  const labels = host.split('.');
+  return labels.length > 0 && labels.every((l) => /^(0x[0-9a-f]+|\d+)$/i.test(l));
+}
+
+export function isPrivateIPv4(ip) {
+  const o = String(ip).split('.').map(Number);
+  if (o.length !== 4 || o.some((n) => !Number.isInteger(n) || n < 0 || n > 255)) return true; // malformed → unsafe
+  const [a, b] = o;
+  if (a === 0 || a === 10 || a === 127) return true;            // this-network, private, loopback
+  if (a === 169 && b === 254) return true;                       // link-local + cloud metadata (169.254.169.254)
+  if (a === 172 && b >= 16 && b <= 31) return true;              // 172.16/12
+  if (a === 192 && b === 168) return true;                       // 192.168/16
+  if (a === 100 && b >= 64 && b <= 127) return true;             // 100.64/10 CGNAT
+  if (a >= 224) return true;                                     // multicast / reserved
+  return false;
+}
+
+// SEC-1 defense-in-depth against DNS rebinding: resolve the host (DoH) and refuse if it
+// points at a private/loopback/metadata IP. Fail-open on DoH errors / no A record — this
+// is a secondary layer (Cloudflare's fetch egress + the string checks are the primary gate);
+// a residual TOCTOU window remains since we can't pin the connected IP from a Worker.
+async function hostResolvesPrivate(hostname) {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 3000);
+    const r = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=A`, { headers: { Accept: 'application/dns-json' }, signal: ctrl.signal });
+    clearTimeout(t);
+    const j = await r.json();
+    const ips = (j.Answer || []).filter((ans) => ans.type === 1).map((ans) => ans.data);
+    if (!ips.length) return false; // unresolved / IPv6-only / CDN — don't block legit sites
+    return ips.some((ip) => isPrivateIPv4(ip));
+  } catch { return false; }
 }
 
 export function extractVisibleText(html) {
-  const title = decodeEntities((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || '').trim()).slice(0, 300);
-  const description = decodeEntities((html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)/i)?.[1] || html.match(/<meta[^>]+content=["']([^"']*)["'][^>]+name=["']description["']/i)?.[1] || '').trim()).slice(0, 500);
+  const ogTitle = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']*)/i)?.[1] || '';
+  const ogDesc = html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']*)/i)?.[1] || '';
+  const title = decodeEntities((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ogTitle || '').trim()).slice(0, 300);
+  const description = decodeEntities((html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)/i)?.[1] || html.match(/<meta[^>]+content=["']([^"']*)["'][^>]+name=["']description["']/i)?.[1] || ogDesc || '').trim()).slice(0, 500);
   const cleaned = html
     .replace(/<!--[\s\S]*?-->/g, ' ')
     .replace(/<(script|style|noscript|svg|canvas|form|template)[^>]*>[\s\S]*?<\/\1>/gi, ' ')
@@ -282,7 +345,7 @@ async function verifyTurnstile(token, ip, secret, idempotencyKey) {
   finally { clearTimeout(timer); }
 }
 
-async function hasPdfSignature(file) {
+export async function hasPdfSignature(file) {
   const prefix = new Uint8Array(await file.slice(0, 5).arrayBuffer());
   return String.fromCharCode(...prefix) === '%PDF-';
 }

@@ -1,5 +1,15 @@
 # macOS
 .DS_Store
 
-# Internal notes — must NOT deploy (Cloudflare Pages serves repo-root files publicly)
+# Internal notes & handoffs — must NOT deploy (Cloudflare Pages serves repo-root files publicly)
 QA-NOTES.md
+REMEDIATION_HANDOFF_for_Claude_Code.md
+QA_Review_*.md
+*-HANDOFF.md
+
+# Local full-stack secrets (wrangler) — never commit
+.dev.vars
+
+# Local tooling / caches
+.wrangler/
+node_modules/

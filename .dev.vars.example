@@ -1,0 +1,6 @@
+# Local full-stack secrets for `npx wrangler pages dev .` — copy to .dev.vars (git-ignored).
+AI_ANALYSIS_ENABLED=true
+ALLOW_DEV_TURNSTILE_BYPASS=true        # bypasses Turnstile on localhost only
+OPENAI_API_KEY=sk-...                  # real key only needed to exercise the model call
+# Optional overrides: OPENAI_MODEL, OPENAI_MAX_OUTPUT_TOKENS, OPENAI_PROMPT_VERSION,
+# DAILY_COST_LIMIT_USD, MONTHLY_COST_LIMIT_USD
