@@ -7,6 +7,7 @@ const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_REDIRECTS = 3;
 const OPENAI_TIMEOUT_MS = 55_000;
 const PAGE_TIMEOUT_MS = 8_000;
+const TURNSTILE_TIMEOUT_MS = 8_000;
 
 const SYSTEM_PROMPT = `You are the evidence analyst for DIR UVP Sprint. Assess only what supplied materials currently communicate.
 
@@ -58,8 +59,9 @@ async function handleAnalysis(request, env, ctx) {
   catch { return jsonError('invalid_request', 'The submitted form could not be read.', 400); }
 
   const turnstile = String(form.get('turnstileToken') || '');
+  const idempotencyKey = bounded(form.get('turnstileIdempotencyKey'), 64);
   const localBypass = env.ALLOW_DEV_TURNSTILE_BYPASS === 'true' && new URL(request.url).hostname === 'localhost';
-  if (!localBypass && !(await verifyTurnstile(turnstile, ip, env.TURNSTILE_SECRET_KEY))) {
+  if (!localBypass && !(await verifyTurnstile(turnstile, ip, env.TURNSTILE_SECRET_KEY, idempotencyKey))) {
     return jsonError('challenge_failed', 'The security check expired. Please try again.', 403);
   }
 
@@ -156,7 +158,10 @@ async function callOpenAI(content, env) {
         model: env.OPENAI_MODEL || 'gpt-5.4-mini-2026-03-17',
         store: false,
         reasoning: { effort: 'low' },
-        max_output_tokens: 2500,
+        // Reasoning tokens are billed against max_output_tokens on the Responses API.
+        // This report is a large strict-schema object, so a tight cap silently yields
+        // status:"incomplete". Keep headroom; override per-environment if needed.
+        max_output_tokens: Number(env.OPENAI_MAX_OUTPUT_TOKENS) || 6000,
         instructions: SYSTEM_PROMPT,
         input: [{ role: 'user', content }],
         text: { format: { type: 'json_schema', name: 'uvp_clarity_report', strict: true, schema: OUTPUT_SCHEMA } }
@@ -172,14 +177,20 @@ async function callOpenAI(content, env) {
     throw apiFailure(category, 'The analysis service could not complete this check. No diagnosis was generated; please retry.', 502);
   }
   const body = await response.json();
-  if (body.status === 'incomplete') throw apiFailure('incomplete', 'The analysis ended before the report was complete. Please retry.', 502);
+  if (body.status === 'incomplete') {
+    const reason = body.incomplete_details?.reason || 'unknown';
+    console.error(JSON.stringify({ event: 'openai_incomplete', reason }));
+    throw apiFailure('incomplete', 'The analysis ended before the report was complete. Please retry.', 502);
+  }
   const message = (body.output || []).find((item) => item.type === 'message');
-  const output = message?.content?.find((item) => item.type === 'output_text');
   const refusal = message?.content?.find((item) => item.type === 'refusal');
   if (refusal) throw apiFailure('refusal', 'The supplied material could not be assessed. Try different evidence.', 422);
-  if (!output?.text) throw apiFailure('malformed', 'The analysis returned an incomplete report. Please retry.', 502);
+  // Prefer the structured message part; fall back to the aggregated output_text field.
+  const text = message?.content?.find((item) => item.type === 'output_text')?.text
+    || (typeof body.output_text === 'string' ? body.output_text : '');
+  if (!text) throw apiFailure('malformed', 'The analysis returned an incomplete report. Please retry.', 502);
   let parsed;
-  try { parsed = JSON.parse(output.text); }
+  try { parsed = JSON.parse(text); }
   catch { throw apiFailure('malformed', 'The analysis returned an incomplete report. Please retry.', 502); }
   return { parsed, usage: body.usage || {} };
 }
@@ -256,14 +267,19 @@ function decodeEntities(value) {
   return value.replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'").replace(/&lt;/gi, '<').replace(/&gt;/gi, '>').replace(/&#(\d+);/g, (_, n) => { try { const cp = Number(n); return (cp >= 0 && cp <= 0x10FFFF) ? String.fromCodePoint(cp) : ''; } catch { return ''; } });
 }
 
-async function verifyTurnstile(token, ip, secret) {
+async function verifyTurnstile(token, ip, secret, idempotencyKey) {
   if (!token || !secret) return false;
-  const body = new URLSearchParams({ secret, response: token, remoteip: ip });
+  const params = { secret, response: token, remoteip: ip };
+  if (idempotencyKey) params.idempotency_key = idempotencyKey;
+  const body = new URLSearchParams(params);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TURNSTILE_TIMEOUT_MS);
   try {
-    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body, signal: controller.signal });
     const result = await response.json();
     return result.success === true;
   } catch { return false; }
+  finally { clearTimeout(timer); }
 }
 
 async function hasPdfSignature(file) {

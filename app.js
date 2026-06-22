@@ -19,6 +19,7 @@
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
   const esc = (s) => String(s == null ? '' : s);
+  const uuid = () => { try { return crypto.randomUUID(); } catch (_) { return 'k-' + Date.now().toString(36) + '-' + Math.random().toString(16).slice(2); } };
 
   // ---- Economic + fit logic (mirrors functions/_shared/domain.js; Stage 2 is computed in the browser) ----
   const ECONOMIC_FLOORS = { 'B2B SaaS': 10, 'Consultancy / advisory': 14, 'Professional services': 16, 'Agency / services firm': 17, 'Other B2B': 18 };
@@ -167,7 +168,17 @@
     const holder = $('turnstileHolder');
     if (!holder || !window.turnstile || !TURNSTILE_SITE_KEY) return;
     try {
-      turnstileWidgetId = window.turnstile.render(holder, { sitekey: TURNSTILE_SITE_KEY, 'response-field-name': 'turnstileToken', theme: 'light' });
+      turnstileWidgetId = window.turnstile.render(holder, {
+        sitekey: TURNSTILE_SITE_KEY,
+        'response-field-name': 'turnstileToken',
+        theme: 'light',
+        // This form can sit open for several minutes — longer than a Turnstile
+        // token's ~5 min life. Auto-refresh keeps the token fresh so a slow user
+        // doesn't submit a stale token and get a "security check expired" error.
+        'refresh-expired': 'auto',
+        'error-callback': () => true,        // let Turnstile silently retry transient challenge errors
+        'timeout-callback': resetTurnstile   // interactive challenge timed out — start it over
+      });
     } catch (_) {}
   }
 
@@ -198,24 +209,62 @@
     const fd = new FormData(form);
     const token = fd.get('turnstileToken');
     if (TURNSTILE_SITE_KEY && !token) { errBox.textContent = 'Please complete the security check, then submit again.'; errBox.hidden = false; return; }
+    // Stable per-submission key so the single-use token survives silent retries:
+    // Cloudflare returns the cached siteverify result instead of rejecting a reused token.
+    if (TURNSTILE_SITE_KEY) fd.set('turnstileIdempotencyKey', uuid());
 
     stage1 = { companyType: form.companyType.value };
     showOnly('clarityAnalyzing');
     startAnalyzingMessages();
-    dl('clarity_analysis_started', { pages: 1 + form.querySelectorAll('input[name="additionalUrls"]').length, pdfs: ($('pdfs').files || []).length });
+    const filledPages = 1 + Array.from(form.querySelectorAll('input[name="additionalUrls"]')).filter((i) => i.value.trim()).length;
+    dl('clarity_analysis_started', { pages: filledPages, pdfs: ($('pdfs').files || []).length });
 
-    let data;
+    // The API always answers in JSON. A non-JSON body (e.g. a Cloudflare 502/504
+    // gateway page), a network error, or a client-side timeout is a transient platform
+    // hiccup, not a real result, so those are retried silently. A legitimate JSON error
+    // (missing fields, capacity, rate limit, expired challenge) is returned and shown to
+    // the user, never retried.
+    const MAX_ATTEMPTS = 3;             // 1 initial attempt + up to 2 silent retries
+    const RETRY_DELAY_MS = 1200;
+    const ATTEMPT_TIMEOUT_MS = 90_000;  // above the function's own ~60s ceiling — only aborts true hangs
+    let data = null;
     try {
-      const res = await fetch(ANALYZE_URL, { method: 'POST', body: fd });
-      data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) {
-        const msg = (data && data.error && data.error.message) || 'The analysis didn’t complete. No diagnosis was generated — please try again.';
-        return failAnalysis(msg);
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+        let res = null, body = null, gotJson = false;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), ATTEMPT_TIMEOUT_MS);
+        try {
+          res = await fetch(ANALYZE_URL, { method: 'POST', body: fd, signal: controller.signal });
+          const raw = await res.text();
+          try { body = JSON.parse(raw); gotJson = true; } catch (_) { gotJson = false; }
+        } catch (_) {
+          gotJson = false; // network error, abort, or timeout: treat as transient
+        } finally {
+          clearTimeout(timer);
+        }
+
+        if (gotJson && body && (body.ok || body.error)) {
+          // A real answer from our own function: a success, or a legitimate error to show.
+          if (!res.ok || !body.ok) {
+            const msg = (body.error && body.error.message) || 'The analysis didn’t complete. No diagnosis was generated — please try again.';
+            return failAnalysis(msg);
+          }
+          data = body;
+          break;
+        }
+
+        // Non-JSON or unreachable: a platform hiccup. Retry unless attempts are spent.
+        if (attempt < MAX_ATTEMPTS) {
+          dl('clarity_analysis_retry', { attempt });
+          await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+        }
       }
-    } catch (_) {
-      return failAnalysis('We couldn’t reach the analysis service. Please check your connection and try again.');
     } finally {
       stopAnalyzingMessages();
+    }
+
+    if (!data) {
+      return failAnalysis('The analysis service is briefly unavailable. Please try again in a moment.');
     }
 
     lastReport = data.report;
