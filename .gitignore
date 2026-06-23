@@ -3,6 +3,7 @@
 
 # Internal notes & handoffs — must NOT deploy (Cloudflare Pages serves repo-root files publicly)
 QA-NOTES.md
+CHANGELOG.md
 REMEDIATION_HANDOFF_for_Claude_Code.md
 QA_Review_*.md
 *-HANDOFF.md
