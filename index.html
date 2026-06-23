@@ -866,7 +866,9 @@
   </script>
   <!-- Bump ?v= on every app.js change so returning visitors get the new file immediately
        (HTML is always revalidated; app.js itself is cached up to 4h by an edge rule). -->
-  <script src="app.js?v=20260622b" defer></script>
+  <!-- ?v= is app.js's content hash; the cache-bust test enforces it stays in sync,
+       so a changed app.js can't silently ship behind a stale cache. -->
+  <script src="app.js?v=9126fe48" defer></script>
 </body>
 </html>
 
