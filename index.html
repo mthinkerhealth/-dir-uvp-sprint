@@ -415,7 +415,32 @@
 
     .cc-utils { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
 
-    @media print { .site-header, .cc-stage2, .cc-utils, .cc-submit-row, #ccRetry { display: none !important; } }
+    @media print {
+      /* Print ONLY the diagnostic report — hide chrome, marketing sections, and the
+         non-report tool states so window.print() doesn't dump the whole page. */
+      .site-header, .site-footer { display: none !important; }
+      main > section:not(#fit-check) { display: none !important; }
+      #fit-check { padding: 0 !important; scroll-margin-top: 0 !important; }
+      #fit-check > .wrap { max-width: none !important; width: auto !important; padding: 0 !important; }
+      #fit-check .section-head { display: none !important; }
+      .fit-shell { border: 0 !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; background: #fff !important; }
+      #clarityForm, #clarityAnalyzing, #clarityError,
+      .cc-stage2, .cc-utils, .cc-submit-row, #ccRetry { display: none !important; }
+      body { background: #fff !important; }
+      .reveal { opacity: 1 !important; transform: none !important; } /* never print mid-animation */
+
+      /* A small header for the saved PDF */
+      #clarityReport::before {
+        content: "UVP Clarity Check \2014 Diagnostic report";
+        display: block; font-family: var(--bank); font-size: 10px; letter-spacing: .09em;
+        text-transform: uppercase; color: var(--muted); margin: 0 0 16px;
+      }
+      /* Keep report blocks intact across page breaks */
+      .cc-band, .cc-block, .cc-state, .cc-dim, .cc-item, .cc-evidence li { page-break-inside: avoid; break-inside: avoid; }
+      .cc-block h4 { page-break-after: avoid; break-after: avoid; }
+      /* Preserve the colored status pills/bands in the PDF */
+      .cc-pill, .cc-band, .cc-case { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
   </style>
 
   <script type="application/ld+json">
