@@ -1,14 +1,23 @@
 # robots.txt — uvpsprint.com
 #
-# Policy: search engines and AI answer engines MAY read and quote this content in
-# live results/answers; this content may NOT be used to train AI models.
-# Content Signals: https://contentsignals.org  (search=yes, ai-input=yes, ai-train=no)
+# Policy: search engines and AI assistants MAY read and quote this content in live
+# results/answers; this content may NOT be used to train AI models.
+#
+# AI reader / answer crawlers (incl. GPTBot) are ALLOWED so ChatGPT, Perplexity, Claude,
+# etc. can actually read and cite the site — disallowing GPTBot was blocking ChatGPT from
+# reading it. The "don't train" preference is declared via Content-Signal (ai-train=no).
+# Crawlers that exist only to build training corpora (no citation value) stay disallowed.
+# Content Signals: https://contentsignals.org
 
 User-agent: *
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
-# --- AI answer / search crawlers: allowed (may quote in live answers) ---
+# --- AI reader / answer / search crawlers: ALLOWED (so AI assistants can read & cite) ---
+User-agent: GPTBot
+Content-Signal: ai-input=yes, ai-train=no
+Allow: /
+
 User-agent: OAI-SearchBot
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
@@ -36,10 +45,7 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
-# --- Model-training crawlers: disallowed (opt out of training) ---
-User-agent: GPTBot
-Disallow: /
-
+# --- Training-corpus-only crawlers: DISALLOWED (no citation benefit; opt out of training) ---
 User-agent: Google-Extended
 Disallow: /
 
