@@ -10,7 +10,18 @@ QA_Review_*.md
 
 # Local full-stack secrets (wrangler) — never commit
 .dev.vars
+.dev.vars.example
 
 # Local tooling / caches
 .wrangler/
 node_modules/
+
+# Dev-only test tooling — kept LOCAL, never deployed. Cloudflare Pages serves every
+# repo-root file publicly, and package.json triggers a pointless build-time `npm install`
+# (no deps; it generated the giant node_modules that failed the first Workers build).
+# Run tests locally with `node --test`; these files intentionally stay off GitHub.
+package.json
+package-lock.json
+.assetsignore
+/test/
+/fixtures/
