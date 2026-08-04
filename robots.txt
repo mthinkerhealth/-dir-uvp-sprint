@@ -1,4 +1,64 @@
+# robots.txt — uvpsprint.com
+#
+# Policy: search engines and AI answer engines MAY read and quote this content in
+# live results/answers; this content may NOT be used to train AI models.
+# Content Signals: https://contentsignals.org  (search=yes, ai-input=yes, ai-train=no)
+
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
+
+# --- AI answer / search crawlers: allowed (may quote in live answers) ---
+User-agent: OAI-SearchBot
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+User-agent: ChatGPT-User
+Content-Signal: ai-input=yes, ai-train=no
+Allow: /
+
+User-agent: PerplexityBot
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+User-agent: Perplexity-User
+Content-Signal: ai-input=yes, ai-train=no
+Allow: /
+
+User-agent: ClaudeBot
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+User-agent: Claude-User
+Content-Signal: ai-input=yes, ai-train=no
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# --- Model-training crawlers: disallowed (opt out of training) ---
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
 
 Sitemap: https://uvpsprint.com/sitemap.xml

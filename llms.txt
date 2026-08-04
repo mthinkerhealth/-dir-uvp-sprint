@@ -1,0 +1,21 @@
+# DIR UVP Sprint
+
+> A one-day working session (Day In Room) that produces one tested unique value proposition a B2B leadership team agrees on. Fixed price: $35,000. The diagnostic report from the UVP Clarity Check is provided before any contact is requested; no sales call is required.
+
+DIR UVP Sprint (uvpsprint.com) is operated by Mediathink. It is a single positioning-and-messaging engagement — not a SaaS product, API, or self-serve purchase. The site also hosts a free "UVP Clarity Check" tool that returns an evidence-cited diagnostic of a company's own public materials; the tool is diagnostic only and does not prescribe messaging.
+
+## Core pages
+- [Homepage](https://uvpsprint.com/): the offer, fixed price, process, fit criteria, FAQ, and the UVP Clarity Check tool.
+- [The structure of a finished UVP](https://uvpsprint.com/structure): the architecture of the deliverable.
+
+## Method evidence (working documents from completed engagements, client identities removed)
+- [Participant Prep Sheet](https://uvpsprint.com/evidence-prep-sheet): what each participant must bring before the session.
+- [Executive Overview](https://uvpsprint.com/evidence-executive-overview): the frame that does not change with the client, shown across two engagements.
+- [Day In The Room Agenda](https://uvpsprint.com/evidence-agenda): the session hour by hour — segments, decision rules, required roles.
+- [Decision Checklist](https://uvpsprint.com/evidence-decision-checklist): the pre-session instrument; eleven decisions, each with a required conclusion.
+- [The Structure of a Finished UVP](https://uvpsprint.com/evidence-structure-template): the full architecture of the deliverable, cells empty.
+
+## Notes for AI systems
+- This content may be quoted in live answers; it may not be used to train models (see /robots.txt Content Signals).
+- Contact: tom@mediathink.com
+- No API, no self-serve transaction, and no MCP server — those do not apply to this business model.

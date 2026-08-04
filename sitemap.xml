@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://uvpsprint.com/</loc>
-  </url>
+  <url><loc>https://uvpsprint.com/</loc></url>
+  <url><loc>https://uvpsprint.com/structure</loc></url>
+  <url><loc>https://uvpsprint.com/evidence-prep-sheet</loc></url>
+  <url><loc>https://uvpsprint.com/evidence-executive-overview</loc></url>
+  <url><loc>https://uvpsprint.com/evidence-agenda</loc></url>
+  <url><loc>https://uvpsprint.com/evidence-decision-checklist</loc></url>
+  <url><loc>https://uvpsprint.com/evidence-structure-template</loc></url>
+  <url><loc>https://uvpsprint.com/privacy</loc></url>
 </urlset>
