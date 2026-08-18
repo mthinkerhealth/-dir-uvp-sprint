@@ -1,0 +1,117 @@
+/* UVP Sprint — blog post styles.
+   Shared by every page under /case-studies/ and /how-it-works/.
+   Tokens are copied verbatim from the "decision document" system (commit 3da6643)
+   so posts sit inside the same visual system as index/structure/evidence pages.
+   Edit here once; every post picks it up. */
+
+:root {
+  --paper:#f4f1ea; --paper-2:#ece7dc; --surface:#fbf9f4;
+  --ink:#2b302d; --text:#2c322e; --body:#4c534c; --muted:#6c736b; --faint:#949a90;
+  --line:#ddd6c7; --line-strong:#cbc3b1;
+  --accent:#2f6b41; --accent-deep:#214d2f; --accent-bright:#5a9c6b; --accent-soft:#e5efe7;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bank:"Bank Gothic","BankGothic Md BT","Bank Gothic Medium BT","Michroma","IBM Plex Sans",sans-serif;
+  --shadow:0 10px 30px rgba(27,30,27,.08);
+  --r:5px; --r-lg:8px; --max:820px; --ease:cubic-bezier(0.2,0,0.1,1);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--paper); color:var(--body); font-family:var(--sans); font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+a { color:var(--accent-deep); text-decoration:none; } a:hover { color:var(--accent); }
+.wrap { max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+.js .reveal:not(.in) { opacity:0; transform:translateY(18px); }
+.js .reveal.in { transition:opacity .65s var(--ease), transform .65s var(--ease); }
+@media (prefers-reduced-motion: reduce){ .js .reveal:not(.in){opacity:1;transform:none;} .js .reveal.in{transition:none;} }
+
+/* ---- Site chrome (matches structure.html / evidence pages) ---- */
+.site-header { position:sticky; top:0; z-index:30; background:rgba(244,241,234,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+.nav { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 0; }
+.brand { display:inline-flex; align-items:center; gap:13px; color:var(--ink); text-decoration:none; }
+.brand-mark { flex:0 0 auto; }
+.brand-name { font-family:var(--bank); font-weight:400; font-size:15px; letter-spacing:.03em; text-transform:uppercase; line-height:1.15; color:var(--ink); }
+.brand-name small { display:block; font-family:var(--bank); font-weight:400; font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-top:6px; }
+.nav-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.nav-link { color:var(--muted); font-family:var(--bank); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; padding:9px 11px; border-radius:var(--r); text-decoration:none; transition:color .12s var(--ease); }
+.nav-link:hover { color:var(--ink); }
+.nav-link[aria-current="page"] { color:var(--ink); }
+
+main { padding:54px 0 80px; }
+.doc-head { margin-bottom:8px; }
+.eyebrow { display:inline-flex; align-items:center; gap:11px; font-family:var(--bank); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
+.eyebrow::before { content:""; width:26px; height:2px; background:var(--accent); display:inline-block; flex:0 0 auto; }
+h1 { font-family:var(--serif); font-weight:500; color:var(--ink); font-size:clamp(30px,5vw,46px); line-height:1.04; letter-spacing:-.025em; margin:0 0 16px; }
+.provenance { color:var(--muted); font-size:15.5px; line-height:1.55; max-width:64ch; }
+
+/* ---- Byline ---- */
+.byline { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:14px; font-family:var(--bank); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); }
+.byline .sep { width:3px; height:3px; border-radius:50%; background:var(--line-strong); display:inline-block; }
+
+/* ---- Hero graphic ---- */
+.post-hero { margin-top:26px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:clamp(22px,4vw,38px); }
+.post-hero svg { display:block; width:100%; height:auto; }
+
+/* ---- Document body ---- */
+.doc { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:clamp(26px,4.5vw,52px); margin-top:26px; }
+.doc > :first-child { margin-top:0; }
+.doc h2 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.7rem; line-height:1.1; letter-spacing:-.02em; margin:40px 0 12px; padding-top:28px; border-top:1px solid var(--line); }
+.doc h2:first-child { margin-top:0; padding-top:0; border-top:0; }
+.doc h3 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.22rem; margin:28px 0 8px; letter-spacing:-.01em; }
+.doc p { margin:0 0 15px; color:var(--body); }
+.doc strong { color:var(--ink); font-weight:600; }
+.doc ul, .doc ol { margin:0 0 18px; padding-left:22px; }
+.doc li { margin:6px 0; }
+.doc li::marker { color:var(--accent); }
+.doc hr { border:0; border-top:1px solid var(--line); margin:30px 0; }
+.doc blockquote { margin:20px 0; padding:16px 20px; background:var(--accent-soft); border-left:4px solid var(--accent); border-radius:0 var(--r) var(--r) 0; }
+.doc blockquote p { margin:0; color:var(--text); }
+
+/* Lead paragraph of a post body */
+.doc .lede { font-family:var(--serif); font-size:1.24rem; line-height:1.5; color:var(--text); }
+
+/* ---- FAQ ---- */
+.faq { margin-top:26px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:clamp(26px,4.5vw,52px); }
+.faq h2 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.7rem; line-height:1.1; letter-spacing:-.02em; margin:0 0 6px; }
+.faq dl { margin:0; }
+.faq dt { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.18rem; margin:26px 0 7px; letter-spacing:-.01em; }
+.faq dd { margin:0; color:var(--body); }
+
+/* ---- Sources ---- */
+.sources { margin-top:26px; background:var(--paper-2); border:1px solid var(--line); border-radius:var(--r-lg); padding:24px clamp(20px,3.5vw,32px); }
+.sources h2 { font-family:var(--bank); font-weight:400; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 12px; }
+.sources ol { margin:0; padding-left:20px; font-size:14.5px; line-height:1.55; }
+.sources li { margin:9px 0; color:var(--muted); }
+.sources li a { word-break:break-word; }
+.sources .cite-title { color:var(--text); }
+
+/* ---- Section index listing ---- */
+.post-list { list-style:none; margin:26px 0 0; padding:0; }
+.post-list li { margin:0 0 18px; }
+.post-card { display:block; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:clamp(22px,3.5vw,32px); transition:border-color .14s var(--ease), box-shadow .14s var(--ease), transform .1s var(--ease); }
+.post-card:hover { border-color:var(--line-strong); box-shadow:0 14px 36px rgba(27,30,27,.11); }
+.post-card .date { display:block; font-family:var(--bank); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); margin-bottom:10px; }
+.post-card h2 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.38rem; line-height:1.18; letter-spacing:-.015em; margin:0 0 9px; }
+.post-card p { margin:0; color:var(--body); font-size:15.5px; line-height:1.55; }
+
+.back-row { margin-top:22px; font-family:var(--bank); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; }
+.back-row a { color:var(--muted); text-decoration:none; }
+.back-row a:hover { color:var(--ink); }
+
+.site-footer { border-top:1px solid var(--line); padding:26px 0; margin-top:40px; }
+.footer-row { font-size:13.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+.footer-row a { color:var(--muted); text-decoration:underline; }
+
+@media (max-width:640px){ .site-header { backdrop-filter:none; background:var(--paper); } }
+
+/* Narrow screens: the three section links would otherwise stack one per line and
+   turn the sticky header into a third of the viewport. Wrap the whole nav instead —
+   brand on the first line, links in a single row beneath it. */
+@media (max-width:600px){
+  .nav { flex-wrap:wrap; padding:12px 0 10px; }
+  .brand { flex:0 0 auto; }
+  .brand-name { font-size:13.5px; }
+  .brand-name small { margin-top:4px; }
+  .nav-actions { width:100%; gap:0; justify-content:flex-start; margin-top:2px; }
+  .nav-link { padding:6px 14px 6px 0; font-size:10px; }
+}

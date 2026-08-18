@@ -25,3 +25,6 @@ package-lock.json
 .assetsignore
 /test/
 /fixtures/
+
+# Internal build handoff from the Cowork surface — must NOT deploy.
+BLOG_BUILD_BRIEF.md

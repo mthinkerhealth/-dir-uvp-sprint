@@ -19,3 +19,19 @@
 # Static document pages: always revalidate so content edits go live immediately.
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+
+# Blog sections are directory-index pages, so the request path (/case-studies/foo/)
+# never ends in .html and the /*.html rule above cannot match them. Same intent:
+# always revalidate so content edits go live immediately.
+/case-studies/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/how-it-works/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Shared blog stylesheet has a stable (non-hashed) filename, same tradeoff as app.js:
+# short TTL + revalidation so a design fix reaches returning visitors in minutes,
+# unchanged file still returns a cheap 304 via ETag.
+/assets/post.css
+  Cache-Control: public, max-age=600, must-revalidate
+  X-Content-Type-Options: nosniff
