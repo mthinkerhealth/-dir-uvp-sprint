@@ -115,3 +115,15 @@ h1 { font-family:var(--serif); font-weight:500; color:var(--ink); font-size:clam
   .nav-actions { width:100%; gap:0; justify-content:flex-start; margin-top:2px; }
   .nav-link { padding:6px 14px 6px 0; font-size:10px; }
 }
+
+/* ---- Sibling navigation between posts ----
+   Editorial navigation, not a CTA: a reader who finishes one case study had no
+   path to the others except the browser back button. */
+.more-posts { margin-top:26px; background:var(--paper-2); border:1px solid var(--line); border-radius:var(--r-lg); padding:24px clamp(20px,3.5vw,32px); }
+.more-posts h2 { font-family:var(--bank); font-weight:400; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 4px; }
+.more-posts ul { list-style:none; margin:0; padding:0; }
+.more-posts li { border-top:1px solid var(--line); }
+.more-posts a { display:block; padding:15px 0; color:var(--ink); }
+.more-posts a:hover .t { color:var(--accent); }
+.more-posts .date { display:block; font-family:var(--bank); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); margin-bottom:6px; }
+.more-posts .t { display:block; font-family:var(--serif); font-weight:600; font-size:1.14rem; line-height:1.25; letter-spacing:-.01em; color:var(--ink); transition:color .12s var(--ease); }

@@ -315,6 +315,40 @@
 
     /* ---------- Responsive ---------- */
     @media (min-width: 981px) { .nav-link { display: inline-flex; } }
+
+    /* ---------- Mobile menu ----------
+       The nav links were display:none below 981px with no alternative, so on every
+       phone and tablet the only reachable nav was the Fit Check button — nothing
+       linked to /case-studies/. Below 981px the links now live in a disclosure
+       panel behind a menu button; at >=981px the button is hidden and the row is
+       unchanged. */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-toggle { display: none; align-items: center; justify-content: center; width: 42px; height: 42px; padding: 0; background: transparent; border: 1.5px solid var(--line-strong); border-radius: var(--r); cursor: pointer; color: var(--ink); transition: border-color .14s var(--ease), background .14s var(--ease); }
+    .nav-toggle:hover { border-color: var(--ink); }
+    .nav-toggle:focus-visible { outline: 3px solid rgba(47,107,65,.34); outline-offset: 2px; }
+    .nav-toggle-bars { display: block; width: 17px; height: 13px; position: relative; }
+    .nav-toggle-bars span { position: absolute; left: 0; width: 100%; height: 1.6px; background: currentColor; border-radius: 2px; transition: transform .18s var(--ease), opacity .12s var(--ease); }
+    .nav-toggle-bars span:nth-child(1) { top: 0; }
+    .nav-toggle-bars span:nth-child(2) { top: 5.7px; }
+    .nav-toggle-bars span:nth-child(3) { top: 11.4px; }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(1) { transform: translateY(5.7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(3) { transform: translateY(-5.7px) rotate(-45deg); }
+
+    @media (max-width: 980px) {
+      .nav-toggle { display: inline-flex; }
+      .nav-links {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 0;
+        background: var(--paper); border-bottom: 1px solid var(--line);
+        box-shadow: 0 14px 30px rgba(27,30,27,.10); padding: 6px 0 10px;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-links .nav-link { display: block; font-size: 12px; padding: 13px 24px; border-radius: 0; }
+      .nav-links .nav-link:hover { background: var(--paper-2); color: var(--ink); }
+    }
+    @media (prefers-reduced-motion: reduce) { .nav-toggle-bars span { transition: none; } }
     @media (max-width: 980px) {
       .hero-grid, .grid-2 { grid-template-columns: 1fr; }
       .grid-3, .grid-3-loose, .grid-process { grid-template-columns: repeat(2, 1fr); }
@@ -589,13 +623,19 @@
         <span class="brand-name">DIR UVP Sprint<small>Day In Room</small></span>
       </a>
       <nav class="nav-actions" aria-label="Primary">
-        <a class="nav-link" href="#evidence">Evidence</a>
-        <a class="nav-link" href="/case-studies/">Case studies</a>
-        <a class="nav-link" href="#offer">Offer</a>
-        <a class="nav-link" href="#process">Process</a>
-        <a class="nav-link" href="#pricing">Pricing</a>
-        <a class="nav-link" href="#faq">FAQ</a>
+        <div class="nav-links" id="nav-links">
+          <a class="nav-link" href="#evidence">Evidence</a>
+          <a class="nav-link" href="/case-studies/">Case studies</a>
+          <a class="nav-link" href="#offer">Offer</a>
+          <a class="nav-link" href="#process">Process</a>
+          <a class="nav-link" href="#pricing">Pricing</a>
+          <a class="nav-link" href="#faq">FAQ</a>
+        </div>
         <a class="btn btn-primary" href="#fit-check">Start the Fit Check</a>
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links">
+          <span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="sr-only">Menu</span>
+        </button>
       </nav>
     </div>
   </header>
@@ -690,6 +730,11 @@
           <a class="doc-row" href="/evidence-structure-template">
             <span class="doc-num">05</span>
             <div class="doc-main"><h3>The Structure of a Finished UVP</h3><p>The full architecture of the deliverable, cells empty. The structure held across engagements; the content never did.</p></div>
+            <span class="doc-go">Read &rarr;</span>
+          </a>
+          <a class="doc-row" href="/case-studies/">
+            <span class="doc-num">06</span>
+            <div class="doc-main"><h3>Case studies: what the confusion costs</h3><p>Public companies whose own leadership named unclear positioning as the cause, and the number attached to it. Sourced to earnings calls and SEC filings.</p></div>
             <span class="doc-go">Read &rarr;</span>
           </a>
           <div class="doc-lead">
@@ -974,6 +1019,35 @@
   <!-- ?v= is app.js's content hash; the cache-bust test enforces it stays in sync,
        so a changed app.js can't silently ship behind a stale cache. -->
   <script src="app.js?v=9126fe48" defer></script>
+  <script>
+    /* Mobile nav disclosure. Closes on link click, Escape, outside click, and on
+       resize back to desktop so the panel can't be left open behind the hidden button. */
+    (function () {
+      var btn = document.getElementById('nav-toggle');
+      var panel = document.getElementById('nav-links');
+      if (!btn || !panel) return;
+      var setOpen = function (open) {
+        panel.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setOpen(btn.getAttribute('aria-expanded') !== 'true');
+      });
+      panel.addEventListener('click', function (e) {
+        if (e.target.closest('a')) setOpen(false);
+      });
+      document.addEventListener('click', function (e) {
+        if (panel.classList.contains('is-open') && !panel.contains(e.target) && e.target !== btn) setOpen(false);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && panel.classList.contains('is-open')) { setOpen(false); btn.focus(); }
+      });
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 980) setOpen(false);
+      });
+    })();
+  </script>
 </body>
 </html>
 
