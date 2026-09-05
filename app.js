@@ -78,6 +78,7 @@
   let turnstileWidgetId = null;
   let turnstileRequested = false;
   let lastReport = null;
+  let captureTicket = '';
   let stage1 = null;
   let stage2 = null;
 
@@ -138,7 +139,7 @@
       <p class="field-error" id="ccFormError" hidden aria-live="polite"></p>
 
       <div class="cc-submit-row">
-        <button class="btn btn-primary" id="ccSubmit" type="submit">Check Your UVP Clarity</button>
+        <button class="btn btn-primary" id="ccSubmit" type="submit">Start the Fit Check</button>
         <span class="tiny">Roughly 5–8 minutes plus analysis time. You see the full report before any email is requested. No sales call required.</span>
       </div>
     `;
@@ -311,6 +312,7 @@
     }
 
     lastReport = data.report;
+    captureTicket = data.captureTicket || '';
     dl('clarity_analysis_completed');
     dl('clarity_result_band', { result_band: lastReport.overall_band });
     renderReport(lastReport);
@@ -574,7 +576,10 @@
       revenue_band: (stage2 && stage2.revenueBand) || '',
       spend_band: (stage2 && stage2.spendBand) || '',
       result_band: (lastReport && lastReport.overall_band) || '',
-      sprint_fit_band: fit
+      sprint_fit_band: fit,
+      // Proves this capture followed a Turnstile-verified clarity check. Stripped server-side
+      // before the payload reaches the sheet.
+      capture_ticket: captureTicket
     };
   }
 

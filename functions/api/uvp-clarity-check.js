@@ -1,5 +1,6 @@
 import { deriveOverallBand, registrableDomain } from '../_shared/domain.js';
 import { OUTPUT_SCHEMA } from '../_shared/schema.js';
+import { mintCaptureTicket } from '../_shared/ticket.js';
 
 const MAX_PAGES = 3;
 const MAX_PAGE_BYTES = 1_000_000;
@@ -143,7 +144,12 @@ async function handleAnalysis(request, env, ctx) {
   };
 
   if (env.COST_COUNTERS) ctx.waitUntil(recordCost(env, report.meta.estimated_cost_usd));
-  return Response.json({ ok: true, report }, { headers: noStoreHeaders() });
+
+  // Turnstile was verified above, but that token is single-use and spent. Mint a short-lived
+  // ticket so the later capture POST to /api/fit-check can prove it came from a challenged
+  // session without asking the prospect to solve a second challenge. Empty when unconfigured.
+  const captureTicket = await mintCaptureTicket(env.CAPTURE_TICKET_SECRET);
+  return Response.json({ ok: true, report, captureTicket }, { headers: noStoreHeaders() });
 }
 
 async function callOpenAI(content, env) {

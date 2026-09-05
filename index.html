@@ -14,7 +14,7 @@
   <meta name="theme-color" content="#f4f1ea" />
   <link rel="canonical" href="https://uvpsprint.com/" />
 
-  <meta property="og:title" content="DIR UVP Sprint | Positioning Decision Sprint for B2B Teams" />
+  <meta property="og:title" content="DIR UVP Sprint | Tested UVP for B2B Leadership Teams" />
   <meta property="og:site_name" content="DIR UVP Sprint" />
   <meta property="og:description" content="A structured working session that produces one tested unique value proposition your B2B leadership team agrees on. One day in the room. A fixed price." />
   <meta property="og:type" content="website" />
@@ -42,7 +42,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Michroma&family=Newsreader:ital,opsz,wght@0,18..72,400;0,18..72,500;0,18..72,600;1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Michroma&family=Newsreader:ital,opsz,wght@0,18..72,400;0,18..72,500;0,18..72,600;1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -54,13 +54,13 @@
       --ink-2: #3a423d;
       --text: #2c322e;
       --body: #4c534c;
-      --muted: #6c736b;
+      --muted: #616861;        /* WCAG AA: 5.07:1 on --paper, 4.64:1 on --paper-2 (was #6c736b, 4.33:1) */
       --faint: #949a90;
       --line: #ddd6c7;
       --line-strong: #cbc3b1;
       --accent: #2f6b41;       /* deep forest green */
       --accent-deep: #214d2f;
-      --accent-bright: #5a9c6b; /* legible green on the dark band */
+      --accent-bright: #64a875; /* legible green on the dark band: 4.76:1 on --ink (was #5a9c6b, 4.09:1) */
       --accent-soft: #e5efe7;
 
       --on-ink: #f4f1ea;
@@ -83,9 +83,18 @@
       --shadow: 0 10px 30px rgba(27,30,27,.08);
       --shadow-lg: 0 24px 56px rgba(27,30,27,.14);
 
+      /* Type scale. Heading sizes used to be written per-rule, which produced four H3 steps
+         (1.22 / 1.30 / 1.32 / 1.40rem) where only three were intended. Three deliberate steps now. */
+      --text-display: clamp(2.7rem, 6.4vw, 5rem);
+      --text-h2: clamp(1.95rem, 3.8vw, 3rem);
+      --text-h3-lg: 1.4rem;
+      --text-h3: 1.3rem;
+      --text-h3-sm: 1.22rem;
+
       --r: 5px;
       --r-lg: 8px;
       --max: 1180px;
+      --measure: 58ch;         /* ~72 real chars. NB: 1ch here is wider than the average glyph, so 58ch measures ~72 characters, not 58 */
       --ease: cubic-bezier(0.2,0,0.1,1);
     }
 
@@ -129,6 +138,9 @@
     .brand-name { font-family: var(--bank); font-weight: 400; font-size: 15px; letter-spacing: .03em; text-transform: uppercase; line-height: 1.15; color: var(--ink); }
     .brand-name small { display: block; font-family: var(--bank); font-weight: 400; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin-top: 6px; }
     .nav-actions { display: flex; align-items: center; gap: 4px; }
+    /* The label wrapped to two lines at 375px, which read as broken in the first 73px of the
+       page. Never wrap; drop the verb on small screens so it stays one line. */
+    .header-cta { white-space: nowrap; }
     .nav-link { color: var(--muted); font-family: var(--bank); font-size: 10.5px; letter-spacing: .03em; text-transform: uppercase; font-weight: 400; padding: 9px 11px; border-radius: var(--r); display: none; transition: color .12s var(--ease); }
     .nav-link:hover { color: var(--ink); }
 
@@ -156,9 +168,9 @@
 
     /* ---------- Typography ---------- */
     h1, h2, h3, h4 { font-family: var(--serif); color: var(--ink); margin: 0; font-weight: 600; }
-    h1 { font-size: clamp(2.7rem, 6.4vw, 5rem); line-height: 1.0; letter-spacing: -.025em; font-weight: 500; }
-    h2 { font-size: clamp(1.95rem, 3.8vw, 3rem); line-height: 1.04; letter-spacing: -.022em; }
-    h3 { font-size: 1.3rem; line-height: 1.18; letter-spacing: -.015em; }
+    h1 { font-size: var(--text-display); line-height: 1.0; letter-spacing: -.025em; font-weight: 500; }
+    h2 { font-size: var(--text-h2); line-height: 1.04; letter-spacing: -.022em; }
+    h3 { font-size: var(--text-h3); line-height: 1.18; letter-spacing: -.015em; }
     em, i { font-style: italic; }
 
     .kicker {
@@ -177,11 +189,11 @@
 
     .section-head { max-width: 740px; margin-bottom: 44px; }
     .section-head.wide { max-width: 920px; }
-    .section-head p { color: var(--muted); font-size: 1.13rem; margin: 18px 0 0; line-height: 1.55; }
-    .lede-2 { color: var(--muted); font-size: 1.04rem; margin: 16px 0 0; max-width: 860px; }
+    .section-head p { color: var(--muted); font-size: 1.13rem; margin: 18px 0 0; line-height: 1.55; max-width: var(--measure); }
+    .lede-2 { color: var(--muted); font-size: 1.04rem; margin: 16px 0 0; max-width: var(--measure); }
 
     /* ---------- Hero ---------- */
-    .hero { padding: 70px 0 64px; }
+    .hero { padding: 70px 0 40px; }  /* was 64px: pulls the next section nearer the fold so the page reads as continuing */
     .hero-grid { display: grid; grid-template-columns: 1.32fr .68fr; gap: 40px; align-items: stretch; }
     .hero-copy { display: flex; flex-direction: column; justify-content: center; }
     .hero-copy h1 { margin-bottom: 26px; }
@@ -208,22 +220,22 @@
     .cell { background: var(--surface); padding: 30px 28px; }
     .cell .idx { font-family: var(--bank); font-size: 13px; letter-spacing: .06em; color: var(--accent); display: block; margin-bottom: 16px; }
     .cell h3 { margin-bottom: 10px; }
-    .cell p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; }
+    .cell p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; max-width: var(--measure); }
 
     /* free-standing card grid (deliverables / differentiators) */
     .grid-3-loose { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 28px; }
     .card .idx { font-family: var(--bank); font-size: 13px; letter-spacing: .06em; color: var(--accent); display: block; margin-bottom: 16px; }
     .card h3 { margin-bottom: 10px; }
-    .card p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; }
+    .card p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; max-width: var(--measure); }
     .card-quiet { background: transparent; border-style: dashed; }
 
     /* ---------- Negation triad (why it gets used) ---------- */
     .grid-neg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 40px; }
     .neg { padding: 28px 0 6px; border-top: 2px solid var(--ink); }
     .neg-mark { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; border: 1.5px solid var(--accent); color: var(--accent); font-size: 14px; line-height: 1; margin-bottom: 18px; }
-    .neg h3 { font-size: 1.32rem; margin-bottom: 10px; }
-    .neg p { color: var(--muted); margin: 0; font-size: 15.5px; line-height: 1.58; }
+    .neg h3 { font-size: var(--text-h3); margin-bottom: 10px; }
+    .neg p { color: var(--muted); margin: 0; font-size: 15.5px; line-height: 1.58; max-width: var(--measure); }
     @media (max-width: 760px) { .grid-neg { grid-template-columns: 1fr; gap: 0; } .neg { padding-bottom: 26px; } }
 
     /* ---------- Dark band (evidence / authority) ---------- */
@@ -246,9 +258,9 @@
     }
     .doc-row:hover { background: var(--ink-surface); padding-left: 16px; padding-right: 16px; }
     .doc-num { font-family: var(--bank); font-size: 13px; color: var(--accent-bright); letter-spacing: .04em; }
-    .doc-main h3 { font-size: 1.4rem; margin-bottom: 7px; }
+    .doc-main h3 { font-size: var(--text-h3-lg); margin-bottom: 7px; }
     .doc-main h3 a { color: var(--on-ink); }
-    .doc-main p { margin: 0; color: var(--on-ink-muted); font-size: 14.5px; line-height: 1.5; max-width: 64ch; }
+    .doc-main p { margin: 0; color: var(--on-ink-muted); font-size: 14.5px; line-height: 1.5; max-width: var(--measure); }
     .doc-go { font-family: var(--bank); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--on-ink-muted); white-space: nowrap; transition: color .14s var(--ease); }
     .doc-row:hover .doc-go { color: var(--accent-bright); }
     .doc-lead { display: grid; grid-template-columns: 64px 1fr auto; gap: 24px; align-items: baseline; padding: 26px 4px; border-bottom: 1px solid var(--ink-line); }
@@ -259,15 +271,15 @@
     .ledger { border-top: 1px solid var(--line-strong); }
     .ledger-row { display: grid; grid-template-columns: 56px 1fr; gap: 22px; padding: 24px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
     .ledger-row .idx { font-family: var(--bank); font-size: 13px; color: var(--accent); letter-spacing: .04em; }
-    .ledger-row h3 { font-size: 1.22rem; margin-bottom: 6px; }
-    .ledger-row p { margin: 0; color: var(--muted); font-size: 15.5px; line-height: 1.55; max-width: 70ch; }
+    .ledger-row h3 { font-size: var(--text-h3-sm); margin-bottom: 6px; }
+    .ledger-row p { margin: 0; color: var(--muted); font-size: 15.5px; line-height: 1.55; max-width: var(--measure); }
 
     /* ---------- Process ---------- */
     .grid-process { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 36px; }
     .step { padding: 28px 0; border-top: 2px solid var(--ink); }
     .step .step-num { font-family: var(--serif); font-weight: 500; font-size: 2.6rem; color: var(--accent); letter-spacing: -.04em; line-height: 1; display: block; margin-bottom: 16px; }
-    .step h3 { margin-bottom: 9px; font-size: 1.22rem; }
-    .step p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; }
+    .step h3 { margin-bottom: 9px; font-size: var(--text-h3-sm); }
+    .step p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.55; max-width: var(--measure); }
 
     /* ---------- Fit lists ---------- */
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -363,6 +375,7 @@
       .doc-row, .doc-lead { grid-template-columns: 44px 1fr; }
       .doc-go { display: none; }
       .site-header { backdrop-filter: none; background: var(--paper); }
+      .header-cta-verb { display: none; }
     }
 
     /* ============================================================
@@ -388,8 +401,11 @@
     .field-error { font-size: 13px; color: var(--error); margin: 0; font-weight: 600; }
     .cc-hint { color: var(--muted); font-size: 13px; margin: 2px 0 0; line-height: 1.5; }
 
-    .cc-check { display: flex; gap: 11px; align-items: flex-start; margin: 20px 0; font-size: 14px; color: var(--muted); line-height: 1.55; }
-    .cc-check input { margin-top: 4px; flex: 0 0 auto; accent-color: var(--accent); }
+    .cc-check { display: flex; gap: 11px; align-items: flex-start; margin: 20px 0; font-size: 14px; color: var(--muted); line-height: 1.55; cursor: pointer; }
+    /* The wrapping <label> already gives this a ~295x157px hit area (clicking the text toggles
+       it), so the tap target was never the 13px box. Widened to 20px purely so it is easier to
+       see and aim at on a phone; this is the last mandatory interaction before submission. */
+    .cc-check input { width: 20px; height: 20px; margin: 1px 0 0; flex: 0 0 auto; accent-color: var(--accent); }
     .cc-check a { color: var(--accent-deep); text-decoration: underline; }
     .cc-turnstile { margin: 14px 0; }
 
@@ -521,7 +537,18 @@
       "legalName": "Mediathink",
       "url": "https://uvpsprint.com/",
       "email": "tom@mediathink.com",
+      "founder": { "@id": "https://uvpsprint.com/#founder" },
+      "sameAs": [
+        "https://mediathink.com/"
+      ],
       "description": "A one-day working session that produces one tested unique value proposition your B2B leadership team agrees on. Fixed price. Muddy story to clear answer."
+    },
+    {
+      "@type": "Person",
+      "@id": "https://uvpsprint.com/#founder",
+      "name": "Mediathink founder",
+      "worksFor": { "@id": "https://uvpsprint.com/#organization" },
+      "description": "Facilitates the DIR UVP Sprint session."
     },
     {
       "@type": "Service",
@@ -631,7 +658,7 @@
           <a class="nav-link" href="#pricing">Pricing</a>
           <a class="nav-link" href="#faq">FAQ</a>
         </div>
-        <a class="btn btn-primary" href="#fit-check">Start the Fit Check</a>
+        <a class="btn btn-primary header-cta" href="#fit-check"><span><span class="header-cta-verb">Start the </span>Fit Check</span></a>
         <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links">
           <span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
           <span class="sr-only">Menu</span>
@@ -649,8 +676,8 @@
           <h1>Your buyers don&rsquo;t get it. <em>Fix that first.</em></h1>
           <p class="lead">DIR UVP Sprint is a one-day working session for B2B leadership teams whose market story is muddy, whose proof is thin, and whose people describe the company in different ways. You leave with one unique value proposition your leadership has tested and agreed on.</p>
           <div class="cta-row">
-            <a class="btn btn-primary btn-lg" href="#evidence">See how the work runs</a>
-            <a class="btn btn-secondary btn-lg" href="#fit-check">Take the Fit Check</a>
+            <a class="btn btn-primary btn-lg" href="#fit-check">Take the Fit Check</a>
+            <a class="btn btn-secondary btn-lg" href="#evidence">See how the work runs</a>
           </div>
           <p class="micro"><strong>DIR</strong> stands for Day In Room. <strong>UVP</strong> stands for Unique Value Proposition. One day, your leadership team in one room, working a structured sequence to a single agreed answer. The working documents below show how the engagement runs &mdash; judge the method by its weight. The Fit Check is one step away whenever you&rsquo;re ready to qualify. No sales call required.</p>
         </div>
@@ -753,7 +780,7 @@
           <div class="kicker"><span class="sec">§03</span> What you walk out with</div>
           <h2>One outcome: an agreed answer, built and decided in the room.</h2>
           <p>A unique value proposition your leadership team has tested in the room and agreed on, then documented so the people who execute can use it. The answer is built and decided in the session, not handed to you afterward.</p>
-          <p class="lede-2">The documented answer usually carries the components below. The exact set follows what your leadership decides in the room. You are not buying a fixed list of artifacts &mdash; you are buying the agreed answer, written down in the form your team can act on.</p>
+          <p class="lede-2">Every session produces the UVP itself, the claims register, and the talk track. What else gets documented follows what your leadership decides in the room. You are buying the agreed answer, written down in the form your team can act on, not a fixed list of artifacts.</p>
         </div>
 
         <div class="ledger" id="deliverables">
@@ -858,6 +885,17 @@
           </article>
 
           <article class="price-card price-card-secondary reveal">
+            <div class="kicker" style="margin-bottom:6px;">Who runs the session</div>
+            <!-- TODO(tom): add your name and one line of track record below. The copy is written
+                 to be correct and shippable as-is without them, so nothing breaks if this waits.
+                 When you add the name, mirror it into the Person node in the JSON-LD graph
+                 (search: "#founder") and fill in the sameAs URLs there. -->
+            <h2 style="font-size:1.6rem;">The founder runs the room.</h2>
+            <p style="margin-top:10px;">The session is facilitated by the founder of Mediathink, not handed to an associate. One person is responsible for the method, the room, and the documented answer you leave with.</p>
+            <p style="margin-top:16px; font-size:15px; line-height:1.6;">The session is facilitated, not presented. The answer comes from your leadership team; the method is what makes sure the room reaches one and holds the standard of proof while it does.</p>
+          </article>
+
+          <article class="price-card price-card-secondary reveal">
             <div class="kicker" style="margin-bottom:6px;">After the sprint</div>
             <h2 style="font-size:1.6rem;">What happens next?</h2>
             <p style="margin-top:10px;">Usually the answer is simple: your internal team, agency, fractional executive, or sales consultant uses the output. That is the point &mdash; this sprint makes the people already responsible for execution more effective, not replaced.</p>
@@ -896,11 +934,11 @@
             <div class="faq-answer" id="faq-2">No. This is a positioning and messaging decision sprint. Brand expression can come later.</div>
           </article>
 
-          <article class="faq-item open">
-            <button class="faq-question" type="button" aria-expanded="true" aria-controls="faq-3">
+          <article class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-3">
               <span>Will this give us finished website copy?</span><span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer" id="faq-3" style="display:block;">No. It gives you the message system the website copy should follow. That is more valuable than jumping straight into page writing.</div>
+            <div class="faq-answer" id="faq-3">No. It gives you the message system the website copy should follow. That is more valuable than jumping straight into page writing.</div>
           </article>
 
           <article class="faq-item">
@@ -939,7 +977,7 @@
       <div class="wrap">
         <div class="section-head wide reveal">
           <div class="kicker"><span class="sec">§09</span> Run your own materials</div>
-          <h2>Check your UVP clarity.</h2>
+          <h2>Start the Fit Check.</h2>
           <p>You&rsquo;ve seen how the method works above. Now run your own materials through the same standard. The check reviews your homepage, up to two more pages, and up to two PDFs, then returns an evidence-cited reading of where your value proposition is clear and where it isn&rsquo;t &mdash; quoting your own words. It never tells you what your message should be; that is the work of the room. You get the full report before we ask for anything. No sales call required.</p>
         </div>
         <div class="fit-shell reveal">
@@ -1018,7 +1056,7 @@
        (HTML is always revalidated; app.js itself is cached up to 4h by an edge rule). -->
   <!-- ?v= is app.js's content hash; the cache-bust test enforces it stays in sync,
        so a changed app.js can't silently ship behind a stale cache. -->
-  <script src="app.js?v=9126fe48" defer></script>
+  <script src="app.js?v=96366218" defer></script>
   <script>
     /* Mobile nav disclosure. Closes on link click, Escape, outside click, and on
        resize back to desktop so the panel can't be left open behind the hidden button. */
