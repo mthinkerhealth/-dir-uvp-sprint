@@ -65,9 +65,9 @@
   const GAP_LABEL = { unproven: 'Unproven', generic: 'Generic', over_broad: 'Over-broad' };
 
   const FIT = {
-    strong_fit: { title: 'Strong Sprint fit', body: `A material clarity problem is present, your room can do the work, and the economics clear. A UVP Sprint is the method built for this. It is a single fixed price: ${PRICE}.`, booking: true, email: true },
+    strong_fit: { title: 'Strong Sprint fit', body: `A material clarity problem is present, the required decision-makers can participate, and the economics work. A UVP Sprint is the method built for this. It is a single fixed price: ${PRICE}.`, booking: true, email: true },
     potential_fit: { title: 'Potential fit — one issue to resolve', body: `The clarity problem is real and a UVP Sprint is the method built to resolve it (${PRICE}). One thing — participation or proportionality — is worth confirming first.`, booking: true, email: true },
-    wrong_timing: { title: 'Useful problem, wrong timing', body: 'There is a real clarity problem, but the people who would need to make the decisions cannot currently be in the room. The Sprint depends on that, so the timing is not right yet.', booking: false, email: true },
+    wrong_timing: { title: 'Useful problem, wrong timing', body: 'There is a real clarity problem, but the people who would need to make the decisions cannot currently be present for the work. The Sprint depends on that, so the timing is not right yet.', booking: false, email: true },
     not_proportionate: { title: 'Not proportionate yet', body: `A clarity problem is present, but at your current scale a ${PRICE} engagement is unlikely to return enough to justify it. The published methodology documents are yours to use in the meantime.`, booking: false, email: true },
     probably_unnecessary: { title: 'Sprint probably unnecessary', body: 'Your materials are already unusually clear and consistent. A Sprint is unlikely to be worth it right now.', booking: false, email: false },
     insufficient_evidence: { title: 'Insufficient evidence', body: 'There is not enough usable evidence to responsibly decide. Re-run the check with accessible pages or a readable PDF.', booking: false, email: false }
@@ -369,7 +369,7 @@
     const head = el('div', 'cc-band cc-band-' + (r.overall_band || 'fragmented'));
     head.appendChild(el('div', 'cc-band-eyebrow', 'Overall clarity'));
     head.appendChild(el('div', 'cc-band-value', BAND_LABEL[r.overall_band] || '—'));
-    head.appendChild(el('p', 'cc-band-note', 'This report names what is unclear, conflicting, generic, or unproven in your own materials, with quotes. It does not tell you what your message should be — that is the work of the room.'));
+    head.appendChild(el('p', 'cc-band-note', 'This report names what is unclear, conflicting, generic, or unproven in your own materials, with quotes. It does not tell you what your message should be — that decision belongs in the working session.'));
     root.appendChild(head);
 
     if (r.confidence) root.appendChild(el('p', 'cc-confidence', 'Assessment confidence: ' + r.confidence + (r.status === 'insufficient_evidence' ? ' — limited evidence was available.' : '')));

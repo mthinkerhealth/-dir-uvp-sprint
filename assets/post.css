@@ -1,5 +1,5 @@
-/* UVP Sprint — blog post styles.
-   Shared by every page under /case-studies/ and /how-it-works/.
+/* UVP Sprint — post styles.
+   Shared by every page under /case-studies/, /how-it-works/, and /field-notes/.
    Tokens are copied verbatim from the "decision document" system (commit 3da6643)
    so posts sit inside the same visual system as index/structure/evidence pages.
    Edit here once; every post picks it up. */
@@ -84,6 +84,20 @@ h1 { font-family:var(--serif); font-weight:500; color:var(--ink); font-size:clam
 .sources li { margin:9px 0; color:var(--muted); }
 .sources li a { word-break:break-word; }
 .sources .cite-title { color:var(--text); }
+
+/* ---- Next-step CTA ----
+   Commercial pathing for readers who have finished a post. Keeps the post
+   register evidence-first: no pressure language, just the next diagnostic step. */
+.next-step { margin-top:26px; background:var(--accent-soft); color:var(--body); border:1px solid var(--line-strong); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:clamp(26px,4.5vw,42px); }
+.next-step h2 { font-family:var(--serif); font-weight:600; color:var(--ink); font-size:clamp(24px,4vw,34px); line-height:1.08; letter-spacing:-.02em; margin:0 0 10px; }
+.next-step p { margin:0 0 18px; max-width:62ch; color:var(--body); }
+.next-step .cta-row { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+.next-step .btn { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:12px 18px; border-radius:var(--r); font-family:var(--sans); font-weight:700; font-size:14px; text-decoration:none; transition:transform .12s var(--ease), background .12s var(--ease), color .12s var(--ease), border-color .12s var(--ease); }
+.next-step .btn:hover { transform:translateY(-1px); }
+.next-step .btn-primary { background:var(--accent); border:1px solid var(--accent); color:#fff; }
+.next-step .btn-primary:hover { background:var(--accent-bright); border-color:var(--accent-bright); color:#fff; }
+.next-step .btn-secondary { background:transparent; border:1px solid var(--line-strong); color:var(--ink); }
+.next-step .btn-secondary:hover { border-color:var(--accent); color:var(--accent-deep); }
 
 /* ---- Section index listing ---- */
 .post-list { list-style:none; margin:26px 0 0; padding:0; }

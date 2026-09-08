@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Notes | DIR UVP Sprint</title>
+  <meta name="description" content="Short practical notes on value proposition decisions, leadership alignment, proof discipline, and the sales conversations where positioning either holds or breaks." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#f4f1ea" />
+  <link rel="canonical" href="https://uvpsprint.com/field-notes/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Field Notes" />
+  <meta property="og:description" content="Short practical notes on value proposition decisions, leadership alignment, proof discipline, and the sales conversations where positioning either holds or breaks." />
+  <meta property="og:url" content="https://uvpsprint.com/field-notes/" />
+  <meta property="og:image" content="https://uvpsprint.com/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Michroma&family=Newsreader:ital,opsz,wght@0,18..72,400;0,18..72,500;0,18..72,600;1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/post.css" />
+  <script>document.documentElement.className += ' js';</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="/" class="brand" aria-label="DIR UVP Sprint home">
+        <svg class="brand-mark" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <rect x="2.2" y="2.2" width="25.6" height="25.6" rx="2" stroke="#2b302d" stroke-width="1.6"/>
+          <rect x="11" y="11" width="8" height="8" rx="1" fill="#2f6b41"/>
+        </svg>
+        <span class="brand-name">DIR UVP Sprint<small>Day In Room</small></span>
+      </a>
+      <nav class="nav-actions" aria-label="Primary">
+        <a class="nav-link" href="/case-studies/">Case studies</a>
+        <a class="nav-link" href="/how-it-works/">How it works</a>
+        <a class="nav-link" aria-current="page" href="/field-notes/">Field notes</a>
+        <a class="nav-link" href="/structure">The structure</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <div class="doc-head reveal">
+        <div class="eyebrow">Field notes</div>
+        <h1>Short notes from the work of getting a value proposition to hold</h1>
+        <p class="provenance">Practical observations on proof, alignment, sales pressure, and the difference between language that sounds good and language a business can actually use.</p>
+      </div>
+
+      <ul class="post-list reveal">
+        <li>
+          <a class="post-card" href="/field-notes/wood-shedding-the-value-proposition/">
+            <span class="date">September 7, 2026</span>
+            <h2>Wood-Shedding the Value Proposition</h2>
+            <p>A value proposition does not need only to be written. It has to be rehearsed against the objections, caveats, proof gaps, and internal disagreements that make it break in market.</p>
+          </a>
+        </li>
+      </ul>
+
+      <section class="next-step" aria-labelledby="next-h">
+        <h2 id="next-h">Want to see where your current story holds?</h2>
+        <p>The Fit Check reads your existing materials and shows where the value proposition is clear, where it is unsupported, and where it starts to contradict itself.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/#fit-check">Start the Fit Check</a>
+          <a class="btn btn-secondary" href="/how-it-works/">See how the session works</a>
+        </div>
+      </section>
+
+      <p class="back-row"><a href="/">&larr; uvpsprint.com</a></p>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>&copy; 2026 Mediathink</span>
+      <span><a href="/privacy">Privacy</a></span>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var els = [].slice.call(document.querySelectorAll('.reveal'));
+      if (!els.length) return;
+      var revealAll = function () { els.forEach(function (el) { el.classList.add('in'); }); };
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { revealAll(); return; }
+        els.forEach(function (el) {
+          var sibs = [].slice.call(el.parentElement.children).filter(function (c) { return c.classList.contains('reveal'); });
+          el.style.transitionDelay = (Math.min(sibs.indexOf(el), 6) * 60) + 'ms';
+        });
+        var pending = els.slice();
+        var check = function () {
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          pending = pending.filter(function (el) {
+            var r = el.getBoundingClientRect();
+            if (r.top < vh * 0.92 && r.bottom > 0) { el.classList.add('in'); return false; }
+            return true;
+          });
+          if (!pending.length) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
+        };
+        var ticking = false;
+        var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; check(); }); } };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        check(); window.addEventListener('load', check); setTimeout(check, 350);
+      } catch (e) { revealAll(); }
+    })();
+  </script>
+</body>
+</html>
